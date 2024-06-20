@@ -2,6 +2,8 @@
 
 langchain4j-aideepin的管理后台WEB端，基于[naive-ui-admin](https://github.com/jekip/naive-ui-admin)
 
+默认管理员账号：catkeeper 密码：123456.
+
 后端服务：    [langchain4j-aideepin](https://github.com/moyangzhan/langchain4j-aideepin)
 用户端WEB：[langchain4j-aideepin-web](https://github.com/moyangzhan/langchain4j-aideepin-web)
 
@@ -85,4 +87,17 @@ pnpm build
 
 ## 截图
 
-截图：
+首页
+![console](image/README/console.png)
+
+用户管理
+![user](image/README/user.png)
+
+模型管理
+![model](image/README/model.png)
+
+知识库管理
+![knowledgebase](image/README/knowledgebase.png)
+
+系统设置
+![sysconfig](image/README/sysconfig.png)
