@@ -72,7 +72,7 @@
       </n-breadcrumb>
     </div>
     <div class="layout-header-right">
-      <div
+      <!-- <div
         class="layout-header-trigger layout-header-trigger-min"
         v-for="item in iconList"
         :key="item.icon"
@@ -85,7 +85,7 @@
           </template>
           <span>{{ item.tips }}</span>
         </n-tooltip>
-      </div>
+      </div> -->
       <!--切换全屏-->
       <div class="layout-header-trigger layout-header-trigger-min">
         <n-tooltip placement="bottom">
@@ -273,17 +273,17 @@
       };
 
       // 图标列表
-      const iconList = [
-        {
-          icon: 'SearchOutlined',
-          tips: '搜索',
-        },
-      ];
+      // const iconList = [
+      //   {
+      //     icon: 'SearchOutlined',
+      //     tips: '搜索',
+      //   },
+      // ];
       const avatarOptions = [
-        {
-          label: '个人设置',
-          key: 1,
-        },
+        // {
+        //   label: '个人设置',
+        //   key: 1,
+        // },
         {
           label: '退出登录',
           key: 2,
@@ -313,7 +313,7 @@
 
       return {
         ...toRefs(state),
-        iconList,
+        // iconList,
         toggleFullScreen,
         doLogout,
         route,
