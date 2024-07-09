@@ -59,6 +59,21 @@ export const columns: BasicColumn<KbInfoData>[] = [
     },
   },
   {
+    title: '文档切块时重叠数量',
+    key: 'ragMaxOverlap',
+    width: 80,
+  },
+  {
+    title: '文档召回最大数量',
+    key: 'ragMaxResults',
+    width: 80,
+  },
+  {
+    title: '文档召回最小分数',
+    key: 'ragMinScore',
+    width: 80,
+  },
+  {
     title: '创建时间',
     key: 'createTime',
     width: 180,

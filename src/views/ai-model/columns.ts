@@ -9,6 +9,7 @@ export interface AiModelData {
   createTime: string
   updateTime: string
   isEnable: boolean
+  setting: string
 }
 export const columns: BasicColumn<AiModelData>[] = [
   {
@@ -19,7 +20,7 @@ export const columns: BasicColumn<AiModelData>[] = [
   {
     title: '名称',
     key: 'name',
-    width: 100,
+    width: 150,
   },
   {
     title: '类型',
@@ -48,7 +49,11 @@ export const columns: BasicColumn<AiModelData>[] = [
   {
     title: '上下文长度',
     key: 'contextWindow',
-    width: 80,
+    width: 100,
+  },
+  {
+    title: '配置',
+    key: 'setting',
   },
   {
     title: '创建时间',

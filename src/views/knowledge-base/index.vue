@@ -9,7 +9,7 @@
 
 
     <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" title="编辑">
-      <n-form :model="editFormParams" :rules="newRecordRules" ref="formRef" label-placement="left" :label-width="80"
+      <n-form :model="editFormParams" :rules="newRecordRules" ref="formRef" label-placement="left" :label-width="150"
         class="py-4">
         <n-form-item label="标题" path="title">
           <n-input placeholder="请输入标题" v-model:value="editFormParams.title" />
@@ -19,6 +19,15 @@
         </n-form-item>
         <n-form-item label="是否公开" path="isPublic">
           <n-select placeholder="是否公开" :options="publicOpts" v-model:value="editFormParams.isPublic" />
+        </n-form-item>
+        <n-form-item label="文档切块时重叠数量" path="ragMaxOverlap">
+          <n-input-number placeholder="文档切块时重叠数量" v-model:value="editFormParams.ragMaxOverlap" />
+        </n-form-item>
+        <n-form-item label="文档召回最大数量" path="ragMaxResults">
+          <n-input-number placeholder="文档召回最大数量" v-model:value="editFormParams.ragMaxResults" />
+        </n-form-item>
+        <n-form-item label="文档召回最小分数" path="ragMinScore">
+          <n-input-number placeholder="文档召回最小分数" v-model:value="editFormParams.ragMinScore"  :precision="1" :min="0" :max="1"/>
         </n-form-item>
       </n-form>
       <template #action>
@@ -47,6 +56,9 @@ const editFormParams = reactive({
   title: '',
   remark: '',
   isPublic: false,
+  ragMaxResults: 0,
+  ragMinScore: 0.0,
+  ragMaxOverlap: 0
 })
 const publicOpts = [
   {

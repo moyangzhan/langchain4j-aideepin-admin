@@ -4,7 +4,7 @@
     </BasicForm>
 
     <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: AiModelData) => row.id" ref="actionRef"
-      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1200">
+      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1300">
       <template #tableTitle>
         <n-button type="primary" @click="addTable">
           <template #icon>
@@ -19,7 +19,7 @@
     </BasicTable>
 
     <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" :title="editFormParams.label">
-      <n-form :model="editFormParams" :rules="newRecordRules" ref="formRef" label-placement="left" :label-width="80"
+      <n-form :model="editFormParams" :rules="newRecordRules" ref="formRef" label-placement="left" :label-width="130"
         class="py-4">
         <n-form-item label="名称" path="name">
           <n-input placeholder="请输入模型名称" v-model:value="editFormParams.name" />
@@ -32,6 +32,9 @@
         </n-form-item>
         <n-form-item label="上下文长度" path="contextWindow">
           <n-input-number placeholder="请输入上下文长度" v-model:value="editFormParams.contextWindow" />
+        </n-form-item>
+        <n-form-item label="个性化配置" path="setting">
+          <n-input type="textarea" placeholder="个性化配置" v-model:value="editFormParams.setting" />
         </n-form-item>
       </n-form>
       <template #action>
@@ -134,10 +137,11 @@ const editFormParams = reactive({
   type: '',
   platform: '',
   contextWindow: 0,
+  setting: ''
 })
 
 const actionColumn = reactive({
-  width: 180,
+  width: 200,
   title: '操作',
   key: 'action',
   fixed: 'right',
@@ -251,6 +255,9 @@ async function handleDisable(record: Recordable) {
 function handleEdit(record: Recordable) {
   showEditModal.value = true
   Object.assign(editFormParams, record)
+  if(!editFormParams.setting){
+    editFormParams.setting = ''
+  }
   editFormParams.label = '编辑'
 }
 
