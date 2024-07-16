@@ -1,11 +1,19 @@
 ## 简介
 
-langchain4j-aideepin的管理后台WEB端，基于[naive-ui-admin](https://github.com/jekip/naive-ui-admin)
+本仓库为langchain4j-aideepin的管理后台WEB端，基于[naive-ui-admin](https://github.com/jekip/naive-ui-admin)
 
 默认管理员账号：catkeeper 密码：123456.
 
-后端服务：    [langchain4j-aideepin](https://github.com/moyangzhan/langchain4j-aideepin)
-用户端WEB：[langchain4j-aideepin-web](https://github.com/moyangzhan/langchain4j-aideepin-web)
+本项目仓库地址：[github](https://github.com/moyangzhan/langchain4j-aideepin-admin) [gitee](https://gitee.com/moyangzhan/langchain4j-aideepin-admin)
+
+关联项目
+
+* 后端服务 langchain4j-aideepin:
+  * [github](https://github.com/moyangzhan/langchain4j-aideepin)
+  * [gitee](https://gitee.com/moyangzhan/langchain4j-aideepin)
+* 用户端WEB langchain4j-aideepin-web:
+  * [github](https://github.com/moyangzhan/langchain4j-aideepin-web)
+  * [gitee](https://gitee.com/moyangzhan/langchain4j-aideepin-web)
 
 ## 功能
 
