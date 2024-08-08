@@ -50,7 +50,12 @@ export const columns: BasicColumn<UserData>[] = [
     key: 'userStatus',
     width: 100,
     render(row) {
-      return row.userStatus === 'FREEZE' ? '已禁用' : '正常'
+      if(row.userStatus === 'NORMAL'){
+        return '正常'
+      }else if(row.userStatus === 'WAIT_CONFIRM'){
+        return '待激活'
+      }
+      return '已禁用'
     },
   },
   {
