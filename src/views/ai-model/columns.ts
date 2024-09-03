@@ -52,6 +52,16 @@ export const columns: BasicColumn<AiModelData>[] = [
     width: 100,
   },
   {
+    title: '最大输入token数',
+    key: 'maxInputTokens',
+    width: 140,
+  },
+  {
+    title: '最大输出token数',
+    key: 'maxOutputTokens',
+    width: 140,
+  },
+  {
     title: '配置',
     key: 'setting',
   },

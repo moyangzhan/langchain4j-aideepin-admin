@@ -4,7 +4,7 @@
     </BasicForm>
 
     <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: AiModelData) => row.id" ref="actionRef"
-      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1300">
+      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1500">
       <template #tableTitle>
         <n-button type="primary" @click="addTable">
           <template #icon>
@@ -32,6 +32,12 @@
         </n-form-item>
         <n-form-item label="上下文长度" path="contextWindow">
           <n-input-number placeholder="请输入上下文长度" v-model:value="editFormParams.contextWindow" />
+        </n-form-item>
+        <n-form-item label="最大输入token数" path="maxInputTokens">
+          <n-input-number placeholder="请输入上下文长度" v-model:value="editFormParams.maxInputTokens" />
+        </n-form-item>
+        <n-form-item label="最大输出token数" path="maxOutputTokens">
+          <n-input-number placeholder="请输出上下文长度" v-model:value="editFormParams.maxOutputTokens" />
         </n-form-item>
         <n-form-item label="个性化配置" path="setting">
           <n-input type="textarea" placeholder="个性化配置" v-model:value="editFormParams.setting" />
@@ -137,6 +143,8 @@ const editFormParams = reactive({
   type: '',
   platform: '',
   contextWindow: 0,
+  maxInputTokens: 0,
+  maxOutputTokens: 0,
   setting: ''
 })
 

@@ -87,36 +87,6 @@
         </NCard>
       </n-grid-item>
       <n-grid-item>
-        <NCard title="TOKEN消耗" :segmented="{ content: true, footer: true }" size="small" :bordered="false">
-          <template #header-extra>
-            <n-tag type="success">日</n-tag>
-          </template>
-          <div class="flex justify-between px-1 py-1">
-            <n-skeleton v-if="loading" :width="100" size="medium" />
-            <CountTo v-else-if="tokenCostStatistic.todayTokenCost > 0" :startVal="0"
-              :endVal="tokenCostStatistic.todayTokenCost" class="text-3xl" />
-            <div v-else class="text-3xl">
-              {{ tokenCostStatistic.todayTokenCost }}
-            </div>
-          </div>
-          <template #footer>
-            <div class="flex justify-between">
-              <n-skeleton v-if="loading" :width="100" size="medium" />
-              <template v-else>
-                <div class="text-sn"> 当月消耗： </div>
-                <div class="text-sn">
-                  <CountTo v-if="tokenCostStatistic.monthTokenCost > 0" :startVal="0"
-                    :endVal="Number(tokenCostStatistic.monthTokenCost)" />
-                  <div v-else class="text-sn">
-                    {{ tokenCostStatistic.monthTokenCost }}
-                  </div>
-                </div>
-              </template>
-            </div>
-          </template>
-        </NCard>
-      </n-grid-item>
-      <n-grid-item>
         <NCard title="会话数" :segmented="{ content: true, footer: true }" size="small" :bordered="false">
           <template #header-extra>
             <n-tag type="success">日</n-tag>
@@ -139,6 +109,66 @@
                     :endVal="Number(convStatistic.total)" />
                   <div v-else class="text-sn">
                     {{ convStatistic.total }}
+                  </div>
+                </div>
+              </template>
+            </div>
+          </template>
+        </NCard>
+      </n-grid-item>
+      <n-grid-item>
+        <NCard title="TOKEN消耗" :segmented="{ content: true, footer: true }" size="small" :bordered="false">
+          <template #header-extra>
+            <n-tag type="success">日</n-tag>
+          </template>
+          <div class="flex justify-between px-1 py-1">
+            <n-skeleton v-if="loading" :width="100" size="medium" />
+            <CountTo v-else-if="tokenCostStatistic.todayTokenCost > 0" :startVal="0"
+              :endVal="tokenCostStatistic.todayTokenCost" class="text-3xl" />
+            <div v-else class="text-3xl">
+              {{ tokenCostStatistic.todayTokenCost }}
+            </div>
+          </div>
+          <template #footer>
+            <div class="flex justify-between">
+              <n-skeleton v-if="loading" :width="100" size="medium" />
+              <template v-else>
+                <div class="text-sn"> 本月消耗： </div>
+                <div class="text-sn">
+                  <CountTo v-if="tokenCostStatistic.monthTokenCost > 0" :startVal="0"
+                    :endVal="Number(tokenCostStatistic.monthTokenCost)" />
+                  <div v-else class="text-sn">
+                    {{ tokenCostStatistic.monthTokenCost }}
+                  </div>
+                </div>
+              </template>
+            </div>
+          </template>
+        </NCard>
+      </n-grid-item>
+      <n-grid-item>
+        <NCard title="图片消耗" :segmented="{ content: true, footer: true }" size="small" :bordered="false">
+          <template #header-extra>
+            <n-tag type="success">日</n-tag>
+          </template>
+          <div class="flex justify-between px-1 py-1">
+            <n-skeleton v-if="loading" :width="100" size="medium" />
+            <CountTo v-else-if="imageCostStatistic.todayCost > 0" :startVal="0"
+              :endVal="imageCostStatistic.todayCost" class="text-3xl" />
+            <div v-else class="text-3xl">
+              {{ imageCostStatistic.todayCost }}
+            </div>
+          </div>
+          <template #footer>
+            <div class="flex justify-between">
+              <n-skeleton v-if="loading" :width="100" size="medium" />
+              <template v-else>
+                <div class="text-sn"> 本月消耗： </div>
+                <div class="text-sn">
+                  <CountTo v-if="imageCostStatistic.monthCost > 0" :startVal="0"
+                    :endVal="Number(imageCostStatistic.monthCost)" />
+                  <div v-else class="text-sn">
+                    {{ imageCostStatistic.monthCost }}
                   </div>
                 </div>
               </template>
@@ -172,6 +202,11 @@ interface TokenCostStatistic {
   monthTokenCost: number
 }
 
+interface ImageCostStatistic {
+  todayCost: number
+  monthCost: number
+}
+
 interface ConvStatistic {
   todayCreated: number
   total: number
@@ -181,6 +216,7 @@ const loading = ref(true)
 const userStatistic = ref({} as UserStatistic)
 const kbStatistic = ref({} as KbStatistic)
 const tokenCostStatistic = ref({} as TokenCostStatistic)
+const imageCostStatistic = ref({} as ImageCostStatistic)
 const convStatistic = ref({} as ConvStatistic)
 
 onMounted(async () => {
@@ -188,6 +224,7 @@ onMounted(async () => {
   userStatistic.value = resp.userStatistic
   kbStatistic.value = resp.kbStatistic
   tokenCostStatistic.value = resp.tokenCostStatistic
+  imageCostStatistic.value = resp.imageCostStatistic
   convStatistic.value = resp.convStatistic
   loading.value = false
 })
