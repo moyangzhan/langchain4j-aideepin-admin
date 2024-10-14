@@ -25,19 +25,19 @@
           <n-input placeholder="请输入模型名称" v-model:value="editFormParams.name" />
         </n-form-item>
         <n-form-item label="类型" path="type">
-          <n-select placeholder="请输入模型的类型" :options="modelType" v-model:value="editFormParams.type" />
+          <n-select placeholder="选择模型的类型" :options="modelType" v-model:value="editFormParams.type" />
         </n-form-item>
         <n-form-item label="平台" path="platform">
-          <n-select placeholder="请输入模型所属的平台" :options="modelPlatform" v-model:value="editFormParams.platform" />
+          <n-select placeholder="选择模型所属的平台" :options="modelPlatform" v-model:value="editFormParams.platform" />
         </n-form-item>
         <n-form-item label="上下文长度" path="contextWindow">
           <n-input-number placeholder="请输入上下文长度" v-model:value="editFormParams.contextWindow" />
         </n-form-item>
         <n-form-item label="最大输入token数" path="maxInputTokens">
-          <n-input-number placeholder="请输入上下文长度" v-model:value="editFormParams.maxInputTokens" />
+          <n-input-number placeholder="请输入最大输入token数" v-model:value="editFormParams.maxInputTokens" />
         </n-form-item>
         <n-form-item label="最大输出token数" path="maxOutputTokens">
-          <n-input-number placeholder="请输出上下文长度" v-model:value="editFormParams.maxOutputTokens" />
+          <n-input-number placeholder="请输入最大输出token数" v-model:value="editFormParams.maxOutputTokens" />
         </n-form-item>
         <n-form-item label="个性化配置" path="setting">
           <n-input type="textarea" placeholder="个性化配置" v-model:value="editFormParams.setting" />
@@ -59,8 +59,9 @@ import { BasicTable, TableAction } from '@/components/Table'
 import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
 import api from '@/api/aiModel'
 import { modelType, modelPlatform } from '@/utils/constants'
-import { columns, AiModelData } from './columns'
+import { columns, } from './columns'
 import { PlusOutlined } from '@vicons/antd'
+import { AiModelData } from '/#/aiModel'
 import { type FormRules } from 'naive-ui'
 import { useDialog } from 'naive-ui'
 
@@ -73,7 +74,7 @@ const newRecordRules: FormRules = {
   type: {
     required: true,
     trigger: ['blur', 'input'],
-    message: '请输入邮箱',
+    message: '请输入类型',
   },
   platform: {
     required: true,
@@ -83,7 +84,7 @@ const newRecordRules: FormRules = {
 }
 
 const schemas: FormSchema[] = [
-{
+  {
     field: 'type',
     component: 'NSelect',
     label: '类型',
@@ -114,14 +115,14 @@ const schemas: FormSchema[] = [
     componentProps: {
       placeholder: '请选择状态',
       options: [
-      {
-        label: '可用',
-        value: true,
-      },
-      {
-        label: '停用',
-        value: false,
-      },
+        {
+          label: '可用',
+          value: true,
+        },
+        {
+          label: '停用',
+          value: false,
+        },
       ],
       onUpdateValue: (e: any) => {
         console.log(e)
@@ -231,9 +232,9 @@ function confirmForm(e) {
   formBtnLoading.value = true
   formRef.value.validate(async (errors) => {
     if (!errors) {
-      if(editFormParams.id === ''){
+      if (editFormParams.id === '') {
         await api.addOne(editFormParams)
-      }else{
+      } else {
         await api.edit(editFormParams)
       }
       window['$message'].success('新建成功')
@@ -263,7 +264,7 @@ async function handleDisable(record: Recordable) {
 function handleEdit(record: Recordable) {
   showEditModal.value = true
   Object.assign(editFormParams, record)
-  if(!editFormParams.setting){
+  if (!editFormParams.setting) {
     editFormParams.setting = ''
   }
   editFormParams.label = '编辑'

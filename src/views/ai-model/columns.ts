@@ -1,16 +1,6 @@
 import { BasicColumn } from '@/components/Table'
 import {modelType, modelPlatform} from '@/utils/constants'
-export interface AiModelData {
-  id: string
-  type: string
-  name: string
-  platform: string
-  remark: string
-  createTime: string
-  updateTime: string
-  isEnable: boolean
-  setting: string
-}
+import { AiModelData } from '/#/aiModel'
 export const columns: BasicColumn<AiModelData>[] = [
   {
     title: 'id',

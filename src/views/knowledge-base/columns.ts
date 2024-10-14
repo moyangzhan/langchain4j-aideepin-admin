@@ -1,18 +1,18 @@
-import { BasicColumn } from '@/components/Table';
+import { BasicColumn } from '@/components/Table'
 
 export interface KbInfoData {
-  id: string;
-  uuid: string;
-  title: string;
-  remark: string;
-  ownerUuid: string;
-  ownerName: string;
-  isPublic: boolean;
-  starCount: number;
-  itemCount: number;
-  embeddingCount: number;
-  createTime: string;
-  updateTime: string;
+  id: string
+  uuid: string
+  title: string
+  remark: string
+  ownerUuid: string
+  ownerName: string
+  isPublic: boolean
+  starCount: number
+  itemCount: number
+  embeddingCount: number
+  createTime: string
+  updateTime: string
 }
 export const columns: BasicColumn<KbInfoData>[] = [
   {
@@ -55,23 +55,33 @@ export const columns: BasicColumn<KbInfoData>[] = [
     key: 'isPublic',
     width: 80,
     render(row) {
-      return row.isPublic?'是':'否';
+      return row.isPublic ? '是' : '否'
     },
   },
   {
-    title: '文档切块时重叠数量',
-    key: 'ragMaxOverlap',
-    width: 80,
+    title: '重叠数量(文档切块时)',
+    key: 'ingestMaxOverlap',
+    width: 100,
+  },
+  {
+    title: '模型(抽取图谱时使用)',
+    key: 'ingestModelName',
+    width: 160,
   },
   {
     title: '文档召回最大数量',
-    key: 'ragMaxResults',
-    width: 80,
+    key: 'retrieveMaxResults',
+    width: 100,
   },
   {
     title: '文档召回最小分数',
-    key: 'ragMinScore',
-    width: 80,
+    key: 'retrieveMinScore',
+    width: 100,
+  },
+  {
+    title: '响应时的创造性',
+    key: 'queryLlmTemperature',
+    width: 100,
   },
   {
     title: '创建时间',
@@ -83,5 +93,5 @@ export const columns: BasicColumn<KbInfoData>[] = [
     key: 'updateTime',
     width: 180,
   },
-  
-];
+
+]

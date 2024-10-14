@@ -4,7 +4,7 @@
     </BasicForm>
 
     <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: KbInfoData) => row.id" ref="actionRef"
-      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1400">
+      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1800">
     </BasicTable>
 
 
@@ -14,20 +14,29 @@
         <n-form-item label="标题" path="title">
           <n-input placeholder="请输入标题" v-model:value="editFormParams.title" />
         </n-form-item>
-        <n-form-item label="remark" path="remark">
+        <n-form-item label="描述" path="remark">
           <n-input type="textarea" placeholder="请输入描述" v-model:value="editFormParams.remark" />
         </n-form-item>
         <n-form-item label="是否公开" path="isPublic">
           <n-select placeholder="是否公开" :options="publicOpts" v-model:value="editFormParams.isPublic" />
         </n-form-item>
-        <n-form-item label="文档切块时重叠数量" path="ragMaxOverlap">
-          <n-input-number placeholder="文档切块时重叠数量" v-model:value="editFormParams.ragMaxOverlap" />
+        <n-form-item label="文档切块时重叠数量" path="ingestMaxOverlap">
+          <n-input-number placeholder="文档切块时重叠数量" v-model:value="editFormParams.ingestMaxOverlap" />
         </n-form-item>
-        <n-form-item label="文档召回最大数量" path="ragMaxResults">
-          <n-input-number placeholder="文档召回最大数量" v-model:value="editFormParams.ragMaxResults" />
+        <n-form-item label="模型名" path="ingestModelName">
+          <n-select placeholder="抽取图谱知识时的模型名" :options="aiModelOpts" v-model:value="editFormParams.ingestModelName"
+            filterable clearable />
         </n-form-item>
-        <n-form-item label="文档召回最小分数" path="ragMinScore">
-          <n-input-number placeholder="文档召回最小分数" v-model:value="editFormParams.ragMinScore"  :precision="1" :min="0" :max="1"/>
+        <n-form-item label="文档召回最大数量" path="retrieveMaxResults">
+          <n-input-number placeholder="文档召回最大数量" v-model:value="editFormParams.retrieveMaxResults" />
+        </n-form-item>
+        <n-form-item label="文档召回最小分数" path="retrieveMinScore">
+          <n-input-number placeholder="文档召回最小分数" v-model:value="editFormParams.retrieveMinScore" :precision="1" :min="0"
+            :max="1" />
+        </n-form-item>
+        <n-form-item label="响应时的创造性" path="queryLlmTemperature">
+          <n-input-number placeholder="响应时的创造性" v-model:value="editFormParams.queryLlmTemperature" :precision="1"
+            :min="0" :max="1" />
         </n-form-item>
       </n-form>
       <template #action>
@@ -41,35 +50,43 @@
 </template>
 
 <script lang="ts" setup>
-import { h, reactive, ref } from 'vue'
+import { h, onMounted, reactive, ref } from 'vue'
 import { BasicTable, TableAction } from '@/components/Table'
 import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
 import api from '@/api/knowledgeBase'
+import aiModelApi from '@/api/aiModel'
 import { columns, KbInfoData } from './columns'
 import { type FormRules } from 'naive-ui'
 import { useDialog } from 'naive-ui'
 
+interface SelectOpt {
+  label: string
+  value: string
+}
 const showEditModal = ref(false)
 const formBtnLoading = ref(false)
 const editFormParams = reactive({
   uuid: '',
   title: '',
   remark: '',
-  isPublic: false,
-  ragMaxResults: 0,
-  ragMinScore: 0.0,
-  ragMaxOverlap: 0
+  isPublic: 0,
+  ingestMaxOverlap: 0,
+  ingestModelName: '',
+  retrieveMaxResults: 0,
+  retrieveMinScore: 0.0,
+  queryLlmTemperature: 0.0
 })
 const publicOpts = [
   {
     label: '是',
-    value: true,
+    value: 1,
   },
   {
     label: '否',
-    value: false,
+    value: 0,
   },
 ]
+const aiModelOpts = ref<SelectOpt[]>([])
 const dialog = useDialog()
 const formRef: any = ref(null)
 const newRecordRules: FormRules = {
@@ -204,7 +221,7 @@ function confirmForm(e) {
   formBtnLoading.value = true
   formRef.value.validate(async (errors) => {
     if (!errors) {
-      await api.edit(editFormParams)
+      await api.edit({ ...editFormParams, isPublic: editFormParams.isPublic === 1 ? true : false })
       window['$message'].success('编辑成功')
       setTimeout(() => {
         showEditModal.value = false
@@ -220,6 +237,7 @@ function confirmForm(e) {
 function handleEdit(record: Recordable) {
   showEditModal.value = true
   Object.assign(editFormParams, record)
+  editFormParams.isPublic = record.isPublic ? 1 : 0
 }
 
 async function handleDelete(record: Recordable) {
@@ -236,6 +254,18 @@ function handleSubmit(values: Recordable) {
 function handleReset(values: Recordable) {
   console.log(values)
 }
+
+onMounted(async () => {
+  if (aiModelOpts.value.length > 0) {
+    return
+  }
+  const resp = await aiModelApi.search({ isEnable: true, type: 'text' }, { current: 1, size: 100 })
+  if (resp && resp.records) {
+    resp.records.forEach(item => {
+      aiModelOpts.value.push({ label: item.name, value: item.name })
+    })
+  }
+})
 </script>
 
 <style lang="less" scoped></style>
