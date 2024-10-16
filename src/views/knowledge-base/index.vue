@@ -23,8 +23,8 @@
         <n-form-item label="文档切块时重叠数量" path="ingestMaxOverlap">
           <n-input-number placeholder="文档切块时重叠数量" v-model:value="editFormParams.ingestMaxOverlap" />
         </n-form-item>
-        <n-form-item label="模型名" path="ingestModelName">
-          <n-select placeholder="抽取图谱知识时的模型名" :options="aiModelOpts" v-model:value="editFormParams.ingestModelName"
+        <n-form-item label="模型" path="ingestModelName">
+          <n-select placeholder="抽取图谱知识时的模型" :options="aiModelOpts" v-model:value="editFormParams.ingestModelId"
             filterable clearable />
         </n-form-item>
         <n-form-item label="文档召回最大数量" path="retrieveMaxResults">
@@ -61,7 +61,7 @@ import { useDialog } from 'naive-ui'
 
 interface SelectOpt {
   label: string
-  value: string
+  value: number
 }
 const showEditModal = ref(false)
 const formBtnLoading = ref(false)
@@ -71,7 +71,7 @@ const editFormParams = reactive({
   remark: '',
   isPublic: 0,
   ingestMaxOverlap: 0,
-  ingestModelName: '',
+  ingestModelId: 0,
   retrieveMaxResults: 0,
   retrieveMinScore: 0.0,
   queryLlmTemperature: 0.0
@@ -262,7 +262,7 @@ onMounted(async () => {
   const resp = await aiModelApi.search({ isEnable: true, type: 'text' }, { current: 1, size: 100 })
   if (resp && resp.records) {
     resp.records.forEach(item => {
-      aiModelOpts.value.push({ label: item.name, value: item.name })
+      aiModelOpts.value.push({ label: item.name, value: item.id })
     })
   }
 })
