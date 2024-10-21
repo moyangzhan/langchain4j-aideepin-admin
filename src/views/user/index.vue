@@ -64,7 +64,6 @@ import userApi from '@/api/user'
 import { columns, UserData } from './columns'
 import { PlusOutlined } from '@vicons/antd'
 import { type FormRules } from 'naive-ui'
-import { useDialog } from 'naive-ui'
 
 const newUserRules: FormRules = {
   name: {
@@ -151,7 +150,6 @@ const schemas: FormSchema[] = [
   },
 ]
 
-const dialog = useDialog()
 const formRef: any = ref(null)
 const actionRef = ref()
 
@@ -200,29 +198,6 @@ const actionColumn = reactive({
           },
         },
       ],
-      dropDownActions: [
-        {
-          label: '删除',
-          key: 'deleteUser',
-        },
-      ],
-      select: (key) => {
-        if (key === 'deleteUser') {
-          dialog.warning({
-            title: '提示',
-            content: `删除后数据无法恢复，确定要删除用户 ${record.name} 吗?`,
-            positiveText: '确定',
-            negativeText: '取消',
-            onPositiveClick: () => {
-              console.log('删除成功')
-              handleDelete(record)
-            },
-            onNegativeClick: () => {
-              console.log('已取消')
-            },
-          })
-        }
-      },
     })
   },
 })
@@ -298,11 +273,6 @@ async function handleDisable(record: Recordable) {
   await userApi.freeze(record.uuid)
   window['$message'].success('操作成功')
   reloadTable()
-}
-
-function handleDelete(record: Recordable) {
-  console.log('点击了删除', record)
-  window['$message'].info('点击了删除')
 }
 
 function handleSubmit(values: Recordable) {

@@ -1,11 +1,5 @@
 import { http } from '@/utils/http/axios'
-
-export interface BasicResponseModel<T = any> {
-  code: string
-  message: string
-  success: boolean
-  data: T
-}
+import { BasicResponseModel } from '/#/global'
 
 /**
  * @description: 用户登录

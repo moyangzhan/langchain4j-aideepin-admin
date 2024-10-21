@@ -100,3 +100,10 @@ declare module 'vue' {
     | { new (): ComponentPublicInstance<Props> }
     | FunctionalComponent<Props>;
 }
+
+export interface BasicResponseModel<T = any> {
+  code: string
+  message: string
+  success: boolean
+  data: T
+}

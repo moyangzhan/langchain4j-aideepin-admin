@@ -50,7 +50,7 @@ function edit(data) {
 function deleteOne(id: string) {
   return http.request(
     {
-      url: `/admin/model/delete/${id}`,
+      url: `/admin/model/del/${id}`,
       method: 'POST',
     }
   )

@@ -11,7 +11,7 @@ function search(data, params: { current: number, size: number }) {
 function deleteOne(uuid: string) {
   return http.request(
     {
-      url: `/admin/kb/delete/${uuid}`,
+      url: `/admin/kb/del/${uuid}`,
       method: 'POST',
     }
   )
