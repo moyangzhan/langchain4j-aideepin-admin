@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 import { Layout } from '@/router/constant'
-import { LibraryOutline } from '@vicons/ionicons5'
+import { ChatboxEllipsesOutline } from '@vicons/ionicons5'
 import { renderIconWithProps } from '@/utils/index'
 
 /**
@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Layout,
     meta: {
       title: '会话管理',
-      icon: renderIconWithProps(LibraryOutline, { size: 20 }),
+      icon: renderIconWithProps(ChatboxEllipsesOutline, { size: 20 }),
       sort: 3,
     },
     children: [

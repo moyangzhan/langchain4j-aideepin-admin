@@ -108,27 +108,6 @@ const schemas: FormSchema[] = [
       },
     },
   },
-  {
-    field: 'isEnable',
-    component: 'NSelect',
-    label: '状态',
-    componentProps: {
-      placeholder: '请选择状态',
-      options: [
-        {
-          label: '可用',
-          value: true,
-        },
-        {
-          label: '停用',
-          value: false,
-        },
-      ],
-      onUpdateValue: (e: any) => {
-        console.log(e)
-      },
-    },
-  },
 ]
 
 const dialog = useDialog()
@@ -150,7 +129,7 @@ const editFormParams = reactive({
 })
 
 const actionColumn = reactive({
-  width: 200,
+  width: 300,
   title: '操作',
   key: 'action',
   fixed: 'right',
@@ -174,6 +153,20 @@ const actionColumn = reactive({
           onClick: handleDisable.bind(null, record),
           ifShow: () => {
             return record.isEnable
+          },
+        },
+        {
+          label: '设为免费',
+          onClick: handleFree.bind(null, record, true),
+          ifShow: () => {
+            return !record.isFree
+          },
+        },
+        {
+          label: '设为收费',
+          onClick: handleFree.bind(null, record, false),
+          ifShow: () => {
+            return record.isFree
           },
         },
       ],
@@ -257,6 +250,12 @@ async function handleEnable(record: Recordable) {
 
 async function handleDisable(record: Recordable) {
   await api.disable(record.id)
+  window['$message'].success('操作成功')
+  reloadTable()
+}
+
+async function handleFree(record: Recordable, isFree: boolean) {
+  await api.edit({id: record.id, isFree})
   window['$message'].success('操作成功')
   reloadTable()
 }

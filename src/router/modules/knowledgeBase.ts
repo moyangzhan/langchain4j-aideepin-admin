@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
           hidden: true,
           activeMenu: 'KnowledgeBaseList',
         },
-        component: () => import('@/views/knowledge-base/info.vue'),
+        component: () => import('@/views/knowledge-base/index.vue'),
       },
     ],
   },

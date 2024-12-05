@@ -37,6 +37,14 @@ export const columns: BasicColumn<AiModelData>[] = [
     },
   },
   {
+    title: '是否免费',
+    key: 'isFree',
+    width: 80,
+    render(row) {
+      return row.isFree ? '是' : '否'
+    },
+  },
+  {
     title: '上下文长度',
     key: 'contextWindow',
     width: 100,
