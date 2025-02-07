@@ -27,6 +27,14 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
+        path: 'storage',
+        name: 'storage',
+        meta: {
+          title: '存储配置',
+        },
+        component: () => import('@/views/system/storage/index.vue'),
+      },
+      {
         path: 'quota',
         name: 'TokenQuota',
         meta: {
