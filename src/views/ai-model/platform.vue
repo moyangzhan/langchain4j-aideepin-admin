@@ -67,7 +67,7 @@ const actionColumn = reactive({
 })
 
 const loadDataTable = async () => {
-  return await api.search({ names: ['openai_setting', 'dashscope_setting', 'qianfan_setting', 'ollama_setting'] }, 1, 100)
+  return await api.search({ names: ['openai_setting', 'dashscope_setting', 'qianfan_setting', 'ollama_setting', 'deepseek_setting'] }, 1, 100)
 }
 
 function onCheckedRow(rowKeys) {
