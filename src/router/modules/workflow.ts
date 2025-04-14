@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Layout } from '@/router/constant';
-import { OptionsSharp } from '@vicons/ionicons5';
+import { Flow } from '@vicons/carbon';
 import { renderIcon } from '@/utils/index';
 
 /**
@@ -16,40 +16,32 @@ import { renderIcon } from '@/utils/index';
  * */
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/system',
-    name: 'System',
-    redirect: '/system/quota',
+    path: '/workflow',
+    name: 'Workflow',
+    redirect: '/workflow/component',
     component: Layout,
     meta: {
-      title: '系统设置',
-      icon: renderIcon(OptionsSharp),
-      sort: 6,
+      title: '流程编排',
+      icon: renderIcon(Flow),
+      sort: 5,
     },
     children: [
       {
-        path: 'storage',
-        name: 'storage',
+        path: 'component',
+        name: 'Components',
         meta: {
-          title: '存储配置',
+          title: '基础组件',
         },
-        component: () => import('@/views/system/storage/index.vue'),
+        component: () => import('@/views/workflow/wf-component/index.vue'),
       },
       {
-        path: 'quota',
-        name: 'TokenQuota',
+        path: 'list',
+        name: 'Workflows',
         meta: {
-          title: '额度配置',
+          title: '流程列表',
         },
-        component: () => import('@/views/system/quota/index.vue'),
-      },
-      {
-        path: 'ratelimit',
-        name: 'RateLimit',
-        meta: {
-          title: '限流策略',
-        },
-        component: () => import('@/views/system/ratelimit/index.vue'),
-      },
+        component: () => import('@/views/workflow/index.vue'),
+      }
     ],
   },
 ];

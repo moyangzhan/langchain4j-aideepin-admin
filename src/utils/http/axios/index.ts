@@ -29,22 +29,15 @@ const transform: AxiosTransform = {
   transformRequestData: (res: AxiosResponse<Result>, options: RequestOptions) => {
     const {
       isShowMessage = true,
-      isShowErrorMessage,
       isShowSuccessMessage,
       successMessageText,
       errorMessageText,
-      isTransformResponse,
       isReturnNativeResponse,
     } = options
 
     // 是否返回原生响应头 比如：需要获取响应头时使用该属性
     if (isReturnNativeResponse) {
       return res
-    }
-    // 不进行任何处理，直接返回
-    // 用于页面代码可能需要直接获取code，data，message这些信息时开启
-    if (!isTransformResponse) {
-      return res.data
     }
 
     const { data } = res
@@ -68,27 +61,24 @@ const transform: AxiosTransform = {
           type: 'success',
           content: successMessageText || message || '操作成功！',
         })
-      } else if (!hasSuccess && (errorMessageText || isShowErrorMessage)) {
+      } else if (!hasSuccess && errorMessageText) {
         // 是否显示自定义信息提示
         $message.error(message || errorMessageText || '操作失败！')
-      } else if (!hasSuccess && options.errorMessageMode === 'modal') {
-        // errorMessageMode=‘custom-modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-        $dialog.info({
-          title: '提示',
-          content: message,
-          positiveText: '确定',
-          onPositiveClick: () => { },
-        })
+      } else if (!hasSuccess) {
+        // 接口请求错误，统一提示错误信息 这里逻辑可以根据项目进行修改
+        if (responseData) {
+          if (typeof responseData === 'string') {
+            $message.error(responseData)
+          } else {
+            $message.error(JSON.stringify(responseData))
+          }
+        } else {
+          $message.error(message)
+        }
       }
     }
 
-    // 接口请求成功，直接返回结果
-    if (hasSuccess) {
-      return responseData
-    }
-    // 接口请求错误，统一提示错误信息 这里逻辑可以根据项目进行修改
-    $message.error(message)
-    return
+    return data
   },
 
   // 请求之前处理config
@@ -193,7 +183,7 @@ const transform: AxiosTransform = {
     if (!isCancel) {
       checkStatus(error.response && error.response.status, msg)
       if (error.response && error.response.status === 401) {
-        setTimeout(()=>{
+        setTimeout(() => {
           const userStore = useUser()
           userStore.clearToken()
           router.replace(PageEnum.BASE_LOGIN)

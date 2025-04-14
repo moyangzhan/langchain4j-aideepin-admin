@@ -3,47 +3,25 @@
     <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset">
     </BasicForm>
 
-    <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: UserData) => row.id" ref="actionRef"
+    <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: Data) => row.id" ref="actionRef"
       :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1400">
-      <template #tableTitle>
-        <n-button type="primary" @click="addTable">
-          <template #icon>
-            <n-icon>
-              <PlusOutlined />
-            </n-icon>
-          </template>
-          新建
-        </n-button>
-      </template>
-
     </BasicTable>
 
     <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" :title="editFormParams.label">
       <n-form :model="editFormParams" :rules="newUserRules" ref="formRef" label-placement="left" :label-width="120"
         class="py-4">
-        <n-form-item label="名称" path="name">
-          <n-input placeholder="请输入名称" v-model:value="editFormParams.name" />
+        <n-form-item label="标题" path="title">
+          <n-input placeholder="请输入标题" v-model:value="editFormParams.title" />
         </n-form-item>
-        <n-form-item label="密码" path="password">
-          <n-input placeholder="请输入密码" v-model:value="editFormParams.password" />
+        <n-form-item label="是否公开" path="isPublic">
+          <n-switch v-model:value="editFormParams.isPublic" />
         </n-form-item>
-        <n-form-item label="每日token配额" path="quotaByTokenDaily">
-          <n-input-number v-model:value="editFormParams.quotaByTokenDaily" />
+        <n-form-item label="是否启用" path="isEnable">
+          <n-switch v-model:value="editFormParams.isEnable" />
         </n-form-item>
-        <n-form-item label="每月token配额" path="quotaByTokenMonthly">
-          <n-input-number v-model:value="editFormParams.quotaByTokenMonthly" />
-        </n-form-item>
-        <n-form-item label="每日请求配额" path="quotaByRequestDaily">
-          <n-input-number v-model:value="editFormParams.quotaByRequestDaily" />
-        </n-form-item>
-        <n-form-item label="每月请求配额" path="quotaByRequestMonthly">
-          <n-input-number v-model:value="editFormParams.quotaByRequestMonthly" />
-        </n-form-item>
-        <n-form-item label="每日图片配额" path="quotaByImageDaily">
-          <n-input-number v-model:value="editFormParams.quotaByImageDaily" />
-        </n-form-item>
-        <n-form-item label="每月图片配额" path="quotaByImageMonthly">
-          <n-input-number v-model:value="editFormParams.quotaByImageMonthly" />
+        <n-form-item label="描述" path="remark">
+          <n-input type="textarea" :autosize="{ minRows: 3, maxRows: 10 }" placeholder="请输入描述"
+            v-model:value="editFormParams.remark" />
         </n-form-item>
       </n-form>
       <template #action>
@@ -60,49 +38,64 @@
 import { h, reactive, ref } from 'vue'
 import { BasicTable, TableAction } from '@/components/Table'
 import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
-import userApi from '@/api/user'
-import { columns, UserData } from './columns'
-import { PlusOutlined } from '@vicons/antd'
+import workflowApi from '@/api/workflow'
+import { columns, Data } from './columns'
 import { type FormRules } from 'naive-ui'
+import { useDialog } from 'naive-ui'
 
 const newUserRules: FormRules = {
-  name: {
+  title: {
     required: false,
     trigger: ['blur', 'input'],
-    message: '请输入名称',
+    message: '请输入标题',
   },
 }
 
 const schemas: FormSchema[] = [
   {
-    field: 'name',
+    field: 'title',
     component: 'NInput',
-    label: '姓名',
+    label: '标题',
     componentProps: {
-      placeholder: '请输入姓名',
+      placeholder: '请输入标题',
       onInput: (e: any) => {
         console.log(e)
       },
     },
   },
   {
-    field: 'userStatus',
+    field: 'isPublic',
     component: 'NSelect',
-    label: '状态',
+    label: '是否公开',
     componentProps: {
-      placeholder: '请选择状态',
       options: [
         {
-          label: '待激活',
-          value: 1,
+          label: '是',
+          value: true,
         },
         {
-          label: '正常',
-          value: 2,
+          label: '否',
+          value: false,
+        },
+      ],
+      onUpdateValue: (e: any) => {
+        console.log(e)
+      },
+    },
+  },
+  {
+    field: 'isEnable',
+    component: 'NSelect',
+    label: '是否启用',
+    componentProps: {
+      options: [
+        {
+          label: '是',
+          value: true,
         },
         {
-          label: '禁用',
-          value: 3,
+          label: '否',
+          value: false,
         },
       ],
       onUpdateValue: (e: any) => {
@@ -128,46 +121,20 @@ const schemas: FormSchema[] = [
       clearable: true,
     },
   },
-  {
-    field: 'isAdmin',
-    component: 'NSelect',
-    label: '管理员',
-    componentProps: {
-      options: [
-        {
-          label: '是',
-          value: true,
-        },
-        {
-          label: '否',
-          value: false,
-        },
-      ],
-      onUpdateValue: (e: any) => {
-        console.log(e)
-      },
-    },
-  },
 ]
 
 const formRef: any = ref(null)
 const actionRef = ref()
-
+const dialog = useDialog()
 const showEditModal = ref(false)
 const formBtnLoading = ref(false)
 const editFormParams = reactive({
-  label: '新建',
+  label: '编辑',
   uuid: '',
-  name: '',
-  email: '',
-  password: '',
-  quotaByTokenDaily: 0,
-  quotaByTokenMonthly: 0,
-  quotaByRequestDaily: 0,
-  quotaByRequestMonthly: 0,
-  quotaByImageDaily: 0,
-  quotaByImageMonthly: 0,
-  isAdmin: false,
+  title: '',
+  remark: '',
+  isPublic: false,
+  isEnable: false
 })
 
 const actionColumn = reactive({
@@ -187,17 +154,39 @@ const actionColumn = reactive({
           label: '禁用',
           onClick: handleDisable.bind(null, record),
           ifShow: () => {
-            return record.userStatus === 'NORMAL'
+            return record.isEnable
           },
         },
         {
           label: '启用',
           onClick: handleEnable.bind(null, record),
           ifShow: () => {
-            return record.userStatus === 'FREEZE'
+            return !record.isEnable
           },
         },
       ],
+      dropDownActions: [
+        {
+          label: '删除',
+          key: 'delete',
+        },
+      ],
+      select: (key) => {
+        if (key === 'delete') {
+          dialog.warning({
+            title: '提示',
+            content: `删除后数据无法恢复，确定要删除 ${record.title} 吗?`,
+            positiveText: '确定',
+            negativeText: '取消',
+            onPositiveClick: () => {
+              handleDel(record)
+            },
+            onNegativeClick: () => {
+              console.log('已取消')
+            },
+          })
+        }
+      },
     })
   },
 })
@@ -208,23 +197,8 @@ const [register, { getFieldsValue }] = useForm({
   schemas,
 })
 
-function addTable() {
-  showEditModal.value = true
-  editFormParams.label = '新建'
-  editFormParams.uuid = ''
-  editFormParams.name = ''
-  editFormParams.email = ''
-  editFormParams.quotaByTokenDaily = 0
-  editFormParams.quotaByTokenMonthly = 0
-  editFormParams.quotaByRequestDaily = 0
-  editFormParams.quotaByRequestMonthly = 0
-  editFormParams.quotaByImageDaily = 0
-  editFormParams.quotaByImageMonthly = 0
-  editFormParams.isAdmin = false
-}
-
 const loadDataTable = async (res) => {
-  const resp = await userApi.search({ ...getFieldsValue() }, res)
+  const resp = await workflowApi.search({ ...getFieldsValue() }, res)
   return resp.data
 }
 
@@ -241,11 +215,7 @@ function confirmEditForm(e) {
   formBtnLoading.value = true
   formRef.value.validate(async (errors) => {
     if (!errors) {
-      if (editFormParams.uuid === '') {
-        await userApi.addOne(editFormParams)
-      } else {
-        await userApi.edit(editFormParams)
-      }
+      await workflowApi.updateBaseInfo(editFormParams)
       window['$message'].success(`${editFormParams.label}成功`)
       setTimeout(() => {
         showEditModal.value = false
@@ -265,13 +235,13 @@ function handleEdit(record: Recordable) {
 }
 
 async function handleEnable(record: Recordable) {
-  await userApi.active(record.uuid)
+  await workflowApi.setEnable({ uuid: record.uuid, isEnable: true })
   window['$message'].success('操作成功')
   reloadTable()
 }
 
 async function handleDisable(record: Recordable) {
-  await userApi.freeze(record.uuid)
+  await workflowApi.setEnable({ uuid: record.uuid, isEnable: false })
   window['$message'].success('操作成功')
   reloadTable()
 }
@@ -283,6 +253,14 @@ function handleSubmit(values: Recordable) {
 
 function handleReset(values: Recordable) {
   console.log(values)
+}
+
+async function handleDel(record: Recordable) {
+  let { success } = await workflowApi.del(record.uuid)
+  if (success) {
+    window['$message'].success('操作成功')
+    reloadTable()
+  }
 }
 </script>
 

@@ -12,7 +12,7 @@ function login(params) {
       params,
     },
     {
-      isTransformResponse: false,
+      isShowMessage: false,
     }
   )
 }

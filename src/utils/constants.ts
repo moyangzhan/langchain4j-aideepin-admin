@@ -15,6 +15,10 @@ export const modelPlatform = [
     label: 'Ollama',
     value: 'ollama',
   },
+  {
+    label: '深度求索',
+    value: 'deepseek',
+  },
 ]
 export const modelType = [
   {

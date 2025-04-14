@@ -1,5 +1,8 @@
 <template>
   <div>
+    <n-alert title="提示" type="info" :bordered="true" closable>
+      配置变更后10分钟内生效
+    </n-alert>
     <n-grid :x-gap="24">
       <n-grid-item span="6">
         <n-card :bordered="false" size="small" class="proCard">

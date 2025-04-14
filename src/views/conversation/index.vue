@@ -143,7 +143,8 @@ const [register, { getFieldsValue }] = useForm({
 })
 
 const loadDataTable = async (res) => {
-  return await convApi.searchConvs({ ...getFieldsValue() }, res)
+  const resp = await convApi.searchConvs({ ...getFieldsValue() }, res)
+  return resp.data
 }
 
 function onCheckedRow(rowKeys) {

@@ -243,3 +243,7 @@ export function lighten(color: string, amount: number) {
 export function isUrl(url: string) {
   return /^(http|https):\/\//g.test(url);
 }
+
+export function wrapTableTitle(title: string){
+  return h('div', { class: 'text-wrap' }, { default: () => title })
+}

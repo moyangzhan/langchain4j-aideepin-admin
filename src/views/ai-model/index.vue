@@ -209,7 +209,8 @@ function addTable() {
 }
 
 const loadDataTable = async (res) => {
-  return await api.search({ ...getFieldsValue() }, res)
+  const resp = await api.search({ ...getFieldsValue() }, res)
+  return resp.data
 }
 
 function onCheckedRow(rowKeys) {

@@ -4,11 +4,10 @@
     </BasicForm>
 
     <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: KbInfoData) => row.id" ref="actionRef"
-      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1800">
+      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="2000">
     </BasicTable>
 
-
-    <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" title="编辑">
+    <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" title="编辑" class="min-w-[600px]">
       <n-form :model="editFormParams" :rules="newRecordRules" ref="formRef" label-placement="left" :label-width="150"
         class="py-4">
         <n-form-item label="标题" path="title">
@@ -18,25 +17,28 @@
           <n-input type="textarea" placeholder="请输入描述" v-model:value="editFormParams.remark" />
         </n-form-item>
         <n-form-item label="是否公开" path="isPublic">
-          <n-select placeholder="是否公开" :options="publicOpts" v-model:value="editFormParams.isPublic" />
+          <n-switch v-model:value="editFormParams.isPublic" />
         </n-form-item>
         <n-form-item label="文档切块时重叠数量" path="ingestMaxOverlap">
-          <n-input-number placeholder="文档切块时重叠数量" v-model:value="editFormParams.ingestMaxOverlap" />
+          <n-input-number placeholder="文档切块时重叠数量" v-model:value="editFormParams.ingestMaxOverlap" class="flex-grow" />
         </n-form-item>
         <n-form-item label="模型" path="ingestModelName">
           <n-select placeholder="抽取图谱知识时的模型" :options="aiModelOpts" v-model:value="editFormParams.ingestModelId"
             filterable clearable />
         </n-form-item>
         <n-form-item label="文档召回最大数量" path="retrieveMaxResults">
-          <n-input-number placeholder="文档召回最大数量" v-model:value="editFormParams.retrieveMaxResults" />
+          <n-input-number placeholder="文档召回最大数量" v-model:value="editFormParams.retrieveMaxResults" class="flex-grow" />
         </n-form-item>
         <n-form-item label="文档召回最小分数" path="retrieveMinScore">
           <n-input-number placeholder="文档召回最小分数" v-model:value="editFormParams.retrieveMinScore" :precision="1" :min="0"
-            :max="1" />
+            :max="1" class="flex-grow" />
         </n-form-item>
         <n-form-item label="响应时的创造性" path="queryLlmTemperature">
           <n-input-number placeholder="响应时的创造性" v-model:value="editFormParams.queryLlmTemperature" :precision="1"
-            :min="0" :max="1" />
+            :min="0" :max="1" class="flex-grow" />
+        </n-form-item>
+        <n-form-item label="请求时使用的系统提示词" path="querySystemMessage">
+          <n-input type="textarea" placeholder="请求时使用的系统提示词" v-model:value="editFormParams.querySystemMessage" />
         </n-form-item>
       </n-form>
       <template #action>
@@ -69,12 +71,13 @@ const editFormParams = reactive({
   uuid: '',
   title: '',
   remark: '',
-  isPublic: 0,
+  isPublic: false,
   ingestMaxOverlap: 0,
   ingestModelId: 0,
   retrieveMaxResults: 0,
   retrieveMinScore: 0.0,
-  queryLlmTemperature: 0.0
+  queryLlmTemperature: 0.0,
+  querySystemMessage: ''
 })
 const publicOpts = [
   {
@@ -91,7 +94,7 @@ const dialog = useDialog()
 const formRef: any = ref(null)
 const newRecordRules: FormRules = {
   title: {
-    required: false,
+    required: true,
     trigger: ['blur', 'input'],
     message: '请输入标题',
   },
@@ -159,7 +162,7 @@ const schemas: FormSchema[] = [
 
 const actionRef = ref()
 const actionColumn = reactive({
-  width: 140,
+  width: 160,
   title: '操作',
   key: 'action',
   fixed: 'right',
@@ -205,7 +208,8 @@ const [register, { getFieldsValue }] = useForm({
 })
 
 const loadDataTable = async (res) => {
-  return await api.search({ ...getFieldsValue() }, res)
+  const resp = await api.search({ ...getFieldsValue() }, res)
+  return resp.data
 }
 
 function onCheckedRow(rowKeys) {
@@ -221,7 +225,7 @@ function confirmForm(e) {
   formBtnLoading.value = true
   formRef.value.validate(async (errors) => {
     if (!errors) {
-      await api.edit({ ...editFormParams, isPublic: editFormParams.isPublic === 1 ? true : false })
+      await api.edit({ ...editFormParams, isPublic: editFormParams.isPublic })
       window['$message'].success('编辑成功')
       setTimeout(() => {
         showEditModal.value = false
@@ -237,7 +241,6 @@ function confirmForm(e) {
 function handleEdit(record: Recordable) {
   showEditModal.value = true
   Object.assign(editFormParams, record)
-  editFormParams.isPublic = record.isPublic ? 1 : 0
 }
 
 async function handleDelete(record: Recordable) {
@@ -259,7 +262,7 @@ onMounted(async () => {
   if (aiModelOpts.value.length > 0) {
     return
   }
-  const resp = await aiModelApi.search({ isEnable: true, type: 'text' }, { current: 1, size: 100 })
+  const { data: resp } = await aiModelApi.search({ isEnable: true, type: 'text' }, { current: 1, size: 100 })
   if (resp && resp.records) {
     resp.records.forEach(item => {
       aiModelOpts.value.push({ label: item.name, value: item.id })

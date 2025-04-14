@@ -3,8 +3,8 @@
     <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset">
     </BasicForm>
 
-    <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: ConversationPreset) => row.id"
-      ref="actionRef" :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1300">
+    <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: ComponentData) => row.id" ref="actionRef"
+      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1200">
       <template #tableTitle>
         <n-button type="primary" @click="addTable">
           <template #icon>
@@ -18,19 +18,33 @@
 
     </BasicTable>
 
-    <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" :title="editFormParams.label">
+    <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" :title="editFormParams.label"
+      class="min-w-[500px]">
       <n-form :model="editFormParams" :rules="newUserRules" ref="formRef" label-placement="left" :label-width="100"
         class="py-4">
+        <n-form-item label="名称" path="name">
+          <div class="flex flex-col flex-grow">
+            <n-input placeholder="请输入名称" v-model:value="editFormParams.name"
+              :disabled="editFormParams.label == '编辑' ? true : false" />
+            <div class="text-sm italic text-gray-400">1. 名称是组件的唯一标识，保存后不可修改</div>
+            <div class="text-sm italic text-gray-400">2. 英文字母，不能有空格</div>
+          </div>
+        </n-form-item>
         <n-form-item label="标题" path="title">
-          <n-input placeholder="请输入名称" v-model:value="editFormParams.title" maxlength="45" show-count />
+          <n-input placeholder="请输入密码" v-model:value="editFormParams.title" />
+        </n-form-item>
+        <n-form-item label="排列顺序" path="displayOrder">
+          <div class="flex flex-col flex-grow">
+            <n-input-number v-model:value="editFormParams.displayOrder" />
+            <div class="text-sm italic text-gray-400">组件在工作流设计器中的显示顺序，由小到大排列</div>
+          </div>
+        </n-form-item>
+        <n-form-item label="是否启用" path="isEnable">
+          <n-switch v-model:value="editFormParams.isEnable" />
         </n-form-item>
         <n-form-item label="描述" path="remark">
           <n-input type="textarea" :autosize="{ minRows: 3, maxRows: 10 }" placeholder="请输入描述"
             v-model:value="editFormParams.remark" />
-        </n-form-item>
-        <n-form-item label="角色设定" path="aiSystemMessage">
-          <n-input type="textarea" :autosize="{ minRows: 3, maxRows: 10 }" placeholder="请输入角色设定内容"
-            v-model:value="editFormParams.aiSystemMessage" />
         </n-form-item>
       </n-form>
       <template #action>
@@ -47,18 +61,25 @@
 import { h, reactive, ref } from 'vue'
 import { BasicTable, TableAction } from '@/components/Table'
 import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
-import conversationApi from '@/api/conversation'
-import { columns } from './columns'
-import { ConversationPreset } from '/#/conversation'
+import workflowApi from '@/api/workflow'
+import { columns, ComponentData } from './columns'
 import { PlusOutlined } from '@vicons/antd'
 import { type FormRules } from 'naive-ui'
 import { useDialog } from 'naive-ui'
 
+//'Start', 'End', 'Answer', 'KnowledgeRetrieval', 'Switcher', 'Classifier', 'Template', 'DocumentExtractor', 'KeywordExtractor'
+const nonDeletableNodes = ['Start', 'End']
+
 const newUserRules: FormRules = {
   name: {
-    required: false,
+    required: true,
     trigger: ['blur', 'input'],
     message: '请输入名称',
+  },
+  title: {
+    required: true,
+    trigger: ['blur', 'input'],
+    message: '请输入标题',
   },
 }
 
@@ -75,52 +96,43 @@ const schemas: FormSchema[] = [
     },
   },
   {
-    field: 'remark',
-    component: 'NInput',
-    label: '描述',
+    field: 'isEnable',
+    component: 'NSelect',
+    label: '是否启用',
     componentProps: {
-      placeholder: '请输入描述',
-      onInput: (e: any) => {
+      options: [
+        {
+          label: '是',
+          value: true,
+        },
+        {
+          label: '否',
+          value: false,
+        },
+      ],
+      onUpdateValue: (e: any) => {
         console.log(e)
       },
     },
-  },
-  {
-    field: 'createTime',
-    component: 'NDatePicker',
-    label: '创建时间',
-    componentProps: {
-      type: 'datetimerange',
-      clearable: true
-    },
-  },
-  {
-    field: 'updateTime',
-    component: 'NDatePicker',
-    label: '更新时间',
-    componentProps: {
-      type: 'datetimerange',
-      clearable: true,
-    },
-  },
-]
+  }]
 
-const dialog = useDialog()
 const formRef: any = ref(null)
 const actionRef = ref()
-
+const dialog = useDialog()
 const showEditModal = ref(false)
 const formBtnLoading = ref(false)
 const editFormParams = reactive({
   label: '新建',
   uuid: '',
+  name: '',
   title: '',
   remark: '',
-  aiSystemMessage: '',
+  displayOrder: 0,
+  isEnable: false,
 })
 
 const actionColumn = reactive({
-  width: 120,
+  width: 200,
   title: '操作',
   key: 'action',
   fixed: 'right',
@@ -132,11 +144,28 @@ const actionColumn = reactive({
           label: '编辑',
           onClick: handleEdit.bind(null, record),
         },
+        {
+          label: '禁用',
+          onClick: handleDisable.bind(null, record),
+          ifShow: () => {
+            return record.isEnable && !nonDeletableNodes.includes(record.name)
+          },
+        },
+        {
+          label: '启用',
+          onClick: handleEnable.bind(null, record),
+          ifShow: () => {
+            return !record.isEnable && !nonDeletableNodes.includes(record.name)
+          },
+        },
       ],
       dropDownActions: [
         {
           label: '删除',
           key: 'delete',
+          ifShow: () => {
+            return !nonDeletableNodes.includes(record.name)
+          },
         },
       ],
       select: (key) => {
@@ -147,8 +176,7 @@ const actionColumn = reactive({
             positiveText: '确定',
             negativeText: '取消',
             onPositiveClick: () => {
-              console.log('删除成功')
-              handleDelete(record)
+              handleDel(record)
             },
             onNegativeClick: () => {
               console.log('已取消')
@@ -170,13 +198,14 @@ function addTable() {
   showEditModal.value = true
   editFormParams.label = '新建'
   editFormParams.uuid = ''
+  editFormParams.name = ''
   editFormParams.title = ''
   editFormParams.remark = ''
-  editFormParams.aiSystemMessage = ''
+  editFormParams.isEnable = false
 }
 
 const loadDataTable = async (res) => {
-  const resp = await conversationApi.searchPresetConvs({ ...getFieldsValue() }, res)
+  const resp = await workflowApi.componentSearch({ ...getFieldsValue() }, res)
   return resp.data
 }
 
@@ -192,21 +221,25 @@ function confirmEditForm(e) {
   e.preventDefault()
   formBtnLoading.value = true
   formRef.value.validate(async (errors) => {
-    if (!errors) {
-      if (editFormParams.uuid === '') {
-        await conversationApi.addPresetConv(editFormParams)
+    try {
+      if (!errors) {
+        const { success } = await workflowApi.componentAddOrUpdate(editFormParams)
+        if (success) {
+          window['$message'].success(`${editFormParams.label}成功`)
+          setTimeout(() => {
+            showEditModal.value = false
+            reloadTable()
+          })
+        } else {
+          window['$message'].error('操作失败')
+        }
       } else {
-        await conversationApi.editPresetConv(editFormParams.uuid, editFormParams)
+        window['$message'].error('请填写完整信息')
       }
-      window['$message'].success(`${editFormParams.label}成功`)
-      setTimeout(() => {
-        showEditModal.value = false
-        reloadTable()
-      })
-    } else {
-      window['$message'].error('请填写完整信息')
+    } catch (e) {
+      console.error(e)
+      formBtnLoading.value = false
     }
-    formBtnLoading.value = false
   })
 }
 
@@ -216,9 +249,24 @@ function handleEdit(record: Recordable) {
   editFormParams.label = '编辑'
 }
 
-function handleDelete(record: Recordable) {
-  conversationApi.deletePresetConv(record.uuid)
+async function handleEnable(record: Recordable) {
+  await workflowApi.componentEnable({ uuid: record.uuid, isEnable: true })
+  window['$message'].success('操作成功')
   reloadTable()
+}
+
+async function handleDisable(record: Recordable) {
+  await workflowApi.componentEnable({ uuid: record.uuid, isEnable: false })
+  window['$message'].success('操作成功')
+  reloadTable()
+}
+
+async function handleDel(record: Recordable) {
+  let { success } = await workflowApi.componentDel({ uuid: record.uuid })
+  if (success) {
+    window['$message'].success('操作成功')
+    reloadTable()
+  }
 }
 
 function handleSubmit(values: Recordable) {
