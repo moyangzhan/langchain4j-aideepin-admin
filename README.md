@@ -109,5 +109,8 @@ pnpm build
 知识库管理
 ![knowledgebase](image/README/knowledgebase.png)
 
+AI工作流
+![workflow](image/README/workflow.png)
+
 系统设置
 ![sysconfig](image/README/sysconfig.png)
