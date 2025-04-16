@@ -7,5 +7,6 @@ export interface AiModelData {
   createTime: string
   updateTime: string
   isEnable: boolean
+  isFree: boolean
   setting: string
 }
