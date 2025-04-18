@@ -20,7 +20,7 @@ export const modelPlatform = [
     value: 'deepseek',
   },
   {
-    label: '硅基智能',
+    label: '硅基流动',
     value: 'siliconflow',
   },
 ];
