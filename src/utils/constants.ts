@@ -19,7 +19,11 @@ export const modelPlatform = [
     label: '深度求索',
     value: 'deepseek',
   },
-]
+  {
+    label: '硅基流动',
+    value: 'siliconflow',
+  },
+];
 export const modelType = [
   {
     label: '文本',
@@ -37,4 +41,4 @@ export const modelType = [
     label: '重排',
     value: 'rerank',
   },
-]
+];
