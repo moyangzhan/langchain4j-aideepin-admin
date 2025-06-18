@@ -42,3 +42,31 @@ export const modelType = [
     value: 'rerank',
   },
 ]
+export const mcpTransportType = [
+  {
+    label: '网络传输(sse)',
+    value: 'sse',
+  },
+  {
+    label: '标准输入输出',
+    value: 'stdio',
+  },
+]
+export const mcpInstallType = [
+  {
+    label: 'docker',
+    value: 'docker',
+  },
+  {
+    label: '本地',
+    value: 'local',
+  },
+  {
+    label: '远程',
+    value: 'remote',
+  },
+  {
+    label: 'WebAssemble',
+    value: 'wasm',
+  },
+]

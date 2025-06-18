@@ -93,8 +93,8 @@
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <CountTo v-else-if="convStatistic.todayCreated > 0" :startVal="0" :endVal="convStatistic.todayCreated"
-              class="text-3xl" />
+            <CountTo v-else-if="convStatistic.todayCreated > 0" :startVal="0"
+              :endVal="convStatistic.todayCreated" class="text-3xl" />
             <div v-else class="text-3xl">
               {{ convStatistic.todayCreated }}
             </div>
@@ -105,7 +105,8 @@
               <template v-else>
                 <div class="text-sn"> 总数： </div>
                 <div class="text-sn">
-                  <CountTo v-if="convStatistic.total > 0" :startVal="0" :endVal="Number(convStatistic.total)" />
+                  <CountTo v-if="convStatistic.total > 0" :startVal="0"
+                    :endVal="Number(convStatistic.total)" />
                   <div v-else class="text-sn">
                     {{ convStatistic.total }}
                   </div>
@@ -152,8 +153,8 @@
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <CountTo v-else-if="imageCostStatistic.todayCost > 0" :startVal="0" :endVal="imageCostStatistic.todayCost"
-              class="text-3xl" />
+            <CountTo v-else-if="imageCostStatistic.todayCost > 0" :startVal="0"
+              :endVal="imageCostStatistic.todayCost" class="text-3xl" />
             <div v-else class="text-3xl">
               {{ imageCostStatistic.todayCost }}
             </div>
