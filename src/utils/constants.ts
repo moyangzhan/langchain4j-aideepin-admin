@@ -66,7 +66,7 @@ export const mcpInstallType = [
     value: 'remote',
   },
   {
-    label: 'WebAssemble',
+    label: 'WebAssembly',
     value: 'wasm',
   },
 ]
