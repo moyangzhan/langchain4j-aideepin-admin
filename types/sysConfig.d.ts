@@ -12,3 +12,14 @@ export interface AliyunOssConfig {
   bucket_name: string
   endpoint: string
 }
+export interface AsrConfig {
+  model_name: string
+  platform: string
+  max_record_duration: number
+  max_file_size: number
+}
+export interface TtsConfig {
+  synthesizer_side: string
+  platform: string
+  model_name: string
+}

@@ -70,3 +70,13 @@ export const mcpInstallType = [
     value: 'wasm',
   },
 ]
+export const synthesizerSide = [
+  {
+    label: '客户端',
+    value: 'client',
+  },
+  {
+    label: '服务端',
+    value: 'server',
+  },
+]

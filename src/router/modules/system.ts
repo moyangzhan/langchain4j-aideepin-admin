@@ -35,6 +35,22 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/system/storage/index.vue'),
       },
       {
+        path: 'audio/asr',
+        name: 'asr',
+        meta: {
+          title: 'ASR语音识别配置',
+        },
+        component: () => import('@/views/system/audio/Asr.vue'),
+      },
+      {
+        path: 'audio/tts',
+        name: 'tts',
+        meta: {
+          title: 'TTS语音合成配置',
+        },
+        component: () => import('@/views/system/audio/Tts.vue'),
+      },
+      {
         path: 'quota',
         name: 'TokenQuota',
         meta: {

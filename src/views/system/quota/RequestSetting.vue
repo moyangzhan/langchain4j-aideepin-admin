@@ -62,7 +62,7 @@ function formSubmit() {
       reloadConfig()
       message.success('更新成功')
     } else {
-      message.error('更新成功，请填写完整信息')
+      message.error('更新失败，请填写完整信息')
     }
   })
 }
