@@ -1,6 +1,8 @@
 import { BasicColumn } from '@/components/Table'
-import {modelType, modelPlatform} from '@/utils/constants'
+import {MODEL_TYPES, DEFAULT_MODEL_PLATFORMS} from '@/utils/constants'
 import { AiModelData } from '/#/aiModel'
+
+export const allPlatforms = [...DEFAULT_MODEL_PLATFORMS]
 export const columns: BasicColumn<AiModelData>[] = [
   {
     title: 'id',
@@ -10,22 +12,27 @@ export const columns: BasicColumn<AiModelData>[] = [
   {
     title: '名称',
     key: 'name',
-    width: 150,
+    width: 180,
+  },
+  {
+    title: '标题',
+    key: 'title',
+    width: 180,
   },
   {
     title: '类型',
     key: 'type',
     width: 80,
     render(row) {
-      return modelType.find(item => item.value === row.type)?.label
+      return MODEL_TYPES.find(item => item.value === row.type)?.label
     },
   },
   {
     title: '平台',
     key: 'platform',
-    width: 80,
+    width: 120,
     render(row){
-      return modelPlatform.find(item => item.value === row.platform)?.label
+      return allPlatforms.find(item => item.value === row.platform)?.label
     }
   },
   {

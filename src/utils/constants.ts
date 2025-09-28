@@ -1,4 +1,4 @@
-export const modelPlatform = [
+export const DEFAULT_MODEL_PLATFORMS = [
   {
     label: 'Openai',
     value: 'openai',
@@ -24,7 +24,7 @@ export const modelPlatform = [
     value: 'siliconflow',
   },
 ]
-export const modelType = [
+export const MODEL_TYPES = [
   {
     label: '文本',
     value: 'text',
@@ -40,6 +40,14 @@ export const modelType = [
   {
     label: '重排',
     value: 'rerank',
+  },
+  {
+    label: '文本转语音',
+    value: 'tts',
+  },
+  {
+    label: '语音识别',
+    value: 'asr',
   },
 ]
 export const mcpTransportType = [
@@ -78,5 +86,16 @@ export const synthesizerSide = [
   {
     label: '服务端',
     value: 'server',
+  },
+]
+
+export const YES_NO = [
+  {
+    label: '是',
+    value: true,
+  },
+  {
+    label: '否',
+    value: false,
   },
 ]

@@ -14,7 +14,7 @@
           @update:value="handleModelChange" />
       </n-form-item>
       <n-form-item label="平台" path="platform">
-        <n-select :options="modelPlatform" v-model:value="formValue.platform" disabled />
+        <n-select :options="DEFAULT_MODEL_PLATFORMS" v-model:value="formValue.platform" disabled />
       </n-form-item>
     </n-form>
     <n-button type="primary" @click="formSubmit" :loading="submitting" :disable="!submitting">更新</n-button>
@@ -24,7 +24,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useMessage } from 'naive-ui'
 import { AiModelData } from '/#/aiModel'
-import { modelPlatform, synthesizerSide } from '@/utils/constants'
+import { DEFAULT_MODEL_PLATFORMS, synthesizerSide } from '@/utils/constants'
 import api from '@/api/sysConfig.js'
 import modelApi from '@/api/aiModel'
 import { TtsConfig } from '/#/sysConfig'

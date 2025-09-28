@@ -4,7 +4,7 @@
     </BasicForm>
 
     <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: AiModelData) => row.id" ref="actionRef"
-      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1500">
+      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1800">
       <template #tableTitle>
         <n-button type="primary" @click="addTable">
           <template #icon>
@@ -15,7 +15,6 @@
           新建
         </n-button>
       </template>
-
     </BasicTable>
 
     <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" :title="editFormParams.label">
@@ -24,11 +23,14 @@
         <n-form-item label="名称" path="name">
           <n-input placeholder="请输入模型名称" v-model:value="editFormParams.name" />
         </n-form-item>
+        <n-form-item label="标题" path="title">
+          <n-input placeholder="请输入模型标题" v-model:value="editFormParams.title" />
+        </n-form-item>
         <n-form-item label="类型" path="type">
-          <n-select placeholder="选择模型的类型" :options="modelType" v-model:value="editFormParams.type" />
+          <n-select placeholder="选择模型的类型" :options="MODEL_TYPES" v-model:value="editFormParams.type" />
         </n-form-item>
         <n-form-item label="平台" path="platform">
-          <n-select placeholder="选择模型所属的平台" :options="modelPlatform" v-model:value="editFormParams.platform" />
+          <n-select placeholder="选择模型所属的平台" :options="allPlatforms" v-model:value="editFormParams.platform" />
         </n-form-item>
         <n-form-item label="上下文长度" path="contextWindow">
           <n-input-number placeholder="请输入上下文长度" v-model:value="editFormParams.contextWindow" />
@@ -54,12 +56,13 @@
 </template>
 
 <script lang="ts" setup>
-import { h, reactive, ref } from 'vue'
+import { h, onMounted, reactive, ref } from 'vue'
 import { BasicTable, TableAction } from '@/components/Table'
 import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
 import api from '@/api/aiModel'
-import { modelType, modelPlatform } from '@/utils/constants'
-import { columns, } from './columns'
+import platformApi from '@/api/modelPlatform'
+import { MODEL_TYPES } from '@/utils/constants'
+import { columns,allPlatforms } from './columns'
 import { PlusOutlined } from '@vicons/antd'
 import { AiModelData } from '/#/aiModel'
 import { type FormRules } from 'naive-ui'
@@ -90,7 +93,7 @@ const schemas: FormSchema[] = [
     label: '类型',
     componentProps: {
       placeholder: '请选择类型',
-      options: modelType,
+      options: MODEL_TYPES,
       onUpdateValue: (e: any) => {
         console.log(e)
       },
@@ -102,7 +105,7 @@ const schemas: FormSchema[] = [
     label: '平台',
     componentProps: {
       placeholder: '请选择平台',
-      options: modelPlatform,
+      options: allPlatforms,
       onUpdateValue: (e: any) => {
         console.log(e)
       },
@@ -113,13 +116,13 @@ const schemas: FormSchema[] = [
 const dialog = useDialog()
 const formRef: any = ref(null)
 const actionRef = ref()
-
 const showEditModal = ref(false)
 const formBtnLoading = ref(false)
 const editFormParams = reactive({
   label: '新建',
   id: '0',
   name: '',
+  title: '',
   type: '',
   platform: '',
   contextWindow: 0,
@@ -213,6 +216,14 @@ const loadDataTable = async (res) => {
   return resp.data
 }
 
+const loadPlatforms = async () => {
+  const resp = await platformApi.search({}, { current: 1, size: 100 })
+  allPlatforms.length = 0
+  resp.data.records.forEach((item) => {
+    allPlatforms.push({ label: item.title, value: item.name })
+  })
+}
+
 function onCheckedRow(rowKeys) {
   console.log(rowKeys)
 }
@@ -256,7 +267,7 @@ async function handleDisable(record: Recordable) {
 }
 
 async function handleFree(record: Recordable, isFree: boolean) {
-  await api.edit({id: record.id, isFree})
+  await api.edit({ id: record.id, isFree })
   window['$message'].success('操作成功')
   reloadTable()
 }
@@ -283,6 +294,10 @@ function handleSubmit(values: Recordable) {
 function handleReset(values: Recordable) {
   console.log(values)
 }
+
+onMounted(() => {
+  loadPlatforms()
+})
 </script>
 
 <style lang="less" scoped></style>

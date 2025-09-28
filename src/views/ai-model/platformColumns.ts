@@ -1,38 +1,51 @@
 import { BasicColumn } from '@/components/Table'
-import { modelPlatform } from '@/utils/constants'
-import { h, VNode } from 'vue'
 
 export interface AiPlatformData {
+  id: string
   name: string
-  value: string
+  title: string
+  baseUrl: string
+  apiKey: string
+  secretKey: string
+  isProxyEnable: boolean
+  isOpenaiApiCompatible: boolean
+  createTime: string
+  updateTime: string
 }
 export const columns: BasicColumn<AiPlatformData>[] = [
   {
     title: '名称',
     key: 'name',
     width: 120,
+  },
+  {
+    title: '标题',
+    key: 'title',
+  },
+  {
+    title: '接口地址(base_url)',
+    key: 'baseUrl',
+  },
+  {
+    title: 'Api key',
+    key: 'apiKey',
+  },
+  {
+    title: 'Secret key',
+    key: 'secretKey',
+  },
+  {
+    title: '启用代理',
+    key: 'isProxyEnable',
     render(row) {
-      return modelPlatform.find(item => item.value + '_setting' === row.name)?.label
+      return row.isProxyEnable ? '启用' : '禁用'
     },
   },
   {
-    title: '配置',
-    key: 'value',
+    title: '兼容OpenAI Api格式',
+    key: 'isOpenaiApiCompatible',
     render(row) {
-      const jsonVal = JSON.parse(row.value)
-      let buttons: VNode[] = []
-      for (let key in jsonVal) {
-        const btn = h(
-          'div',
-          { class: '' },
-          `${key}: ${jsonVal[key]}`,
-        )
-        buttons.push(btn)
-      }
-
-      return h('div', { class: 'flex items-left flex-col gap-2' }, {
-        default: () => buttons,
-      })
+      return row.isOpenaiApiCompatible ? '是' : '否'
     },
   },
 ]

@@ -6,7 +6,7 @@
           @update:value="handleModelChange" />
       </n-form-item>
       <n-form-item label="平台" path="platform">
-        <n-select :options="modelPlatform" v-model:value="formValue.platform" disabled />
+        <n-select :options="DEFAULT_MODEL_PLATFORMS" v-model:value="formValue.platform" disabled />
       </n-form-item>
       <n-form-item label="最大识别时长(秒)" path="max_record_duration">
         <n-input-number v-model:value="formValue.max_record_duration" />
@@ -22,7 +22,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useMessage } from 'naive-ui'
 import { AiModelData } from '/#/aiModel'
-import { modelPlatform } from '@/utils/constants'
+import { DEFAULT_MODEL_PLATFORMS } from '@/utils/constants'
 import api from '@/api/sysConfig.js'
 import modelApi from '@/api/aiModel'
 import { AsrConfig } from '/#/sysConfig'
