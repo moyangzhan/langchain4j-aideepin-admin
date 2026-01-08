@@ -33,11 +33,11 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, PropType, computed, toRaw } from 'vue';
-  import { ActionItem } from '@/components/Table';
-  import { usePermission } from '@/hooks/web/usePermission';
-  import { isBoolean, isFunction } from '@/utils/is';
-  import { DownOutlined } from '@vicons/antd';
+  import { defineComponent, PropType, computed, toRaw } from 'vue'
+  import { ActionItem } from '@/components/Table'
+  import { usePermission } from '@/hooks/web/usePermission'
+  import { isBoolean, isFunction } from '@/utils/is'
+  import { DownOutlined } from '@vicons/antd'
 
   export default defineComponent({
     name: 'TableAction',
@@ -62,28 +62,28 @@
       },
     },
     setup(props) {
-      const { hasPermission } = usePermission();
+      const { hasPermission } = usePermission()
 
       const actionType =
-        props.style === 'button' ? 'default' : props.style === 'text' ? 'primary' : 'default';
+        props.style === 'button' ? 'default' : props.style === 'text' ? 'primary' : 'default'
       const actionText =
-        props.style === 'button' ? undefined : props.style === 'text' ? true : undefined;
+        props.style === 'button' ? undefined : props.style === 'text' ? true : undefined
 
       const getMoreProps = computed(() => {
         return {
           text: actionText,
           type: actionType,
           size: 'small',
-        };
+        }
       })
 
       const getDropdownList = computed(() => {
         return (toRaw(props.dropDownActions) || [])
           .filter((action) => {
-            return hasPermission(action.auth as string[]) && isIfShow(action);
+            return hasPermission(action.auth as string[]) && isIfShow(action)
           })
           .map((action) => {
-            const { popConfirm } = action;
+            const { popConfirm } = action
             return {
               size: 'small',
               text: actionText,
@@ -92,31 +92,31 @@
               ...popConfirm,
               onConfirm: popConfirm?.confirm,
               onCancel: popConfirm?.cancel,
-            };
+            }
           })
-      });
+      })
 
       function isIfShow(action: ActionItem): boolean {
-        const ifShow = action.ifShow;
+        const ifShow = action.ifShow
 
-        let isIfShow = true;
+        let isIfShow = true
 
         if (isBoolean(ifShow)) {
-          isIfShow = ifShow;
+          isIfShow = ifShow
         }
         if (isFunction(ifShow)) {
-          isIfShow = ifShow(action);
+          isIfShow = ifShow(action)
         }
-        return isIfShow;
+        return isIfShow
       }
 
       const getActions = computed(() => {
         return (toRaw(props.actions) || [])
           .filter((action) => {
-            return hasPermission(action.auth as string[]) && isIfShow(action);
+            return hasPermission(action.auth as string[]) && isIfShow(action)
           })
           .map((action) => {
-            const { popConfirm } = action;
+            const { popConfirm } = action
             //需要展示什么风格，自己修改一下参数
             return {
               size: 'small',
@@ -127,15 +127,15 @@
               onConfirm: popConfirm?.confirm,
               onCancel: popConfirm?.cancel,
               enable: !!popConfirm,
-            };
+            }
           })
-      });
+      })
 
       return {
         getActions,
         getDropdownList,
         getMoreProps,
-      };
+      }
     },
-  });
+  })
 </script>

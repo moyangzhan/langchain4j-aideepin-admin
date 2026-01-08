@@ -1,30 +1,30 @@
-import { computed } from 'vue';
-import { useProjectSettingStore } from '@/store/modules/projectSetting';
+import { computed } from 'vue'
+import { useProjectSettingStore } from '@/store/modules/projectSetting'
 
 export function useProjectSetting() {
-  const projectStore = useProjectSettingStore();
+  const projectStore = useProjectSettingStore()
 
-  const navMode = computed(() => projectStore.navMode);
+  const navMode = computed(() => projectStore.navMode)
 
-  const navTheme = computed(() => projectStore.navTheme);
+  const navTheme = computed(() => projectStore.navTheme)
 
-  const isMobile = computed(() => projectStore.isMobile);
+  const isMobile = computed(() => projectStore.isMobile)
 
-  const headerSetting = computed(() => projectStore.headerSetting);
+  const headerSetting = computed(() => projectStore.headerSetting)
 
-  const multiTabsSetting = computed(() => projectStore.multiTabsSetting);
+  const multiTabsSetting = computed(() => projectStore.multiTabsSetting)
 
-  const menuSetting = computed(() => projectStore.menuSetting);
+  const menuSetting = computed(() => projectStore.menuSetting)
 
-  const crumbsSetting = computed(() => projectStore.crumbsSetting);
+  const crumbsSetting = computed(() => projectStore.crumbsSetting)
 
-  const permissionMode = computed(() => projectStore.permissionMode);
+  const permissionMode = computed(() => projectStore.permissionMode)
 
-  const showFooter = computed(() => projectStore.showFooter);
+  const showFooter = computed(() => projectStore.showFooter)
 
-  const isPageAnimate = computed(() => projectStore.isPageAnimate);
+  const isPageAnimate = computed(() => projectStore.isPageAnimate)
 
-  const pageAnimateType = computed(() => projectStore.pageAnimateType);
+  const pageAnimateType = computed(() => projectStore.pageAnimateType)
 
   return {
     navMode,
@@ -38,5 +38,5 @@ export function useProjectSetting() {
     showFooter,
     isPageAnimate,
     pageAnimateType,
-  };
+  }
 }

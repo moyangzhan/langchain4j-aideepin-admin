@@ -75,8 +75,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, toRefs } from 'vue';
-  import recharge from './Recharge.vue';
+  import { defineComponent, reactive, toRefs } from 'vue'
+  import recharge from './Recharge.vue'
   import {
     LockOutlined,
     LoadingOutlined,
@@ -84,15 +84,15 @@
     ApiOutlined,
     ArrowRightOutlined,
     WifiOutlined,
-  } from '@vicons/antd';
+  } from '@vicons/antd'
 
-  import { useRouter, useRoute } from 'vue-router';
-  import { useOnline } from '@/hooks/useOnline';
-  import { useTime } from '@/hooks/useTime';
-  import { useBattery } from '@/hooks/useBattery';
-  import { useScreenLockStore } from '@/store/modules/screenLock';
+  import { useRouter, useRoute } from 'vue-router'
+  import { useOnline } from '@/hooks/useOnline'
+  import { useTime } from '@/hooks/useTime'
+  import { useBattery } from '@/hooks/useBattery'
+  import { useScreenLockStore } from '@/store/modules/screenLock'
   import { UserInfoType } from '/#/user'
-  import { useUserStore } from '@/store/modules/user';
+  import { useUserStore } from '@/store/modules/user'
 
   export default defineComponent({
     name: 'ScreenLock',
@@ -106,19 +106,19 @@
       recharge,
     },
     setup() {
-      const useScreenLock = useScreenLockStore();
-      const userStore = useUserStore();
+      const useScreenLock = useScreenLockStore()
+      const userStore = useUserStore()
 
       // 获取时间
-      const { month, day, hour, minute, second, week } = useTime();
-      const { online } = useOnline();
+      const { month, day, hour, minute, second, week } = useTime()
+      const { online } = useOnline()
 
-      const router = useRouter();
-      const route = useRoute();
+      const router = useRouter()
+      const route = useRoute()
 
-      const { battery, batteryStatus, calcDischargingTime, calcChargingTime } = useBattery();
-      const userInfo: UserInfoType = userStore.getUserInfo || {};
-      const username = userInfo['username'] || '';
+      const { battery, batteryStatus, calcDischargingTime, calcChargingTime } = useBattery()
+      const userInfo: UserInfoType = userStore.getUserInfo || {}
+      const username = userInfo['username'] || ''
       const state = reactive({
         showLogin: false,
         loginLoading: false, // 正在登录
@@ -128,42 +128,42 @@
           username: username || '',
           password: '',
         },
-      });
+      })
 
       // 解锁登录
-      const onLockLogin = (value: boolean) => (state.showLogin = value);
+      const onLockLogin = (value: boolean) => (state.showLogin = value)
 
       // 登录
       const onLogin = async () => {
         if (!state.loginParams.password.trim()) {
-          return;
+          return
         }
         const params = {
           isLock: true,
           ...state.loginParams,
-        };
-        state.loginLoading = true;
-        const { success, message } = await userStore.login(params);
-        if (success) {
-          onLockLogin(false);
-          useScreenLock.setLock(false);
-        } else {
-          state.errorMsg = message;
-          state.isLoginError = true;
         }
-        state.loginLoading = false;
+        state.loginLoading = true
+        const { success, message } = await userStore.login(params)
+        if (success) {
+          onLockLogin(false)
+          useScreenLock.setLock(false)
+        } else {
+          state.errorMsg = message
+          state.isLoginError = true
+        }
+        state.loginLoading = false
       }
 
       //重新登录
       const goLogin = () => {
-        onLockLogin(false);
-        useScreenLock.setLock(false);
+        onLockLogin(false)
+        useScreenLock.setLock(false)
         router.replace({
           path: '/login',
           query: {
             redirect: route.fullPath,
           },
-        });
+        })
       }
 
       return {
@@ -182,9 +182,9 @@
         onLockLogin,
         onLogin,
         goLogin,
-      };
+      }
     },
-  });
+  })
 </script>
 
 <style lang="less" scoped>

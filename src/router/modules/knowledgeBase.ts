@@ -1,7 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
-import { Layout } from '@/router/constant';
-import { LibraryOutline } from '@vicons/ionicons5';
-import { renderIconWithProps } from '@/utils/index';
+import { RouteRecordRaw } from 'vue-router'
+import { Layout } from '@/router/constant'
+import { LibraryOutline } from '@vicons/ionicons5'
+import { renderIconWithProps } from '@/utils/index'
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Layout,
     meta: {
       title: '知识库管理',
-      icon: renderIconWithProps(LibraryOutline, {size: 20}),
+      icon: renderIconWithProps(LibraryOutline, { size: 20 }),
       sort: 3,
     },
     children: [
@@ -46,6 +46,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-];
+]
 
-export default routes;
+export default routes

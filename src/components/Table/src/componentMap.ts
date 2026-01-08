@@ -1,4 +1,4 @@
-import type { Component } from 'vue';
+import type { Component } from 'vue'
 import {
   NInput,
   NSelect,
@@ -7,8 +7,8 @@ import {
   NSwitch,
   NDatePicker,
   NTimePicker,
-} from 'naive-ui';
-import type { ComponentType } from './types/componentType';
+} from 'naive-ui'
+import type { ComponentType } from './types/componentType'
 
 export enum EventEnum {
   NInput = 'on-input',
@@ -20,22 +20,22 @@ export enum EventEnum {
   NTimePicker = 'on-update:value',
 }
 
-const componentMap = new Map<ComponentType, Component>();
+const componentMap = new Map<ComponentType, Component>()
 
-componentMap.set('NInput', NInput);
-componentMap.set('NInputNumber', NInputNumber);
-componentMap.set('NSelect', NSelect);
-componentMap.set('NSwitch', NSwitch);
-componentMap.set('NCheckbox', NCheckbox);
-componentMap.set('NDatePicker', NDatePicker);
-componentMap.set('NTimePicker', NTimePicker);
+componentMap.set('NInput', NInput)
+componentMap.set('NInputNumber', NInputNumber)
+componentMap.set('NSelect', NSelect)
+componentMap.set('NSwitch', NSwitch)
+componentMap.set('NCheckbox', NCheckbox)
+componentMap.set('NDatePicker', NDatePicker)
+componentMap.set('NTimePicker', NTimePicker)
 
 export function add(compName: ComponentType, component: Component) {
-  componentMap.set(compName, component);
+  componentMap.set(compName, component)
 }
 
 export function del(compName: ComponentType) {
-  componentMap.delete(compName);
+  componentMap.delete(compName)
 }
 
-export { componentMap };
+export { componentMap }

@@ -1,7 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
-import { Layout } from '@/router/constant';
-import { OptionsSharp } from '@vicons/ionicons5';
-import { renderIcon } from '@/utils/index';
+import { RouteRecordRaw } from 'vue-router'
+import { Layout } from '@/router/constant'
+import { OptionsSharp } from '@vicons/ionicons5'
+import { renderIcon } from '@/utils/index'
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -68,6 +68,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-];
+]
 
-export default routes;
+export default routes

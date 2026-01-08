@@ -1,4 +1,4 @@
-import { NModal } from 'naive-ui';
+import { NModal } from 'naive-ui'
 
 export const basicProps = {
   ...NModal.props,
@@ -27,4 +27,4 @@ export const basicProps = {
     type: String,
     default: 'dialog',
   },
-};
+}

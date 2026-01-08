@@ -1,5 +1,5 @@
-import type { PropType } from 'vue';
-import { NUpload } from 'naive-ui';
+import type { PropType } from 'vue'
+import { NUpload } from 'naive-ui'
 
 export const basicProps = {
   ...NUpload.props,
@@ -31,4 +31,4 @@ export const basicProps = {
     type: Number as PropType<number>,
     default: 104, //建议不小于这个尺寸 太小页面可能显示有异常
   },
-};
+}

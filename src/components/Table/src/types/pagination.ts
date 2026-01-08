@@ -1,10 +1,10 @@
 export interface PaginationProps {
-  page?: number; //受控模式下的当前页
-  itemCount?: number; //总条数
-  pageCount?: number; //总页数
-  pageSize?: number; //受控模式下的分页大小
-  pageSizes?: number[]; //每页条数， 可自定义
-  showSizePicker?: boolean; //是否显示每页条数的选择器
-  showQuickJumper?: boolean; //是否显示快速跳转
-  prefix?: any; //分页前缀
+  page?: number //锟杰匡拷模式锟铰的碉拷前页
+  itemCount?: number //锟斤拷锟斤拷锟斤拷
+  pageCount?: number //锟斤拷页锟斤拷
+  pageSize?: number //锟杰匡拷模式锟铰的凤拷页锟斤拷小
+  pageSizes?: number[] //每页锟斤拷锟斤拷锟斤拷 锟斤拷锟皆讹拷锟斤拷
+  showSizePicker?: boolean //锟角凤拷锟斤拷示每页锟斤拷锟斤拷锟斤拷选锟斤拷锟斤拷
+  showQuickJumper?: boolean //锟角凤拷锟斤拷示锟斤拷锟斤拷锟斤拷转
+  prefix?: any //锟斤拷页前缀
 }

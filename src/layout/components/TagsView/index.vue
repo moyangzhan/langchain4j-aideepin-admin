@@ -86,17 +86,17 @@
     watch,
     onMounted,
     nextTick,
-  } from 'vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { storage } from '@/utils/Storage';
-  import { TABS_ROUTES } from '@/store/mutation-types';
-  import { useTabsViewStore } from '@/store/modules/tabsView';
-  import { useAsyncRouteStore } from '@/store/modules/asyncRoute';
-  import { RouteItem } from '@/store/modules/tabsView';
-  import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
-  import { useMessage } from 'naive-ui';
-  import Draggable from 'vuedraggable';
-  import { PageEnum } from '@/enums/pageEnum';
+  } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+  import { storage } from '@/utils/Storage'
+  import { TABS_ROUTES } from '@/store/mutation-types'
+  import { useTabsViewStore } from '@/store/modules/tabsView'
+  import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
+  import { RouteItem } from '@/store/modules/tabsView'
+  import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+  import { useMessage } from 'naive-ui'
+  import Draggable from 'vuedraggable'
+  import { PageEnum } from '@/enums/pageEnum'
   import {
     DownOutlined,
     ReloadOutlined,
@@ -105,13 +105,13 @@
     MinusOutlined,
     LeftOutlined,
     RightOutlined,
-  } from '@vicons/antd';
-  import { renderIcon } from '@/utils';
-  import elementResizeDetectorMaker from 'element-resize-detector';
-  import { useDesignSetting } from '@/hooks/setting/useDesignSetting';
-  import { useProjectSettingStore } from '@/store/modules/projectSetting';
-  import { useThemeVars } from 'naive-ui';
-  import { useGo } from '@/hooks/web/usePage';
+  } from '@vicons/antd'
+  import { renderIcon } from '@/utils'
+  import elementResizeDetectorMaker from 'element-resize-detector'
+  import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
+  import { useProjectSettingStore } from '@/store/modules/projectSetting'
+  import { useThemeVars } from 'naive-ui'
+  import { useGo } from '@/hooks/web/usePage'
 
   export default defineComponent({
     name: 'TabsView',
@@ -128,29 +128,29 @@
       },
     },
     setup(props) {
-      const { getDarkTheme, getAppTheme } = useDesignSetting();
+      const { getDarkTheme, getAppTheme } = useDesignSetting()
       const { navMode, headerSetting, menuSetting, multiTabsSetting, isMobile } =
-        useProjectSetting();
-      const settingStore = useProjectSettingStore();
+        useProjectSetting()
+      const settingStore = useProjectSettingStore()
 
-      const message = useMessage();
-      const route = useRoute();
-      const router = useRouter();
-      const tabsViewStore = useTabsViewStore();
-      const asyncRouteStore = useAsyncRouteStore();
-      const navScroll: any = ref(null);
-      const navWrap: any = ref(null);
-      const isCurrent = ref(false);
-      const go = useGo();
+      const message = useMessage()
+      const route = useRoute()
+      const router = useRouter()
+      const tabsViewStore = useTabsViewStore()
+      const asyncRouteStore = useAsyncRouteStore()
+      const navScroll: any = ref(null)
+      const navWrap: any = ref(null)
+      const isCurrent = ref(false)
+      const go = useGo()
 
-      const themeVars = useThemeVars();
+      const themeVars = useThemeVars()
 
       const getCardColor = computed(() => {
-        return themeVars.value.cardColor;
+        return themeVars.value.cardColor
       })
 
       const getBaseColor = computed(() => {
-        return themeVars.value.textColor1;
+        return themeVars.value.textColor1
       })
 
       const state = reactive({
@@ -161,48 +161,48 @@
         showDropdown: false,
         isMultiHeaderFixed: false,
         multiTabsSetting: multiTabsSetting,
-      });
+      })
 
       // 获取简易的路由对象
       const getSimpleRoute = (route): RouteItem => {
-        const { fullPath, hash, meta, name, params, path, query } = route;
-        return { fullPath, hash, meta, name, params, path, query };
+        const { fullPath, hash, meta, name, params, path, query } = route
+        return { fullPath, hash, meta, name, params, path, query }
       }
 
       const isMixMenuNoneSub = computed(() => {
-        const mixMenu = settingStore.menuSetting.mixMenu;
-        const currentRoute = useRoute();
-        if (navMode.value != 'horizontal-mix') return true;
-        return !(navMode.value === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot);
+        const mixMenu = settingStore.menuSetting.mixMenu
+        const currentRoute = useRoute()
+        if (navMode.value != 'horizontal-mix') return true
+        return !(navMode.value === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot)
       })
 
       //动态组装样式 菜单缩进
       const getChangeStyle = computed(() => {
-        const { collapsed } = props;
-        const { minMenuWidth, menuWidth }: any = menuSetting.value;
-        const { fixed }: any = multiTabsSetting.value;
+        const { collapsed } = props
+        const { minMenuWidth, menuWidth }: any = menuSetting.value
+        const { fixed }: any = multiTabsSetting.value
         let lenNum =
           navMode.value === 'horizontal' || !isMixMenuNoneSub.value
             ? '0px'
             : collapsed
             ? `${minMenuWidth}px`
-            : `${menuWidth}px`;
+            : `${menuWidth}px`
 
         if (isMobile.value) {
           return {
             left: '0px',
             width: '100%',
-          };
+          }
         }
         return {
           left: lenNum,
           width: `calc(100% - ${!fixed ? '0px' : lenNum})`,
-        };
+        }
       })
 
       //tags 右侧下拉菜单
       const TabsMenuOptions = computed(() => {
-        const isDisabled = tabsList.value.length <= 1;
+        const isDisabled = tabsList.value.length <= 1
         return [
           {
             label: '刷新当前',
@@ -227,30 +227,30 @@
             disabled: isDisabled,
             icon: renderIcon(MinusOutlined),
           },
-        ];
+        ]
       })
 
-      let cacheRoutes: RouteItem[] = [];
-      const simpleRoute = getSimpleRoute(route);
+      let cacheRoutes: RouteItem[] = []
+      const simpleRoute = getSimpleRoute(route)
       try {
-        const routesStr = storage.get(TABS_ROUTES) as string | null | undefined;
-        cacheRoutes = routesStr ? JSON.parse(routesStr) : [simpleRoute];
+        const routesStr = storage.get(TABS_ROUTES) as string | null | undefined
+        cacheRoutes = routesStr ? JSON.parse(routesStr) : [simpleRoute]
       } catch (e) {
-        cacheRoutes = [simpleRoute];
+        cacheRoutes = [simpleRoute]
       }
 
       // 将最新的路由信息同步到 localStorage 中
-      const routes = router.getRoutes();
+      const routes = router.getRoutes()
       cacheRoutes.forEach((cacheRoute) => {
-        const route = routes.find((route) => route.path === cacheRoute.path);
+        const route = routes.find((route) => route.path === cacheRoute.path)
         if (route) {
-          cacheRoute.meta = route.meta || cacheRoute.meta;
-          cacheRoute.name = (route.name || cacheRoute.name) as string;
+          cacheRoute.meta = route.meta || cacheRoute.meta
+          cacheRoute.name = (route.name || cacheRoute.name) as string
         }
-      });
+      })
 
       // 初始化标签页
-      tabsViewStore.initTabs(cacheRoutes);
+      tabsViewStore.initTabs(cacheRoutes)
 
       //监听滚动条
       function onScroll(e) {
@@ -258,109 +258,109 @@
           e.target.scrollTop ||
           document.documentElement.scrollTop ||
           window.pageYOffset ||
-          document.body.scrollTop; // 滚动条偏移量
+          document.body.scrollTop // 滚动条偏移量
         state.isMultiHeaderFixed = !!(
           !headerSetting.value.fixed &&
           multiTabsSetting.value.fixed &&
           scrollTop >= 64
-        );
+        )
       }
 
-      window.addEventListener('scroll', onScroll, true);
+      window.addEventListener('scroll', onScroll, true)
 
       // 移除缓存组件名称
       const delKeepAliveCompName = () => {
         if (route.meta.keepAlive) {
           const name = router.currentRoute.value.matched.find((item) => item.name == route.name)
-            ?.components?.default.name;
+            ?.components?.default.name
           if (name) {
             asyncRouteStore.keepAliveComponents = asyncRouteStore.keepAliveComponents.filter(
               (item) => item != name
-            );
+            )
           }
         }
-      };
+      }
 
       // 标签页列表
-      const tabsList: any = computed(() => tabsViewStore.tabsList);
+      const tabsList: any = computed(() => tabsViewStore.tabsList)
       const whiteList: string[] = [
         PageEnum.BASE_LOGIN_NAME,
         PageEnum.REDIRECT_NAME,
         PageEnum.ERROR_PAGE_NAME,
-      ];
+      ]
 
       watch(
         () => route.fullPath,
         (to) => {
-          if (whiteList.includes(route.name as string)) return;
-          state.activeKey = to;
-          tabsViewStore.addTab(getSimpleRoute(route));
-          updateNavScroll(true);
+          if (whiteList.includes(route.name as string)) return
+          state.activeKey = to
+          tabsViewStore.addTab(getSimpleRoute(route))
+          updateNavScroll(true)
         },
         { immediate: true }
-      );
+      )
 
       // 在页面关闭或刷新之前，保存数据
       window.addEventListener('beforeunload', () => {
-        storage.set(TABS_ROUTES, JSON.stringify(tabsList.value));
+        storage.set(TABS_ROUTES, JSON.stringify(tabsList.value))
       })
 
       // 关闭当前页面
       const removeTab = (route) => {
         if (tabsList.value.length === 1) {
-          return message.warning('这已经是最后一页，不能再关闭了！');
+          return message.warning('这已经是最后一页，不能再关闭了！')
         }
-        delKeepAliveCompName();
-        tabsViewStore.closeCurrentTab(route);
+        delKeepAliveCompName()
+        tabsViewStore.closeCurrentTab(route)
         // 如果关闭的是当前页
         if (state.activeKey === route.fullPath) {
-          const currentRoute = tabsList.value[Math.max(0, tabsList.value.length - 1)];
-          state.activeKey = currentRoute.fullPath;
-          router.push(currentRoute);
+          const currentRoute = tabsList.value[Math.max(0, tabsList.value.length - 1)]
+          state.activeKey = currentRoute.fullPath
+          router.push(currentRoute)
         }
-        updateNavScroll();
+        updateNavScroll()
       }
 
       // 刷新页面
       const reloadPage = () => {
-        delKeepAliveCompName();
+        delKeepAliveCompName()
         router.push({
           path: '/redirect' + route.fullPath,
-        });
+        })
       }
 
       // 注入刷新页面方法
-      provide('reloadPage', reloadPage);
+      provide('reloadPage', reloadPage)
 
       // 关闭左侧
       const closeLeft = (route) => {
-        tabsViewStore.closeLeftTabs(route);
-        state.activeKey = route.fullPath;
-        router.replace(route.fullPath);
-        updateNavScroll();
+        tabsViewStore.closeLeftTabs(route)
+        state.activeKey = route.fullPath
+        router.replace(route.fullPath)
+        updateNavScroll()
       }
 
       // 关闭右侧
       const closeRight = (route) => {
-        tabsViewStore.closeRightTabs(route);
-        state.activeKey = route.fullPath;
-        router.replace(route.fullPath);
-        updateNavScroll();
+        tabsViewStore.closeRightTabs(route)
+        state.activeKey = route.fullPath
+        router.replace(route.fullPath)
+        updateNavScroll()
       }
 
       // 关闭其他
       const closeOther = (route) => {
-        tabsViewStore.closeOtherTabs(route);
-        state.activeKey = route.fullPath;
-        router.replace(route.fullPath);
-        updateNavScroll();
+        tabsViewStore.closeOtherTabs(route)
+        state.activeKey = route.fullPath
+        router.replace(route.fullPath)
+        updateNavScroll()
       }
 
       // 关闭全部
       const closeAll = () => {
-        tabsViewStore.closeAllTabs();
-        router.replace(PageEnum.BASE_HOME);
-        updateNavScroll();
+        tabsViewStore.closeAllTabs()
+        router.replace(PageEnum.BASE_HOME)
+        updateNavScroll()
       }
 
       //tab 操作
@@ -368,23 +368,23 @@
         switch (key) {
           //刷新
           case '1':
-            reloadPage();
+            reloadPage()
             break
           //关闭
           case '2':
-            removeTab(route);
+            removeTab(route)
             break
           //关闭其他
           case '3':
-            closeOther(route);
+            closeOther(route)
             break
           //关闭所有
           case '4':
-            closeAll();
+            closeAll()
             break
         }
-        updateNavScroll();
-        state.showDropdown = false;
+        updateNavScroll()
+        state.showDropdown = false
       }
 
       /**
@@ -392,106 +392,106 @@
        * @param amplitude 每次滚动的长度
        */
       function scrollTo(value: number, amplitude: number) {
-        const currentScroll = navScroll.value.scrollLeft;
+        const currentScroll = navScroll.value.scrollLeft
         const scrollWidth =
           (amplitude > 0 && currentScroll + amplitude >= value) ||
           (amplitude < 0 && currentScroll + amplitude <= value)
             ? value
-            : currentScroll + amplitude;
-        navScroll.value && navScroll.value.scrollTo(scrollWidth, 0);
-        if (scrollWidth === value) return;
-        return window.requestAnimationFrame(() => scrollTo(value, amplitude));
+            : currentScroll + amplitude
+        navScroll.value && navScroll.value.scrollTo(scrollWidth, 0)
+        if (scrollWidth === value) return
+        return window.requestAnimationFrame(() => scrollTo(value, amplitude))
       }
 
       function scrollPrev() {
-        const containerWidth = navScroll.value.offsetWidth;
-        const currentScroll = navScroll.value.scrollLeft;
+        const containerWidth = navScroll.value.offsetWidth
+        const currentScroll = navScroll.value.scrollLeft
 
-        if (!currentScroll) return;
-        const scrollLeft = currentScroll > containerWidth ? currentScroll - containerWidth : 0;
-        scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20);
+        if (!currentScroll) return
+        const scrollLeft = currentScroll > containerWidth ? currentScroll - containerWidth : 0
+        scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20)
       }
 
       function scrollNext() {
-        const containerWidth = navScroll.value.offsetWidth;
-        const navWidth = navScroll.value.scrollWidth;
-        const currentScroll = navScroll.value.scrollLeft;
+        const containerWidth = navScroll.value.offsetWidth
+        const navWidth = navScroll.value.scrollWidth
+        const currentScroll = navScroll.value.scrollLeft
 
-        if (navWidth - currentScroll <= containerWidth) return;
+        if (navWidth - currentScroll <= containerWidth) return
         const scrollLeft =
           navWidth - currentScroll > containerWidth * 2
             ? currentScroll + containerWidth
-            : navWidth - containerWidth;
-        scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20);
+            : navWidth - containerWidth
+        scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20)
       }
 
       /**
        * @param autoScroll 是否开启自动滚动功能
        */
       async function updateNavScroll(autoScroll?: boolean) {
-        await nextTick();
-        if (!navScroll.value) return;
-        const containerWidth = navScroll.value.offsetWidth;
-        const navWidth = navScroll.value.scrollWidth;
+        await nextTick()
+        if (!navScroll.value) return
+        const containerWidth = navScroll.value.offsetWidth
+        const navWidth = navScroll.value.scrollWidth
 
         if (containerWidth < navWidth) {
-          state.scrollable = true;
+          state.scrollable = true
           if (autoScroll) {
-            let tagList = navScroll.value.querySelectorAll('.tabs-card-scroll-item') || [];
-            [...tagList].forEach((tag: HTMLElement) => {
+            let tagList = navScroll.value.querySelectorAll('.tabs-card-scroll-item') || []
+            ;[...tagList].forEach((tag: HTMLElement) => {
               // fix SyntaxError
               if (tag.id === `tag${state.activeKey.split('/').join('\/')}`) {
-                tag.scrollIntoView && tag.scrollIntoView();
+                tag.scrollIntoView && tag.scrollIntoView()
               }
-            });
+            })
           }
         } else {
-          state.scrollable = false;
+          state.scrollable = false
         }
       }
 
       function handleResize() {
-        updateNavScroll(true);
+        updateNavScroll(true)
       }
 
       function handleContextMenu(e, item) {
-        e.preventDefault();
-        isCurrent.value = PageEnum.BASE_HOME_REDIRECT === item.path;
-        state.showDropdown = false;
+        e.preventDefault()
+        isCurrent.value = PageEnum.BASE_HOME_REDIRECT === item.path
+        state.showDropdown = false
         nextTick().then(() => {
-          state.showDropdown = true;
-          state.dropdownX = e.clientX;
-          state.dropdownY = e.clientY;
+          state.showDropdown = true
+          state.dropdownX = e.clientX
+          state.dropdownY = e.clientY
         })
       }
 
       function onClickOutside() {
-        state.showDropdown = false;
+        state.showDropdown = false
       }
 
       //tags 跳转页面
       function goPage(e) {
-        const { fullPath } = e;
-        if (fullPath === route.fullPath) return;
-        state.activeKey = fullPath;
-        go(e, true);
+        const { fullPath } = e
+        if (fullPath === route.fullPath) return
+        state.activeKey = fullPath
+        go(e, true)
       }
 
       //删除tab
       function closeTabItem(e) {
-        const { fullPath } = e;
-        const routeInfo = tabsList.value.find((item) => item.fullPath == fullPath);
-        removeTab(routeInfo);
+        const { fullPath } = e
+        const routeInfo = tabsList.value.find((item) => item.fullPath == fullPath)
+        removeTab(routeInfo)
       }
 
       onMounted(() => {
-        onElementResize();
+        onElementResize()
       })
 
       function onElementResize() {
-        let observer;
-        observer = elementResizeDetectorMaker();
-        observer.listenTo(navWrap.value, handleResize);
+        let observer
+        observer = elementResizeDetectorMaker()
+        observer.listenTo(navWrap.value, handleResize)
       }
 
       return {
@@ -518,9 +518,9 @@
         getAppTheme,
         getCardColor,
         getBaseColor,
-      };
+      }
     },
-  });
+  })
 </script>
 
 <style lang="less" scoped>

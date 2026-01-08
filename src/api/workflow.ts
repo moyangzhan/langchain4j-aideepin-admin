@@ -1,6 +1,6 @@
 import { http } from '@/utils/http/axios'
 
-function componentSearch(data: { isEnable?: boolean }, params: { current: number, size: number }) {
+function componentSearch(data: { isEnable?: boolean }, params: { current: number; size: number }) {
   return http.request({
     url: `/admin/workflow/component/search?currentPage=${params.current}&pageSize=${params.size}`,
     method: 'post',
@@ -8,11 +8,17 @@ function componentSearch(data: { isEnable?: boolean }, params: { current: number
   })
 }
 
-function componentAddOrUpdate(data: { uuid: string; title: string; remark: string; displayOrder: number; isEnable: boolean }) {
+function componentAddOrUpdate(data: {
+  uuid: string
+  title: string
+  remark: string
+  displayOrder: number
+  isEnable: boolean
+}) {
   return http.request({
     url: '/admin/workflow/component/addOrUpdate',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -30,11 +36,14 @@ function componentDel(data: { uuid: string }) {
   })
 }
 
-function search(data: { title?: string, isPublic?: boolean }, params: { current: number, size: number }) {
+function search(
+  data: { title?: string; isPublic?: boolean },
+  params: { current: number; size: number }
+) {
   return http.request({
     url: `/admin/workflow/search?currentPage=${params.current}&pageSize=${params.size}`,
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -42,7 +51,7 @@ function updateBaseInfo(data: { uuid: string; title: string; remark: string }) {
   return http.request({
     url: '/workflow/base-info/update',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -64,7 +73,7 @@ function setEnable(params: { uuid: string; isEnable: boolean }) {
   return http.request({
     url: '/admin/workflow/enable',
     method: 'post',
-    params
+    params,
   })
 }
 

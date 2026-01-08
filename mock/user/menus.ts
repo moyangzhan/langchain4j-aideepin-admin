@@ -1,4 +1,4 @@
-import { resultSuccess } from '../_util';
+import { resultSuccess } from '../_util'
 
 const menusList = [
   {
@@ -38,7 +38,7 @@ const menusList = [
       },
     ],
   },
-];
+]
 
 export default [
   {
@@ -46,7 +46,7 @@ export default [
     timeout: 1000,
     method: 'get',
     response: () => {
-      return resultSuccess(menusList);
+      return resultSuccess(menusList)
     },
   },
-];
+]

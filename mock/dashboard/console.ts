@@ -1,5 +1,5 @@
-import { Random } from 'mockjs';
-import { resultSuccess } from '../_util';
+import { Random } from 'mockjs'
+import { resultSuccess } from '../_util'
 
 const consoleInfo = {
   //访问量
@@ -29,7 +29,7 @@ const consoleInfo = {
     decline: Random.float(10, 99),
     amount: Random.float(99999, 999999, 2, 2),
   },
-};
+}
 
 export default [
   //主控台 卡片数据
@@ -38,7 +38,7 @@ export default [
     timeout: 1000,
     method: 'get',
     response: () => {
-      return resultSuccess(consoleInfo);
+      return resultSuccess(consoleInfo)
     },
   },
-];
+]

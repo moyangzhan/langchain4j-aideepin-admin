@@ -123,20 +123,20 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, ref, computed, unref, onMounted, watch } from 'vue';
-  import { createPlaceholderMessage } from './helper';
-  import { useFormEvents } from './hooks/useFormEvents';
-  import { useFormValues } from './hooks/useFormValues';
+  import { defineComponent, reactive, ref, computed, unref, onMounted, watch } from 'vue'
+  import { createPlaceholderMessage } from './helper'
+  import { useFormEvents } from './hooks/useFormEvents'
+  import { useFormValues } from './hooks/useFormValues'
 
-  import { basicProps } from './props';
-  import { DownOutlined, UpOutlined, QuestionCircleOutlined } from '@vicons/antd';
+  import { basicProps } from './props'
+  import { DownOutlined, UpOutlined, QuestionCircleOutlined } from '@vicons/antd'
 
-  import type { Ref } from 'vue';
-  import type { GridProps } from 'naive-ui/lib/grid';
-  import type { FormSchema, FormProps, FormActionType } from './types/form';
+  import type { Ref } from 'vue'
+  import type { GridProps } from 'naive-ui/lib/grid'
+  import type { FormSchema, FormProps, FormActionType } from './types/form'
 
-  import { isArray } from '@/utils/is/index';
-  import { deepMerge } from '@/utils';
+  import { isArray } from '@/utils/is/index'
+  import { deepMerge } from '@/utils'
 
   export default defineComponent({
     name: 'BasicForm',
@@ -146,14 +146,14 @@
     },
     emits: ['reset', 'submit', 'register'],
     setup(props, { emit, attrs }) {
-      const defaultFormModel = ref<Recordable>({});
-      const formModel = reactive<Recordable>({});
-      const propsRef = ref<Partial<FormProps>>({});
-      const schemaRef = ref<Nullable<FormSchema[]>>(null);
-      const formElRef = ref<Nullable<FormActionType>>(null);
-      const gridCollapsed = ref(true);
-      const loadingSub = ref(false);
-      const isUpdateDefaultRef = ref(false);
+      const defaultFormModel = ref<Recordable>({})
+      const formModel = reactive<Recordable>({})
+      const propsRef = ref<Partial<FormProps>>({})
+      const schemaRef = ref<Nullable<FormSchema[]>>(null)
+      const formElRef = ref<Nullable<FormActionType>>(null)
+      const gridCollapsed = ref(true)
+      const loadingSub = ref(false)
+      const isUpdateDefaultRef = ref(false)
 
       const getSubmitBtnOptions = computed(() => {
         return Object.assign(
@@ -162,7 +162,7 @@
             type: 'primary',
           },
           props.submitButtonOptions
-        );
+        )
       })
 
       const getResetBtnOptions = computed(() => {
@@ -172,69 +172,69 @@
             type: 'default',
           },
           props.resetButtonOptions
-        );
+        )
       })
 
       function getComponentProps(schema) {
-        const compProps = schema.componentProps ?? {};
-        const component = schema.component;
+        const compProps = schema.componentProps ?? {}
+        const component = schema.component
         return {
           clearable: true,
           placeholder: createPlaceholderMessage(unref(component)),
           ...compProps,
-        };
+        }
       }
 
       const getProps = computed((): FormProps => {
-        const formProps = { ...props, ...unref(propsRef) } as FormProps;
+        const formProps = { ...props, ...unref(propsRef) } as FormProps
         const rulesObj: any = {
           rules: {},
-        };
-        const schemas: any = formProps.schemas || [];
+        }
+        const schemas: any = formProps.schemas || []
         schemas.forEach((item) => {
           if (item.rules && isArray(item.rules)) {
-            rulesObj.rules[item.field] = item.rules;
+            rulesObj.rules[item.field] = item.rules
           }
-        });
-        return { ...formProps, ...unref(rulesObj) };
+        })
+        return { ...formProps, ...unref(rulesObj) }
       })
 
       const isInline = computed(() => {
-        const { layout } = unref(getProps);
-        return layout === 'inline';
+        const { layout } = unref(getProps)
+        return layout === 'inline'
       })
 
       const getGrid = computed((): GridProps => {
-        const { gridProps } = unref(getProps);
+        const { gridProps } = unref(getProps)
         return {
           ...gridProps,
           collapsed: isInline.value ? gridCollapsed.value : false,
           responsive: 'screen',
-        };
+        }
       })
 
       const getBindValue = computed(
         () => ({ ...attrs, ...props, ...unref(getProps) } as Recordable)
-      );
+      )
 
       const getSchema = computed((): FormSchema[] => {
-        const schemas: FormSchema[] = unref(schemaRef) || (unref(getProps).schemas as any);
+        const schemas: FormSchema[] = unref(schemaRef) || (unref(getProps).schemas as any)
         for (const schema of schemas) {
-          const { defaultValue } = schema;
+          const { defaultValue } = schema
           // handle date type
           // dateItemType.includes(component as string)
           if (defaultValue) {
-            schema.defaultValue = defaultValue;
+            schema.defaultValue = defaultValue
           }
         }
-        return schemas as FormSchema[];
+        return schemas as FormSchema[]
       })
 
       const { handleFormValues, initDefault } = useFormValues({
         defaultFormModel,
         getSchema,
         formModel,
-      });
+      })
 
       const { handleSubmit, validate, resetFields, getFieldsValue, clearValidate, setFieldsValue } =
         useFormEvents({
@@ -246,14 +246,14 @@
           defaultFormModel,
           loadingSub,
           handleFormValues,
-        });
+        })
 
       function unfoldToggle() {
-        gridCollapsed.value = !gridCollapsed.value;
+        gridCollapsed.value = !gridCollapsed.value
       }
 
       async function setProps(formProps: Partial<FormProps>): Promise<void> {
-        propsRef.value = deepMerge(unref(propsRef) || {}, formProps);
+        propsRef.value = deepMerge(unref(propsRef) || {}, formProps)
       }
 
       const formActionType: Partial<FormActionType> = {
@@ -264,24 +264,24 @@
         clearValidate,
         setProps,
         submit: handleSubmit,
-      };
+      }
 
       watch(
         () => getSchema.value,
         (schema) => {
           if (unref(isUpdateDefaultRef)) {
-            return;
+            return
           }
           if (schema?.length) {
-            initDefault();
-            isUpdateDefaultRef.value = true;
+            initDefault()
+            isUpdateDefaultRef.value = true
           }
         }
-      );
+      )
 
       onMounted(() => {
-        initDefault();
-        emit('register', formActionType);
+        initDefault()
+        emit('register', formActionType)
       })
 
       return {
@@ -299,9 +299,9 @@
         isInline,
         getComponentProps,
         unfoldToggle,
-      };
+      }
     },
-  });
+  })
 </script>
 
 <style lang="less" scoped>

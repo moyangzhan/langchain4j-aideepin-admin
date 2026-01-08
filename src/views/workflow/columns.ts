@@ -56,5 +56,4 @@ export const columns: BasicColumn<Data>[] = [
     key: 'updateTime',
     width: 180,
   },
-
 ]

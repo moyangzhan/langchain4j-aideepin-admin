@@ -1,5 +1,5 @@
-import { ErrorPage, RedirectName, Layout } from '@/router/constant';
-import { RouteRecordRaw } from 'vue-router';
+import { ErrorPage, RedirectName, Layout } from '@/router/constant'
+import { RouteRecordRaw } from 'vue-router'
 
 // 404 on a page
 export const ErrorPageRoute: RouteRecordRaw = {
@@ -21,7 +21,7 @@ export const ErrorPageRoute: RouteRecordRaw = {
       },
     },
   ],
-};
+}
 
 export const RedirectRoute: RouteRecordRaw = {
   path: '/redirect',
@@ -42,4 +42,4 @@ export const RedirectRoute: RouteRecordRaw = {
       },
     },
   ],
-};
+}

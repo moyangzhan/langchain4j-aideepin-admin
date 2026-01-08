@@ -1,5 +1,5 @@
 import { BasicColumn } from '@/components/Table'
-import {MODEL_TYPES, DEFAULT_MODEL_PLATFORMS} from '@/utils/constants'
+import { MODEL_TYPES, DEFAULT_MODEL_PLATFORMS } from '@/utils/constants'
 import { AiModelData } from '/#/aiModel'
 
 export const allPlatforms = [...DEFAULT_MODEL_PLATFORMS]
@@ -24,16 +24,16 @@ export const columns: BasicColumn<AiModelData>[] = [
     key: 'type',
     width: 80,
     render(row) {
-      return MODEL_TYPES.find(item => item.value === row.type)?.label
+      return MODEL_TYPES.find((item) => item.value === row.type)?.label
     },
   },
   {
     title: '平台',
     key: 'platform',
     width: 120,
-    render(row){
-      return allPlatforms.find(item => item.value === row.platform)?.label
-    }
+    render(row) {
+      return allPlatforms.find((item) => item.value === row.platform)?.label
+    },
   },
   {
     title: '是否启用',

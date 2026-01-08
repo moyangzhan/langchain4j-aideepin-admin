@@ -1,9 +1,9 @@
-import Mock from 'mockjs';
-import { resultSuccess } from '../_util';
+import Mock from 'mockjs'
+import { resultSuccess } from '../_util'
 
-const Random = Mock.Random;
+const Random = Mock.Random
 
-const token = Random.string('upper', 32, 32);
+const token = Random.string('upper', 32, 32)
 
 const adminInfo = {
   userId: '1',
@@ -35,7 +35,7 @@ const adminInfo = {
       value: 'basic_list_delete',
     },
   ],
-};
+}
 
 export default [
   {
@@ -43,7 +43,7 @@ export default [
     timeout: 1000,
     method: 'post',
     response: () => {
-      return resultSuccess({ token });
+      return resultSuccess({ token })
     },
   },
   {
@@ -53,7 +53,7 @@ export default [
     response: () => {
       // const token = getRequestToken(request);
       // if (!token) return resultError('Invalid token');
-      return resultSuccess(adminInfo);
+      return resultSuccess(adminInfo)
     },
   },
-];
+]

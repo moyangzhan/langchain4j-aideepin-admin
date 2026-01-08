@@ -129,16 +129,16 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, toRefs, ref, computed, unref } from 'vue';
-  import { useRouter, useRoute } from 'vue-router';
-  import components from './components';
-  import { NDialogProvider, useDialog, useMessage } from 'naive-ui';
-  import { TABS_ROUTES } from '@/store/mutation-types';
-  import { useUserStore } from '@/store/modules/user';
-  import ProjectSetting from './ProjectSetting.vue';
-  import { AsideMenu } from '@/layout/components/Menu';
-  import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
-  import { websiteConfig } from '@/config/website.config';
+  import { defineComponent, reactive, toRefs, ref, computed, unref } from 'vue'
+  import { useRouter, useRoute } from 'vue-router'
+  import components from './components'
+  import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
+  import { TABS_ROUTES } from '@/store/mutation-types'
+  import { useUserStore } from '@/store/modules/user'
+  import ProjectSetting from './ProjectSetting.vue'
+  import { AsideMenu } from '@/layout/components/Menu'
+  import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+  import { websiteConfig } from '@/config/website.config'
 
   export default defineComponent({
     name: 'PageHeader',
@@ -153,12 +153,12 @@
     },
     emits: ['update:collapsed'],
     setup(props, { emit }) {
-      const userStore = useUserStore();
-      const message = useMessage();
-      const dialog = useDialog();
-      const { navMode, navTheme, headerSetting, menuSetting, crumbsSetting } = useProjectSetting();
+      const userStore = useUserStore()
+      const message = useMessage()
+      const dialog = useDialog()
+      const { navMode, navTheme, headerSetting, menuSetting, crumbsSetting } = useProjectSetting()
 
-      const drawerSetting = ref();
+      const drawerSetting = ref()
 
       const state = reactive({
         username: userStore?.info?.name ?? '',
@@ -167,33 +167,31 @@
         navTheme,
         headerSetting,
         crumbsSetting,
-      });
+      })
 
       const getInverted = computed(() => {
-        return ['light', 'header-dark'].includes(unref(navTheme))
-          ? props.inverted
-          : !props.inverted;
+        return ['light', 'header-dark'].includes(unref(navTheme)) ? props.inverted : !props.inverted
       })
 
       const mixMenu = computed(() => {
-        return unref(menuSetting).mixMenu;
+        return unref(menuSetting).mixMenu
       })
 
       const getChangeStyle = computed(() => {
-        const { collapsed } = props;
-        const { minMenuWidth, menuWidth } = unref(menuSetting);
+        const { collapsed } = props
+        const { minMenuWidth, menuWidth } = unref(menuSetting)
         return {
           left: collapsed ? `${minMenuWidth}px` : `${menuWidth}px`,
           width: `calc(100% - ${collapsed ? `${minMenuWidth}px` : `${menuWidth}px`})`,
-        };
+        }
       })
 
       const getMenuLocation = computed(() => {
-        return 'header';
+        return 'header'
       })
 
-      const router = useRouter();
-      const route = useRoute();
+      const router = useRouter()
+      const route = useRoute()
 
       const generator: any = (routerMap) => {
         return routerMap.map((item) => {
@@ -202,29 +200,29 @@
             label: item.meta.title,
             key: item.name,
             disabled: item.path === '/',
-          };
+          }
           // 是否有子菜单，并递归处理
           if (item.children && item.children.length > 0) {
             // Recursion
-            currentMenu.children = generator(item.children, currentMenu);
+            currentMenu.children = generator(item.children, currentMenu)
           }
-          return currentMenu;
+          return currentMenu
         })
       }
 
       const breadcrumbList = computed(() => {
-        return generator(route.matched);
+        return generator(route.matched)
       })
 
       const dropdownSelect = (key) => {
-        router.push({ name: key });
+        router.push({ name: key })
       }
 
       // 刷新页面
       const reloadPage = () => {
         router.push({
           path: '/redirect' + unref(route).fullPath,
-        });
+        })
       }
 
       // 退出登录
@@ -236,9 +234,9 @@
           negativeText: '取消',
           onPositiveClick: () => {
             userStore.logout().then(() => {
-              message.success('成功退出登录');
+              message.success('成功退出登录')
               // 移除标签页
-              localStorage.removeItem(TABS_ROUTES);
+              localStorage.removeItem(TABS_ROUTES)
               router
                 .replace({
                   name: 'Login',
@@ -246,31 +244,31 @@
                     redirect: route.fullPath,
                   },
                 })
-                .finally(() => location.reload());
+                .finally(() => location.reload())
             })
           },
           onNegativeClick: () => {},
-        });
+        })
       }
 
       // 切换全屏图标
       const toggleFullscreenIcon = () =>
         (state.fullscreenIcon =
-          document.fullscreenElement !== null ? 'FullscreenExitOutlined' : 'FullscreenOutlined');
+          document.fullscreenElement !== null ? 'FullscreenExitOutlined' : 'FullscreenOutlined')
 
       // 监听全屏切换事件
-      document.addEventListener('fullscreenchange', toggleFullscreenIcon);
+      document.addEventListener('fullscreenchange', toggleFullscreenIcon)
 
       // 全屏切换
       const toggleFullScreen = () => {
         if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen();
+          document.documentElement.requestFullscreen()
         } else {
           if (document.exitFullscreen) {
-            document.exitFullscreen();
+            document.exitFullscreen()
           }
         }
-      };
+      }
 
       // 图标列表
       // const iconList = [
@@ -288,27 +286,27 @@
           label: '退出登录',
           key: 2,
         },
-      ];
+      ]
 
       //头像下拉菜单
       const avatarSelect = (key) => {
         switch (key) {
           case 1:
-            router.push({ name: 'Setting' });
+            router.push({ name: 'Setting' })
             break
           case 2:
-            doLogout();
+            doLogout()
             break
         }
-      };
+      }
 
       function openSetting() {
-        const { openDrawer } = drawerSetting.value;
-        openDrawer();
+        const { openDrawer } = drawerSetting.value
+        openDrawer()
       }
 
       function handleMenuCollapsed() {
-        emit('update:collapsed', !props.collapsed);
+        emit('update:collapsed', !props.collapsed)
       }
 
       return {
@@ -330,9 +328,9 @@
         mixMenu,
         websiteConfig,
         handleMenuCollapsed,
-      };
+      }
     },
-  });
+  })
 </script>
 
 <style lang="less" scoped>

@@ -1,11 +1,14 @@
 import { http } from '@/utils/http/axios'
 
-
-function search(data: {keyword?: string, names?: string[]}, currentPage: number, pageSize: number) {
+function search(
+  data: { keyword?: string; names?: string[] },
+  currentPage: number,
+  pageSize: number
+) {
   return http.request({
     url: `/admin/sys-config/search?currentPage=${currentPage}&pageSize=${pageSize}`,
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -13,19 +16,16 @@ function edit(params) {
   return http.request({
     url: '/admin/sys-config/edit',
     method: 'post',
-    params
+    params,
   })
 }
 
 function deleteOne(id: string) {
-  return http.request(
-    {
-      url: `/admin/model/del/${id}`,
-      method: 'POST',
-    }
-  )
+  return http.request({
+    url: `/admin/model/del/${id}`,
+    method: 'POST',
+  })
 }
-
 
 export default {
   search,

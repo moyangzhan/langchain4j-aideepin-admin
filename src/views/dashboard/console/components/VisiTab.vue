@@ -17,6 +17,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import FluxTrend from './FluxTrend.vue';
-  import VisitAmount from './VisitAmount.vue';
+  import FluxTrend from './FluxTrend.vue'
+  import VisitAmount from './VisitAmount.vue'
 </script>

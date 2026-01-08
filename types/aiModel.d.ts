@@ -9,4 +9,13 @@ export interface AiModelData {
   isEnable: boolean
   isFree: boolean
   setting: string
+  inputTypes: string
+  responseFormatTypes: string
+  isReasoner: boolean
+  isThinkingClosable: boolean
+  isSupportWebSearch: boolean
+
+  //For ui
+  inputTypeList: string[]
+  responseFormatTypeList: string[]
 }

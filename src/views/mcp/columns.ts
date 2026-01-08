@@ -47,5 +47,4 @@ export const columns: BasicColumn<McpInfo>[] = [
     key: 'updateTime',
     width: 180,
   },
-
 ]

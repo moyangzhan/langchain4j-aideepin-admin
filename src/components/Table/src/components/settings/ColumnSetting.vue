@@ -92,22 +92,22 @@
 </template>
 
 <script lang="ts">
-  import { ref, defineComponent, reactive, unref, toRaw, computed, toRefs, watchEffect } from 'vue';
-  import { useTableContext } from '../../hooks/useTableContext';
-  import { cloneDeep } from 'lodash-es';
+  import { ref, defineComponent, reactive, unref, toRaw, computed, toRefs, watchEffect } from 'vue'
+  import { useTableContext } from '../../hooks/useTableContext'
+  import { cloneDeep } from 'lodash-es'
   import {
     SettingOutlined,
     DragOutlined,
     VerticalRightOutlined,
     VerticalLeftOutlined,
-  } from '@vicons/antd';
-  import Draggable from 'vuedraggable';
-  import { useDesignSetting } from '@/hooks/setting/useDesignSetting';
+  } from '@vicons/antd'
+  import Draggable from 'vuedraggable'
+  import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 
   interface Options {
-    title: string;
-    key: string;
-    fixed?: boolean | 'left' | 'right';
+    title: string
+    key: string
+    fixed?: boolean | 'left' | 'right'
   }
 
   export default defineComponent({
@@ -120,127 +120,127 @@
       VerticalLeftOutlined,
     },
     setup() {
-      const { getDarkTheme } = useDesignSetting();
-      const table: any = useTableContext();
-      const columnsList = ref<Options[]>([]);
-      const cacheColumnsList = ref<Options[]>([]);
+      const { getDarkTheme } = useDesignSetting()
+      const table: any = useTableContext()
+      const columnsList = ref<Options[]>([])
+      const cacheColumnsList = ref<Options[]>([])
 
       const state = reactive({
         selection: false,
         checkAll: true,
         checkList: [],
         defaultCheckList: [],
-      });
+      })
 
       const getSelection = computed(() => {
-        return state.selection;
+        return state.selection
       })
 
       watchEffect(() => {
-        const columns = table.getColumns();
+        const columns = table.getColumns()
         if (columns.length) {
-          init();
+          init()
         }
-      });
+      })
 
       //初始化
       function init() {
-        const columns: any[] = getColumns();
-        const checkList: any = columns.map((item) => item.key);
-        state.checkList = checkList;
-        state.defaultCheckList = checkList;
-        const newColumns = columns.filter((item) => item.key != 'action' && item.title != '操作');
+        const columns: any[] = getColumns()
+        const checkList: any = columns.map((item) => item.key)
+        state.checkList = checkList
+        state.defaultCheckList = checkList
+        const newColumns = columns.filter((item) => item.key != 'action' && item.title != '操作')
         if (!columnsList.value.length) {
-          columnsList.value = cloneDeep(newColumns);
-          cacheColumnsList.value = cloneDeep(newColumns);
+          columnsList.value = cloneDeep(newColumns)
+          cacheColumnsList.value = cloneDeep(newColumns)
         }
       }
 
       //切换
       function onChange(checkList) {
         if (state.selection) {
-          checkList.unshift('selection');
+          checkList.unshift('selection')
         }
-        setColumns(checkList);
+        setColumns(checkList)
       }
 
       //设置
       function setColumns(columns) {
-        table.setColumns(columns);
+        table.setColumns(columns)
       }
 
       //获取
       function getColumns() {
-        let newRet: any[] = [];
+        let newRet: any[] = []
         table.getColumns().forEach((item) => {
-          newRet.push({ ...item });
+          newRet.push({ ...item })
         })
-        return newRet;
+        return newRet
       }
 
       //重置
       function resetColumns() {
-        state.checkList = [...state.defaultCheckList];
-        state.checkAll = true;
-        let cacheColumnsKeys: any[] = table.getCacheColumns();
+        state.checkList = [...state.defaultCheckList]
+        state.checkAll = true
+        let cacheColumnsKeys: any[] = table.getCacheColumns()
         let newColumns = cacheColumnsKeys.map((item) => {
           return {
             ...item,
             fixed: undefined,
-          };
+          }
         })
-        setColumns(newColumns);
-        columnsList.value = newColumns;
+        setColumns(newColumns)
+        columnsList.value = newColumns
       }
 
       //全选
       function onCheckAll(e) {
-        let checkList = table.getCacheColumns(true);
+        let checkList = table.getCacheColumns(true)
         if (e) {
-          setColumns(checkList);
-          state.checkList = checkList;
+          setColumns(checkList)
+          state.checkList = checkList
         } else {
-          setColumns([]);
-          state.checkList = [];
+          setColumns([])
+          state.checkList = []
         }
       }
 
       //拖拽排序
       function draggableEnd() {
-        const newColumns = toRaw(unref(columnsList));
-        columnsList.value = newColumns;
-        setColumns(newColumns);
+        const newColumns = toRaw(unref(columnsList))
+        columnsList.value = newColumns
+        setColumns(newColumns)
       }
 
       //勾选列
       function onSelection(e) {
-        let checkList = table.getCacheColumns();
+        let checkList = table.getCacheColumns()
         if (e) {
-          checkList.unshift({ type: 'selection', key: 'selection' });
-          setColumns(checkList);
+          checkList.unshift({ type: 'selection', key: 'selection' })
+          setColumns(checkList)
         } else {
-          checkList.splice(0, 1);
-          setColumns(checkList);
+          checkList.splice(0, 1)
+          setColumns(checkList)
         }
       }
 
       function onMove(e) {
-        if (e.draggedContext.element.draggable === false) return false;
-        return true;
+        if (e.draggedContext.element.draggable === false) return false
+        return true
       }
 
       //固定
       function fixedColumn(item, fixed) {
-        if (!state.checkList.includes(item.key)) return;
-        let columns = getColumns();
-        const isFixed = item.fixed === fixed ? undefined : fixed;
-        let index = columns.findIndex((res) => res.key === item.key);
+        if (!state.checkList.includes(item.key)) return
+        let columns = getColumns()
+        const isFixed = item.fixed === fixed ? undefined : fixed
+        let index = columns.findIndex((res) => res.key === item.key)
         if (index !== -1) {
-          columns[index].fixed = isFixed;
+          columns[index].fixed = isFixed
         }
-        table.setCacheColumnsField(item.key, { fixed: isFixed });
-        columnsList.value[index].fixed = isFixed;
-        setColumns(columns);
+        table.setCacheColumnsField(item.key, { fixed: isFixed })
+        columnsList.value[index].fixed = isFixed
+        setColumns(columns)
       }
 
       return {
@@ -255,9 +255,9 @@
         fixedColumn,
         draggableEnd,
         getSelection,
-      };
+      }
     },
-  });
+  })
 </script>
 
 <style lang="less">

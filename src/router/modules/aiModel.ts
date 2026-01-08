@@ -1,7 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
-import { Layout } from '@/router/constant';
-import { CodeSandboxOutlined } from '@vicons/antd';
-import { renderIconWithProps } from '@/utils/index';
+import { RouteRecordRaw } from 'vue-router'
+import { Layout } from '@/router/constant'
+import { CodeSandboxOutlined } from '@vicons/antd'
+import { renderIconWithProps } from '@/utils/index'
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Layout,
     meta: {
       title: '模型管理',
-      icon: renderIconWithProps(CodeSandboxOutlined, {size: 24}),
+      icon: renderIconWithProps(CodeSandboxOutlined, { size: 24 }),
       sort: 3,
     },
     children: [
@@ -45,6 +45,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-];
+]
 
-export default routes;
+export default routes

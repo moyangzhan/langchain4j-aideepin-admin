@@ -25,4 +25,4 @@ export type ComponentType =
   | 'NIconPicker'
   | 'NRender'
   | 'NSlider'
-  | 'NRate';
+  | 'NRate'

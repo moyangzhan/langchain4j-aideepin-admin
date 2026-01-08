@@ -53,5 +53,5 @@ const setting = {
   isPageAnimate: true,
   //路由动画类型
   pageAnimateType: 'zoom-fade',
-};
-export default setting;
+}
+export default setting

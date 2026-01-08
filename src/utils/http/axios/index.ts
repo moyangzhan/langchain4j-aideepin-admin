@@ -13,9 +13,9 @@ import { deepMerge, isUrl } from '@/utils'
 import { setObjToUrlParams } from '@/utils/urlUtils'
 
 import { RequestOptions, Result, CreateAxiosOptions } from './types'
-import { PageEnum } from '@/enums/pageEnum';
+import { PageEnum } from '@/enums/pageEnum'
 import { useUser } from '@/store/modules/user'
-import router from '@/router/index';
+import router from '@/router/index'
 const globSetting = useGlobSetting()
 const urlPrefix = globSetting.urlPrefix || ''
 
@@ -139,7 +139,7 @@ const transform: AxiosTransform = {
     const token = userStore.getToken
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
-      (config as Recordable).headers.Authorization = options.authenticationScheme
+      ;(config as Recordable).headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token
     }
@@ -170,8 +170,8 @@ const transform: AxiosTransform = {
           //negativeText: '取消',
           closable: false,
           maskClosable: false,
-          onPositiveClick: () => { },
-          onNegativeClick: () => { },
+          onPositiveClick: () => {},
+          onNegativeClick: () => {},
         })
         return Promise.reject(error)
       }

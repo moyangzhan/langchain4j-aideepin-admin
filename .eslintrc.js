@@ -1,5 +1,5 @@
 // @ts-check
-const { defineConfig } = require('eslint-define-config');
+const { defineConfig } = require('eslint-define-config')
 module.exports = defineConfig({
   root: true,
   env: {
@@ -24,15 +24,22 @@ module.exports = defineConfig({
     'plugin:prettier/recommended',
   ],
   rules: {
-    'semi': [2, 'never'],
-    'semi-spacing': [2, {
-      'before': false,
-      'after': true
-    }],
-    'quotes': [2, 'single', {
-      'avoidEscape': true,
-      'allowTemplateLiterals': true
-    }],
+    semi: [2, 'never'],
+    'semi-spacing': [
+      2,
+      {
+        before: false,
+        after: true,
+      },
+    ],
+    quotes: [
+      2,
+      'single',
+      {
+        avoidEscape: true,
+        allowTemplateLiterals: true,
+      },
+    ],
     'vue/script-setup-uses-vars': 'error',
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
@@ -77,4 +84,4 @@ module.exports = defineConfig({
       },
     ],
   },
-});
+})

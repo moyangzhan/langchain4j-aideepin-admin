@@ -50,6 +50,34 @@ export const MODEL_TYPES = [
     value: 'asr',
   },
 ]
+export const MODEL_INPUT_TYPES = [
+  {
+    label: '文本',
+    value: 'text',
+  },
+  {
+    label: '图像',
+    value: 'image',
+  },
+  {
+    label: '音频',
+    value: 'audio',
+  },
+  {
+    label: '视频',
+    value: 'video',
+  },
+]
+export const MODEL_RESPONSE_FORMAT_TYPES = [
+  {
+    label: '文本',
+    value: 'text',
+  },
+  {
+    label: 'JSON',
+    value: 'json_object',
+  },
+]
 export const mcpTransportType = [
   {
     label: '网络传输(sse)',

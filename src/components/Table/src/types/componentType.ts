@@ -6,4 +6,4 @@ export type ComponentType =
   | 'NSwitch'
   | 'NDatePicker'
   | 'NTimePicker'
-  | 'NCascader';
+  | 'NCascader'

@@ -1,7 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
-import { Layout } from '@/router/constant';
-import { UserOutlined } from '@vicons/antd';
-import { renderIcon } from '@/utils/index';
+import { RouteRecordRaw } from 'vue-router'
+import { Layout } from '@/router/constant'
+import { UserOutlined } from '@vicons/antd'
+import { renderIcon } from '@/utils/index'
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -33,9 +33,9 @@ const routes: Array<RouteRecordRaw> = [
           title: '用户管理',
         },
         component: () => import('@/views/user/index.vue'),
-      }
+      },
     ],
   },
-];
+]
 
-export default routes;
+export default routes

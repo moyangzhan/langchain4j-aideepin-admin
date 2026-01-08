@@ -1,27 +1,27 @@
-import type { FunctionalComponent, defineComponent } from 'vue';
-import type { ComponentType } from '../../types/componentType';
-import { componentMap } from '@/components/Table/src/componentMap';
+import type { FunctionalComponent, defineComponent } from 'vue'
+import type { ComponentType } from '../../types/componentType'
+import { componentMap } from '@/components/Table/src/componentMap'
 
-import { h } from 'vue';
+import { h } from 'vue'
 
-import { NPopover } from 'naive-ui';
+import { NPopover } from 'naive-ui'
 
 export interface ComponentProps {
-  component: ComponentType;
-  rule: boolean;
-  popoverVisible: boolean;
-  ruleMessage: string;
+  component: ComponentType
+  rule: boolean
+  popoverVisible: boolean
+  ruleMessage: string
 }
 
 export const CellComponent: FunctionalComponent = (
   { component = 'NInput', rule = true, ruleMessage, popoverVisible }: ComponentProps,
   { attrs }
 ) => {
-  const Comp = componentMap.get(component) as typeof defineComponent;
+  const Comp = componentMap.get(component) as typeof defineComponent
 
-  const DefaultComp = h(Comp, attrs);
+  const DefaultComp = h(Comp, attrs)
   if (!rule) {
-    return DefaultComp;
+    return DefaultComp
   }
   return h(
     NPopover,
@@ -43,5 +43,5 @@ export const CellComponent: FunctionalComponent = (
           }
         ),
     }
-  );
+  )
 }

@@ -1,10 +1,16 @@
 <template>
   <n-card :bordered="false" class="proCard">
-    <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset">
-    </BasicForm>
+    <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset" />
 
-    <BasicTable :columns="columns" :request="loadDataTable" :row-key="(row: AiModelData) => row.id" ref="actionRef"
-      :actionColumn="actionColumn" @update:checked-row-keys="onCheckedRow" :scroll-x="1800">
+    <BasicTable
+      :columns="columns"
+      :request="loadDataTable"
+      :row-key="(row: AiModelData) => row.id"
+      ref="actionRef"
+      :actionColumn="actionColumn"
+      @update:checked-row-keys="onCheckedRow"
+      :scroll-x="1800"
+    >
       <template #tableTitle>
         <n-button type="primary" @click="addTable">
           <template #icon>
@@ -17,9 +23,22 @@
       </template>
     </BasicTable>
 
-    <n-modal v-model:show="showEditModal" :show-icon="false" preset="dialog" :title="editFormParams.label">
-      <n-form :model="editFormParams" :rules="newRecordRules" ref="formRef" label-placement="left" :label-width="130"
-        class="py-4">
+    <n-modal
+      v-model:show="showEditModal"
+      :show-icon="false"
+      preset="dialog"
+      :title="editFormParams.label"
+      style="width: 550px"
+    >
+      <n-form
+        :model="editFormParams"
+        :rules="newRecordRules"
+        ref="formRef"
+        label-placement="left"
+        :label-width="160"
+        class="p-2"
+        style="overflow-y: auto; overflow-x: hidden; max-height: 600px; width: 500px"
+      >
         <n-form-item label="名称" path="name">
           <n-input placeholder="请输入模型名称" v-model:value="editFormParams.name" />
         </n-form-item>
@@ -27,22 +46,68 @@
           <n-input placeholder="请输入模型标题" v-model:value="editFormParams.title" />
         </n-form-item>
         <n-form-item label="类型" path="type">
-          <n-select placeholder="选择模型的类型" :options="MODEL_TYPES" v-model:value="editFormParams.type" />
+          <n-select
+            placeholder="选择模型的类型"
+            :options="MODEL_TYPES"
+            v-model:value="editFormParams.type"
+          />
         </n-form-item>
         <n-form-item label="平台" path="platform">
-          <n-select placeholder="选择模型所属的平台" :options="allPlatforms" v-model:value="editFormParams.platform" />
+          <n-select
+            placeholder="选择模型所属的平台"
+            :options="allPlatforms"
+            v-model:value="editFormParams.platform"
+          />
         </n-form-item>
         <n-form-item label="上下文长度" path="contextWindow">
-          <n-input-number placeholder="请输入上下文长度" v-model:value="editFormParams.contextWindow" />
+          <n-input-number
+            placeholder="请输入上下文长度"
+            v-model:value="editFormParams.contextWindow"
+          />
         </n-form-item>
         <n-form-item label="最大输入token数" path="maxInputTokens">
-          <n-input-number placeholder="请输入最大输入token数" v-model:value="editFormParams.maxInputTokens" />
+          <n-input-number
+            placeholder="请输入最大输入token数"
+            v-model:value="editFormParams.maxInputTokens"
+          />
         </n-form-item>
         <n-form-item label="最大输出token数" path="maxOutputTokens">
-          <n-input-number placeholder="请输入最大输出token数" v-model:value="editFormParams.maxOutputTokens" />
+          <n-input-number
+            placeholder="请输入最大输出token数"
+            v-model:value="editFormParams.maxOutputTokens"
+          />
+        </n-form-item>
+        <n-form-item label="输入类型" path="inputTypeList">
+          <n-select
+            multiple
+            placeholder="选择模型的输入类型"
+            :options="MODEL_INPUT_TYPES"
+            v-model:value="editFormParams.inputTypeList"
+          />
+        </n-form-item>
+        <n-form-item label="输出格式" path="responseFormatTypeList">
+          <n-select
+            multiple
+            placeholder="选择输出格式"
+            :options="MODEL_RESPONSE_FORMAT_TYPES"
+            v-model:value="editFormParams.responseFormatTypeList"
+          />
+        </n-form-item>
+        <n-form-item label="是否推理模型" path="isReasoner">
+          <n-switch v-model:value="editFormParams.isReasoner" />
+        </n-form-item>
+        <n-form-item label="推理过程是否可以关闭" path="isThinkingClosable">
+          <n-switch v-model:value="editFormParams.isThinkingClosable" />
+        </n-form-item>
+        <n-form-item label="是否支持web搜索" path="isSupportWebSearch">
+          <n-switch v-model:value="editFormParams.isSupportWebSearch" />
         </n-form-item>
         <n-form-item label="个性化配置" path="setting">
-          <n-input type="textarea" placeholder="个性化配置" v-model:value="editFormParams.setting" />
+          <n-input
+            type="textarea"
+            placeholder="个性化配置"
+            v-model:value="editFormParams.setting"
+          />
         </n-form-item>
       </n-form>
       <template #action>
@@ -56,248 +121,258 @@
 </template>
 
 <script lang="ts" setup>
-import { h, onMounted, reactive, ref } from 'vue'
-import { BasicTable, TableAction } from '@/components/Table'
-import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
-import api from '@/api/aiModel'
-import platformApi from '@/api/modelPlatform'
-import { MODEL_TYPES } from '@/utils/constants'
-import { columns,allPlatforms } from './columns'
-import { PlusOutlined } from '@vicons/antd'
-import { AiModelData } from '/#/aiModel'
-import { type FormRules } from 'naive-ui'
-import { useDialog } from 'naive-ui'
+  import { h, onMounted, reactive, ref } from 'vue'
+  import { BasicTable, TableAction } from '@/components/Table'
+  import { BasicForm, useForm } from '@/components/Form/index'
+  import api from '@/api/aiModel'
+  import platformApi from '@/api/modelPlatform'
+  import { MODEL_TYPES, MODEL_INPUT_TYPES, MODEL_RESPONSE_FORMAT_TYPES } from '@/utils/constants'
+  import { columns, allPlatforms } from './columns'
+  import { PlusOutlined } from '@vicons/antd'
+  import { AiModelData } from '/#/aiModel'
+  import type { FormItemRule, FormRules } from 'naive-ui'
+  import { useDialog } from 'naive-ui'
 
-const newRecordRules: FormRules = {
-  name: {
-    required: false,
-    trigger: ['blur', 'input'],
-    message: '请输入名称',
-  },
-  type: {
-    required: true,
-    trigger: ['blur', 'input'],
-    message: '请输入类型',
-  },
-  platform: {
-    required: true,
-    trigger: ['blur', 'input'],
-    message: '请输入平台',
-  },
-}
-
-const schemas: FormSchema[] = [
-  {
-    field: 'type',
-    component: 'NSelect',
-    label: '类型',
-    componentProps: {
-      placeholder: '请选择类型',
-      options: MODEL_TYPES,
-      onUpdateValue: (e: any) => {
-        console.log(e)
-      },
+  const newRecordRules: FormRules = {
+    name: {
+      required: false,
+      trigger: ['blur', 'input'],
+      message: '请输入名称',
     },
-  },
-  {
-    field: 'platform',
-    component: 'NSelect',
-    label: '平台',
-    componentProps: {
-      placeholder: '请选择平台',
-      options: allPlatforms,
-      onUpdateValue: (e: any) => {
-        console.log(e)
-      },
+    type: {
+      required: true,
+      trigger: ['blur', 'input'],
+      message: '请输入类型',
     },
-  },
-]
-
-const dialog = useDialog()
-const formRef: any = ref(null)
-const actionRef = ref()
-const showEditModal = ref(false)
-const formBtnLoading = ref(false)
-const editFormParams = reactive({
-  label: '新建',
-  id: '0',
-  name: '',
-  title: '',
-  type: '',
-  platform: '',
-  contextWindow: 0,
-  maxInputTokens: 0,
-  maxOutputTokens: 0,
-  setting: ''
-})
-
-const actionColumn = reactive({
-  width: 300,
-  title: '操作',
-  key: 'action',
-  fixed: 'right',
-  render(record) {
-    return h(TableAction as any, {
-      style: 'button',
-      actions: [
-        {
-          label: '编辑',
-          onClick: handleEdit.bind(null, record),
-        },
-        {
-          label: '启用',
-          onClick: handleEnable.bind(null, record),
-          ifShow: () => {
-            return !record.isEnable
-          },
-        },
-        {
-          label: '禁用',
-          onClick: handleDisable.bind(null, record),
-          ifShow: () => {
-            return record.isEnable
-          },
-        },
-        {
-          label: '设为免费',
-          onClick: handleFree.bind(null, record, true),
-          ifShow: () => {
-            return !record.isFree
-          },
-        },
-        {
-          label: '设为收费',
-          onClick: handleFree.bind(null, record, false),
-          ifShow: () => {
-            return record.isFree
-          },
-        },
-      ],
-      dropDownActions: [
-        {
-          label: '删除',
-          key: 'delete',
-        },
-      ],
-      select: (key) => {
-        if (key === 'delete') {
-          dialog.warning({
-            title: '提示',
-            content: `删除后数据无法恢复，确定要删除模型 ${record.name} 吗?`,
-            positiveText: '确定',
-            negativeText: '取消',
-            onPositiveClick: () => {
-              handleDelete(record)
-            },
-            onNegativeClick: () => {
-              console.log('已取消')
-            },
-          })
+    platform: {
+      required: true,
+      trigger: ['blur', 'input'],
+      message: '请输入平台',
+    },
+    inputTypeList: {
+      required: true,
+      trigger: ['blur'],
+      message: '请选择输入类型',
+      validator(rule: FormItemRule, value: string[]) {
+        if (value.length === 0) {
+          return new Error('至少选择一个输入类型')
         }
+        return true
       },
-    })
-  },
-})
-
-const [register, { getFieldsValue }] = useForm({
-  gridProps: { cols: '1 s:1 m:2 l:3 xl:4 2xl:4' },
-  labelWidth: 120,
-  schemas,
-})
-
-function addTable() {
-  showEditModal.value = true
-  editFormParams.label = '新建'
-  editFormParams.id = ''
-}
-
-const loadDataTable = async (res) => {
-  const resp = await api.search({ ...getFieldsValue() }, res)
-  return resp.data
-}
-
-const loadPlatforms = async () => {
-  const resp = await platformApi.search({}, { current: 1, size: 100 })
-  allPlatforms.length = 0
-  resp.data.records.forEach((item) => {
-    allPlatforms.push({ label: item.title, value: item.name })
-  })
-}
-
-function onCheckedRow(rowKeys) {
-  console.log(rowKeys)
-}
-
-function reloadTable() {
-  actionRef.value.reload()
-}
-
-function confirmForm(e) {
-  e.preventDefault()
-  formBtnLoading.value = true
-  formRef.value.validate(async (errors) => {
-    if (!errors) {
-      if (editFormParams.id === '') {
-        await api.addOne(editFormParams)
-      } else {
-        await api.edit(editFormParams)
-      }
-      window['$message'].success('新建成功')
-      setTimeout(() => {
-        showEditModal.value = false
-        reloadTable()
-      })
-    } else {
-      window['$message'].error('请填写完整信息')
-    }
-    formBtnLoading.value = false
-  })
-}
-
-async function handleEnable(record: Recordable) {
-  await api.enable(record.id)
-  window['$message'].success('操作成功')
-  reloadTable()
-}
-
-async function handleDisable(record: Recordable) {
-  await api.disable(record.id)
-  window['$message'].success('操作成功')
-  reloadTable()
-}
-
-async function handleFree(record: Recordable, isFree: boolean) {
-  await api.edit({ id: record.id, isFree })
-  window['$message'].success('操作成功')
-  reloadTable()
-}
-
-function handleEdit(record: Recordable) {
-  showEditModal.value = true
-  Object.assign(editFormParams, record)
-  if (!editFormParams.setting) {
-    editFormParams.setting = ''
+    },
+    responseFormatTypeList: {
+      required: true,
+      trigger: ['blur'],
+      message: '请选择输出格式',
+      validator(rule: FormItemRule, value: string[]) {
+        if (value.length === 0) {
+          return new Error('至少选择一个输出格式')
+        }
+        return true
+      },
+    },
   }
-  editFormParams.label = '编辑'
-}
 
-async function handleDelete(record: Recordable) {
-  await api.deleteOne(record.uuid)
-  window['$message'].info('删除成功')
-}
+  const dialog = useDialog()
+  const formRef: any = ref(null)
+  const actionRef = ref()
+  const showEditModal = ref(false)
+  const formBtnLoading = ref(false)
+  const editFormParams = reactive({
+    label: '新建',
+    id: '0',
+    name: '',
+    title: '',
+    type: '',
+    platform: '',
+    contextWindow: 0,
+    maxInputTokens: 0,
+    maxOutputTokens: 0,
+    inputTypeList: [],
+    responseFormatTypeList: [],
+    isReasoner: false,
+    isThinkingClosable: false,
+    isSupportWebSearch: false,
+    setting: '',
 
-function handleSubmit(values: Recordable) {
-  console.log(values)
-  reloadTable()
-}
+    inputTypes: '',
+    responseFormatTypes: '',
+  })
 
-function handleReset(values: Recordable) {
-  console.log(values)
-}
+  const actionColumn = reactive({
+    width: 300,
+    title: '操作',
+    key: 'action',
+    fixed: 'right',
+    render(record) {
+      return h(TableAction as any, {
+        style: 'button',
+        actions: [
+          {
+            label: '编辑',
+            onClick: handleEdit.bind(null, record),
+          },
+          {
+            label: '启用',
+            onClick: handleEnable.bind(null, record),
+            ifShow: () => {
+              return !record.isEnable
+            },
+          },
+          {
+            label: '禁用',
+            onClick: handleDisable.bind(null, record),
+            ifShow: () => {
+              return record.isEnable
+            },
+          },
+          {
+            label: '设为免费',
+            onClick: handleFree.bind(null, record, true),
+            ifShow: () => {
+              return !record.isFree
+            },
+          },
+          {
+            label: '设为收费',
+            onClick: handleFree.bind(null, record, false),
+            ifShow: () => {
+              return record.isFree
+            },
+          },
+        ],
+        dropDownActions: [
+          {
+            label: '删除',
+            key: 'delete',
+          },
+        ],
+        select: (key) => {
+          if (key === 'delete') {
+            dialog.warning({
+              title: '提示',
+              content: `删除后数据无法恢复，确定要删除模型 ${record.name} 吗?`,
+              positiveText: '确定',
+              negativeText: '取消',
+              onPositiveClick: () => {
+                handleDelete(record)
+              },
+              onNegativeClick: () => {
+                console.log('已取消')
+              },
+            })
+          }
+        },
+      })
+    },
+  })
 
-onMounted(() => {
-  loadPlatforms()
-})
+  const [register, { getFieldsValue }] = useForm({
+    gridProps: { cols: '1 s:1 m:2 l:3 xl:4 2xl:4' },
+    labelWidth: 120,
+  })
+
+  function addTable() {
+    showEditModal.value = true
+    editFormParams.label = '新建'
+    editFormParams.id = ''
+  }
+
+  const loadDataTable = async (res) => {
+    const resp = await api.search({ ...getFieldsValue() }, res)
+    if (resp.data.records) {
+      resp.data.records.forEach((item: AiModelData) => {
+        item.inputTypeList = item.inputTypes.split(',')
+        item.responseFormatTypeList = item.responseFormatTypes.split(',')
+      })
+    }
+    return resp.data
+  }
+
+  const loadPlatforms = async () => {
+    const resp = await platformApi.search({}, { current: 1, size: 100 })
+    allPlatforms.length = 0
+    resp.data.records.forEach((item) => {
+      allPlatforms.push({ label: item.title, value: item.name })
+    })
+  }
+
+  function onCheckedRow(rowKeys) {
+    console.log(rowKeys)
+  }
+
+  function reloadTable() {
+    actionRef.value.reload()
+  }
+
+  function confirmForm(e) {
+    e.preventDefault()
+    formBtnLoading.value = true
+    formRef.value.validate(async (errors) => {
+      if (!errors) {
+        editFormParams.inputTypes = editFormParams.inputTypeList.join(',')
+        editFormParams.responseFormatTypes = editFormParams.responseFormatTypeList.join(',')
+        if (editFormParams.id === '') {
+          await api.addOne(editFormParams)
+        } else {
+          await api.edit(editFormParams)
+        }
+        window['$message'].success('新建成功')
+        setTimeout(() => {
+          showEditModal.value = false
+          reloadTable()
+        })
+      } else {
+        window['$message'].error('请填写完整信息')
+      }
+      formBtnLoading.value = false
+    })
+  }
+
+  async function handleEnable(record: Recordable) {
+    await api.enable(record.id)
+    window['$message'].success('操作成功')
+    reloadTable()
+  }
+
+  async function handleDisable(record: Recordable) {
+    await api.disable(record.id)
+    window['$message'].success('操作成功')
+    reloadTable()
+  }
+
+  async function handleFree(record: Recordable, isFree: boolean) {
+    await api.edit({ id: record.id, isFree })
+    window['$message'].success('操作成功')
+    reloadTable()
+  }
+
+  function handleEdit(record: Recordable) {
+    showEditModal.value = true
+    Object.assign(editFormParams, record)
+    if (!editFormParams.setting) {
+      editFormParams.setting = ''
+    }
+    editFormParams.label = '编辑'
+  }
+
+  async function handleDelete(record: Recordable) {
+    await api.deleteOne(record.uuid)
+    window['$message'].info('删除成功')
+  }
+
+  function handleSubmit(values: Recordable) {
+    console.log(values)
+    reloadTable()
+  }
+
+  function handleReset(values: Recordable) {
+    console.log(values)
+  }
+
+  onMounted(() => {
+    loadPlatforms()
+  })
 </script>
 
 <style lang="less" scoped></style>

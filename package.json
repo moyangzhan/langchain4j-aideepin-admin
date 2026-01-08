@@ -8,7 +8,7 @@
   },
   "private": true,
   "scripts": {
-    "bootstrap": "pnpm install",
+    "bootstrap": "pnpm install && pnpm run common:prepare",
     "serve": "pnpm run dev",
     "dev": "vite",
     "build": "vite build && esno ./build/script/postBuild.ts",
@@ -20,17 +20,19 @@
     "clean:lib": "rimraf node_modules",
     "build typecheck": "vuedx-typecheck . && vite build",
     "deploy": "gh-pages -d dist",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint \"{src,mock}/**/*.{vue,ts,tsx}\" --fix",
     "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
     "lint:pretty": "pretty-quick --staged",
-    "test prod gzip": "http-server dist --cors --gzip -c-1"
+    "test prod gzip": "http-server dist --cors --gzip -c-1",
+    "common:prepare": "husky install"
   },
   "dependencies": {
     "@vicons/antd": "^0.12.0",
-    "@vicons/ionicons5": "^0.12.0",
     "@vicons/carbon": "^0.12.0",
+    "@vicons/ionicons5": "^0.12.0",
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "^9.13.0",
     "axios": "^1.6.8",
@@ -60,6 +62,7 @@
     "@vitejs/plugin-vue": "^3.2.0",
     "@vitejs/plugin-vue-jsx": "^2.1.1",
     "@vue/compiler-sfc": "^3.4.21",
+    "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^11.0.3",
     "autoprefixer": "^10.4.19",
     "commitizen": "^4.3.0",

@@ -9,7 +9,7 @@ import {
   MailOutlined,
   TagsOutlined,
   SettingOutlined,
-} from '@vicons/antd';
+} from '@vicons/antd'
 
 export default {
   CaretUpOutlined,
@@ -22,4 +22,4 @@ export default {
   MailOutlined,
   TagsOutlined,
   SettingOutlined,
-};
+}

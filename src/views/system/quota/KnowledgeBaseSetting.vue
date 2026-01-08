@@ -21,48 +21,47 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch, ref } from 'vue'
-import { useMessage } from 'naive-ui'
-import { QuotaConfig } from '/#/sysConfig'
-import api from '@/api/sysConfig.js'
+  import { reactive, watch, ref } from 'vue'
+  import { useMessage } from 'naive-ui'
+  import { QuotaConfig } from '/#/sysConfig'
+  import api from '@/api/sysConfig.js'
 
-const rules = {
-}
-interface Props {
-  quota: QuotaConfig
-}
-interface Emit {
-  (e: 'reloadConfig'): void
-}
-const props = defineProps<Props>()
-const emit = defineEmits<Emit>()
-const formRef: any = ref(null)
-const message = useMessage()
-const formValue = reactive({
-  daily: 0,
-  monthly: 0,
-})
-watch(
-  () => props.quota.daily,
-  () => {
-    formValue.daily = props.quota.daily
-    formValue.monthly = props.quota.monthly
-  },
-  { immediate: true}
-)
-function reloadConfig() {
-  emit('reloadConfig')
-}
-function formSubmit() {
-  formRef.value.validate(async (errors) => {
-    await api.edit({ name: 'quota_by_qa_ask_daily', value: formValue.daily })
-    await api.edit({ name: 'quota_by_qa_item_monthly', value: formValue.monthly })
-    if (!errors) {
-      reloadConfig()
-      message.success('更新成功')
-    } else {
-      message.error('更新成功，请填写完整信息')
-    }
+  const rules = {}
+  interface Props {
+    quota: QuotaConfig
+  }
+  interface Emit {
+    (e: 'reloadConfig'): void
+  }
+  const props = defineProps<Props>()
+  const emit = defineEmits<Emit>()
+  const formRef: any = ref(null)
+  const message = useMessage()
+  const formValue = reactive({
+    daily: 0,
+    monthly: 0,
   })
-}
+  watch(
+    () => props.quota.daily,
+    () => {
+      formValue.daily = props.quota.daily
+      formValue.monthly = props.quota.monthly
+    },
+    { immediate: true }
+  )
+  function reloadConfig() {
+    emit('reloadConfig')
+  }
+  function formSubmit() {
+    formRef.value.validate(async (errors) => {
+      await api.edit({ name: 'quota_by_qa_ask_daily', value: formValue.daily })
+      await api.edit({ name: 'quota_by_qa_item_monthly', value: formValue.monthly })
+      if (!errors) {
+        reloadConfig()
+        message.success('更新成功')
+      } else {
+        message.error('更新成功，请填写完整信息')
+      }
+    })
+  }
 </script>

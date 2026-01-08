@@ -1,7 +1,7 @@
-import * as NaiveUI from 'naive-ui';
-import { computed } from 'vue';
-import { useDesignSetting } from '@/store/modules/designSetting';
-import { lighten } from '@/utils/index';
+import * as NaiveUI from 'naive-ui'
+import { computed } from 'vue'
+import { useDesignSetting } from '@/store/modules/designSetting'
+import { lighten } from '@/utils/index'
 
 /**
  * 挂载 Naive-ui 脱离上下文的 API
@@ -10,7 +10,7 @@ import { lighten } from '@/utils/index';
  */
 
 export function setupNaiveDiscreteApi() {
-  const designStore = useDesignSetting();
+  const designStore = useDesignSetting()
 
   const configProviderPropsRef = computed(() => ({
     theme: designStore.darkTheme ? NaiveUI.darkTheme : undefined,
@@ -24,16 +24,16 @@ export function setupNaiveDiscreteApi() {
         colorLoading: designStore.appTheme,
       },
     },
-  }));
+  }))
   const { message, dialog, notification, loadingBar } = NaiveUI.createDiscreteApi(
     ['message', 'dialog', 'notification', 'loadingBar'],
     {
       configProviderProps: configProviderPropsRef,
     }
-  );
+  )
 
-  window['$message'] = message;
-  window['$dialog'] = dialog;
-  window['$notification'] = notification;
-  window['$loading'] = loadingBar;
+  window['$message'] = message
+  window['$dialog'] = dialog
+  window['$notification'] = notification
+  window['$loading'] = loadingBar
 }

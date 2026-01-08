@@ -1,7 +1,7 @@
 import { http } from '@/utils/http/axios'
 import { McpSearchReq, McpAddOrEditReq } from '/#/mcp'
 
-function mcpSearch(data: McpSearchReq, params: { current: number, size: number }) {
+function mcpSearch(data: McpSearchReq, params: { current: number; size: number }) {
   return http.request({
     url: `/admin/mcp/search?currentPage=${params.current}&pageSize=${params.size}`,
     method: 'post',
@@ -13,7 +13,7 @@ function mcpAdd(data: McpAddOrEditReq) {
   return http.request({
     url: '/admin/mcp/add',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -21,7 +21,7 @@ function mcpEdit(data: McpAddOrEditReq) {
   return http.request({
     url: '/admin/mcp/edit',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -44,5 +44,5 @@ export default {
   mcpAdd,
   mcpEdit,
   mcpDel,
-  mcpSetEnable
+  mcpSetEnable,
 }

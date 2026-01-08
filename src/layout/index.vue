@@ -78,18 +78,18 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, unref, computed, onMounted } from 'vue';
-  import { Logo } from './components/Logo';
-  import { TabsView } from './components/TagsView';
-  import { MainView } from './components/Main';
-  import { AsideMenu } from './components/Menu';
-  import { PageHeader } from './components/Header';
-  import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
-  import { useDesignSetting } from '@/hooks/setting/useDesignSetting';
-  import { useRoute } from 'vue-router';
-  import { useProjectSettingStore } from '@/store/modules/projectSetting';
+  import { ref, unref, computed, onMounted } from 'vue'
+  import { Logo } from './components/Logo'
+  import { TabsView } from './components/TagsView'
+  import { MainView } from './components/Main'
+  import { AsideMenu } from './components/Menu'
+  import { PageHeader } from './components/Header'
+  import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+  import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
+  import { useRoute } from 'vue-router'
+  import { useProjectSettingStore } from '@/store/modules/projectSetting'
 
-  const { getDarkTheme } = useDesignSetting();
+  const { getDarkTheme } = useDesignSetting()
   const {
     // showFooter,
     navMode,
@@ -97,92 +97,92 @@
     headerSetting,
     menuSetting,
     multiTabsSetting,
-  } = useProjectSetting();
+  } = useProjectSetting()
 
-  const settingStore = useProjectSettingStore();
+  const settingStore = useProjectSettingStore()
 
-  const collapsed = ref<boolean>(false);
+  const collapsed = ref<boolean>(false)
 
-  const { mobileWidth, menuWidth } = unref(menuSetting);
+  const { mobileWidth, menuWidth } = unref(menuSetting)
 
   const isMobile = computed<boolean>({
     get: () => settingStore.getIsMobile,
     set: (val) => settingStore.setIsMobile(val),
-  });
+  })
 
   const fixedHeader = computed(() => {
-    const { fixed } = unref(headerSetting);
-    return fixed ? 'absolute' : 'static';
+    const { fixed } = unref(headerSetting)
+    return fixed ? 'absolute' : 'static'
   })
 
   const isMixMenuNoneSub = computed(() => {
-    const mixMenu = unref(menuSetting).mixMenu;
-    const currentRoute = useRoute();
-    if (unref(navMode) != 'horizontal-mix') return true;
+    const mixMenu = unref(menuSetting).mixMenu
+    const currentRoute = useRoute()
+    if (unref(navMode) != 'horizontal-mix') return true
     if (unref(navMode) === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot) {
-      return false;
+      return false
     }
-    return true;
+    return true
   })
 
   const fixedMenu = computed(() => {
-    const { fixed } = unref(headerSetting);
-    return fixed ? 'absolute' : 'static';
+    const { fixed } = unref(headerSetting)
+    return fixed ? 'absolute' : 'static'
   })
 
   const isMultiTabs = computed(() => {
-    return unref(multiTabsSetting).show;
+    return unref(multiTabsSetting).show
   })
 
   const fixedMulti = computed(() => {
-    return unref(multiTabsSetting).fixed;
+    return unref(multiTabsSetting).fixed
   })
 
   const inverted = computed(() => {
-    return ['dark', 'header-dark'].includes(unref(navTheme));
+    return ['dark', 'header-dark'].includes(unref(navTheme))
   })
 
   const getHeaderInverted = computed(() => {
-    return ['light', 'header-dark'].includes(unref(navTheme)) ? unref(inverted) : !unref(inverted);
+    return ['light', 'header-dark'].includes(unref(navTheme)) ? unref(inverted) : !unref(inverted)
   })
 
   const leftMenuWidth = computed(() => {
-    const { minMenuWidth, menuWidth } = unref(menuSetting);
-    return collapsed.value ? minMenuWidth : menuWidth;
+    const { minMenuWidth, menuWidth } = unref(menuSetting)
+    return collapsed.value ? minMenuWidth : menuWidth
   })
 
   const getMenuLocation = computed(() => {
-    return 'left';
+    return 'left'
   })
 
   // 控制显示或隐藏移动端侧边栏
   const showSideDrawer = computed({
     get: () => isMobile.value && collapsed.value,
     set: (val) => (collapsed.value = val),
-  });
+  })
 
   //判断是否触发移动端模式
   const checkMobileMode = () => {
     if (document.body.clientWidth <= mobileWidth) {
-      isMobile.value = true;
+      isMobile.value = true
     } else {
-      isMobile.value = false;
+      isMobile.value = false
     }
-    collapsed.value = false;
+    collapsed.value = false
   }
 
   const watchWidth = () => {
-    const Width = document.body.clientWidth;
+    const Width = document.body.clientWidth
     if (Width <= 950) {
-      collapsed.value = true;
-    } else collapsed.value = false;
+      collapsed.value = true
+    } else collapsed.value = false
 
-    checkMobileMode();
+    checkMobileMode()
   }
 
   onMounted(() => {
-    checkMobileMode();
-    window.addEventListener('resize', watchWidth);
+    checkMobileMode()
+    window.addEventListener('resize', watchWidth)
   })
 </script>
 

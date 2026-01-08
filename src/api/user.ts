@@ -17,7 +17,7 @@ function login(params) {
   )
 }
 
-function search(data, params: { current: number, size: number }) {
+function search(data, params: { current: number; size: number }) {
   return http.request({
     url: `/admin/user/search?currentPage=${params.current}&pageSize=${params.size}`,
     method: 'post',
@@ -52,21 +52,17 @@ function changePassword(params, uid) {
 }
 
 function active(uuid: string) {
-  return http.request(
-    {
-      url: `/admin/user/active/${uuid}`,
-      method: 'POST',
-    }
-  )
+  return http.request({
+    url: `/admin/user/active/${uuid}`,
+    method: 'POST',
+  })
 }
 
 function freeze(uuid: string) {
-  return http.request(
-    {
-      url: `/admin/user/freeze/${uuid}`,
-      method: 'POST',
-    }
-  )
+  return http.request({
+    url: `/admin/user/freeze/${uuid}`,
+    method: 'POST',
+  })
 }
 
 function addOne(data) {

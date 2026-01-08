@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
-  import { NDialogProvider, NNotificationProvider, NMessageProvider } from 'naive-ui';
+  import { defineComponent } from 'vue'
+  import { NDialogProvider, NNotificationProvider, NMessageProvider } from 'naive-ui'
 
   export default defineComponent({
     name: 'Application',
@@ -20,7 +20,7 @@
       NMessageProvider,
     },
     setup() {
-      return {};
+      return {}
     },
-  });
+  })
 </script>

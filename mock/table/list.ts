@@ -1,8 +1,8 @@
-import { Random } from 'mockjs';
-import { resultSuccess, doCustomTimes } from '../_util';
+import { Random } from 'mockjs'
+import { resultSuccess, doCustomTimes } from '../_util'
 
 const tableList = (pageSize) => {
-  const result: any[] = [];
+  const result: any[] = []
   doCustomTimes(pageSize, () => {
     result.push({
       uuid: '@uuid()',
@@ -15,9 +15,9 @@ const tableList = (pageSize) => {
       updateTime: '@datetime',
       'no|100000-10000000': 100000,
       'status|1': [true, false],
-    });
+    })
   })
-  return result;
+  return result
 }
 
 export default [
@@ -27,17 +27,17 @@ export default [
     timeout: 1000,
     method: 'get',
     response: ({ query }) => {
-      const { page = 1, pageSize = 10, name } = query;
-      const list = tableList(Number(pageSize));
+      const { page = 1, pageSize = 10, name } = query
+      const list = tableList(Number(pageSize))
       //并非真实，只是为了模拟搜索结果
-      const count = name ? 30 : 60;
+      const count = name ? 30 : 60
       return resultSuccess({
         page: Number(page),
         pageSize: Number(pageSize),
         pageCount: count,
         itemCount: count * Number(pageSize),
         list,
-      });
+      })
     },
   },
   {
@@ -45,17 +45,17 @@ export default [
     timeout: 1000,
     method: 'get',
     response: ({ query }) => {
-      const { page = 1, pageSize = 10, name } = query;
-      const list = tableList(Number(pageSize));
+      const { page = 1, pageSize = 10, name } = query
+      const list = tableList(Number(pageSize))
       //并非真实，只是为了模拟搜索结果
-      const count = name ? 30 : 60;
+      const count = name ? 30 : 60
       return resultSuccess({
         page: Number(page),
         pageSize: Number(pageSize),
         pageCount: count,
         itemCount: count * Number(pageSize),
         list,
-      });
+      })
     },
   },
-];
+]

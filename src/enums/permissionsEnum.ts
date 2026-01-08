@@ -1,4 +1,4 @@
 export interface PermissionsEnum {
-  value: string;
-  label: string;
+  value: string
+  label: string
 }

@@ -60,35 +60,35 @@ export const columns: BasicColumn<KbInfoData>[] = [
     width: 100,
     title(column) {
       return wrapTableTitle('重叠数量(文档切块时)')
-    }
+    },
   },
   {
     key: 'ingestModelName',
     width: 160,
     title(column) {
       return wrapTableTitle('模型(文档切块时)')
-    }
+    },
   },
   {
     key: 'retrieveMaxResults',
     width: 100,
     title(column) {
       return wrapTableTitle('文档召回最大数量')
-    }
+    },
   },
   {
     key: 'retrieveMinScore',
     width: 100,
     title(column) {
       return wrapTableTitle('文档召回最小分数')
-    }
+    },
   },
   {
     key: 'queryLlmTemperature',
     width: 120,
     title(column) {
       return wrapTableTitle('大模型输出内容的创造性')
-    }
+    },
   },
   {
     title: '请求时的系统提示词',
@@ -105,5 +105,4 @@ export const columns: BasicColumn<KbInfoData>[] = [
     key: 'updateTime',
     width: 180,
   },
-
 ]

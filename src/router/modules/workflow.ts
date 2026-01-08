@@ -1,7 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
-import { Layout } from '@/router/constant';
-import { Flow } from '@vicons/carbon';
-import { renderIcon } from '@/utils/index';
+import { RouteRecordRaw } from 'vue-router'
+import { Layout } from '@/router/constant'
+import { Flow } from '@vicons/carbon'
+import { renderIcon } from '@/utils/index'
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -41,9 +41,9 @@ const routes: Array<RouteRecordRaw> = [
           title: '流程列表',
         },
         component: () => import('@/views/workflow/index.vue'),
-      }
+      },
     ],
   },
-];
+]
 
-export default routes;
+export default routes

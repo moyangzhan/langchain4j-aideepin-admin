@@ -18,7 +18,7 @@ export const appThemeList: string[] = [
   '#1768AC',
   '#FB9300',
   '#FC5404',
-];
+]
 
 const setting = {
   //深色主题
@@ -27,6 +27,6 @@ const setting = {
   appTheme: '#2d8cf0',
   //系统内置主题色列表
   appThemeList,
-};
+}
 
-export default setting;
+export default setting

@@ -5,7 +5,7 @@
       <a href="https://github.com/jekip/naive-ui-admin" target="_blank"> 社区 </a>
       <a href="https://github.com/jekip/naive-ui-admin/issues" target="_blank"> 交流 </a>
     </div>
-    <div class="copyright"> naive-ui-admin 1.4 · Made by Ah jung </div>
+    <div class="copyright">naive-ui-admin 1.4 · Made by Ah jung</div>
   </div>
 </template>
 
@@ -18,7 +18,7 @@
         type: Boolean,
       },
     },
-  };
+  }
 </script>
 
 <style lang="less" scoped>

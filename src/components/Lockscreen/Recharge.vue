@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent } from 'vue'
 
   export default defineComponent({
     name: 'HuaweiCharge',
@@ -46,7 +46,7 @@
         validator: (val: string) => ['充电中', '已充满', '已断开电源'].includes(val),
       },
     },
-  });
+  })
 </script>
 
 <style lang="less" scoped>

@@ -1,4 +1,4 @@
-import type { App } from 'vue';
+import type { App } from 'vue'
 import {
   create,
   NMessageProvider,
@@ -67,7 +67,7 @@ import {
   NBackTop,
   NSkeleton,
   NCascader,
-} from 'naive-ui';
+} from 'naive-ui'
 
 // https://www.naiveui.com/en-US/os-theme/docs/import-on-demand
 const naive = create({
@@ -139,8 +139,8 @@ const naive = create({
     NSkeleton,
     NCascader,
   ],
-});
+})
 
 export function setupNaive(app: App<Element>) {
-  app.use(naive);
+  app.use(naive)
 }

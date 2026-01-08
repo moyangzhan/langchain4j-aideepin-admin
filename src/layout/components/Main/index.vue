@@ -20,9 +20,9 @@
 </template>
 
 <script>
-  import { defineComponent, computed, unref } from 'vue';
-  import { useAsyncRouteStore } from '@/store/modules/asyncRoute';
-  import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
+  import { defineComponent, computed, unref } from 'vue'
+  import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
+  import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 
   export default defineComponent({
     name: 'MainView',
@@ -38,23 +38,23 @@
       },
     },
     setup() {
-      const { isPageAnimate, pageAnimateType } = useProjectSetting();
-      const asyncRouteStore = useAsyncRouteStore();
+      const { isPageAnimate, pageAnimateType } = useProjectSetting()
+      const asyncRouteStore = useAsyncRouteStore()
       // 需要缓存的路由组件
-      const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents);
+      const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents)
 
       const getTransitionName = computed(() => {
-        return unref(isPageAnimate) ? unref(pageAnimateType) : '';
+        return unref(isPageAnimate) ? unref(pageAnimateType) : ''
       })
 
-      const mode = import.meta.env.MODE;
+      const mode = import.meta.env.MODE
       return {
         keepAliveComponents,
         getTransitionName,
         mode,
-      };
+      }
     },
-  });
+  })
 </script>
 
 <style lang="less" scoped></style>

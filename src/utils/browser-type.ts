@@ -5,14 +5,14 @@
  */
 export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
   // 权重：系统 + 系统版本 > 平台 > 内核 + 载体 + 内核版本 + 载体版本 > 外壳 + 外壳版本
-  const ua = navigator.userAgent.toLowerCase();
-  const testUa = (regexp) => regexp.test(ua);
+  const ua = navigator.userAgent.toLowerCase()
+  const testUa = (regexp) => regexp.test(ua)
   const testVs = (regexp) =>
     ua
       .match(regexp)
       ?.toString()
       .replace(/[^0-9|_.]/g, '')
-      .replace(/_/g, '.');
+      .replace(/_/g, '.')
   // 系统
   const system =
     new Map([
@@ -21,7 +21,7 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
       [testUa(/x11/g), 'linux'], // linux系统
       [testUa(/android|adr/g), 'android'], // android系统
       [testUa(/ios|iphone|ipad|ipod|iwatch/g), 'ios'], // ios系统
-    ]).get(true) || 'unknow';
+    ]).get(true) || 'unknow'
 
   // 系统版本
   const systemVs =
@@ -42,14 +42,14 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
       ['macos', testVs(/os x [\d._]+/g)],
       ['android', testVs(/android [\d._]+/g)],
       ['ios', testVs(/os [\d._]+/g)],
-    ]).get(system) || 'unknow';
+    ]).get(system) || 'unknow'
 
   // 平台
-  let platform = 'unknow';
+  let platform = 'unknow'
   if (system === 'windows' || system === 'macos' || system === 'linux') {
-    platform = 'desktop'; // 桌面端
+    platform = 'desktop' // 桌面端
   } else if (system === 'android' || system === 'ios' || testUa(/mobile/g)) {
-    platform = 'mobile'; // 移动端
+    platform = 'mobile' // 移动端
   }
   // 内核和载体
   const [engine = 'unknow', supporter = 'unknow'] = new Map([
@@ -69,7 +69,7 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
     [testUa(/gecko/g) && testUa(/firefox/g), ['gecko', 'firefox']], // [gecko内核,firefox浏览器]
     [testUa(/presto/g), ['presto', 'opera']], // [presto内核,opera浏览器]
     [testUa(/trident|compatible|msie/g), ['trident', 'iexplore']], // [trident内核,iexplore浏览器]
-  ]).get(true) || ['unknow', 'unknow'];
+  ]).get(true) || ['unknow', 'unknow']
 
   // 内核版本
   const engineVs =
@@ -78,7 +78,7 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
       ['gecko', testVs(/gecko\/[\d._]+/g)],
       ['presto', testVs(/presto\/[\d._]+/g)],
       ['trident', testVs(/trident\/[\d._]+/g)],
-    ]).get(engine) || 'unknow';
+    ]).get(engine) || 'unknow'
 
   // 载体版本
   const supporterVs =
@@ -89,7 +89,7 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
       ['edge', testVs(/edge\/[\d._]+/g)],
       ['safari', testVs(/version\/[\d._]+/g)],
       ['chrome', testVs(/chrome\/[\d._]+/g)],
-    ]).get(supporter) || 'unknow';
+    ]).get(supporter) || 'unknow'
 
   // 外壳和外壳版本
   const [shell = 'none', shellVs = 'unknow'] = new Map([
@@ -101,7 +101,7 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
     [testUa(/metasr/g), ['sougou', 'unknow']], // [搜狗浏览器(无版本),]
     [testUa(/lbbrowser/g), ['liebao', 'unknow']], // [猎豹浏览器(无版本),]
     [testUa(/maxthon/g), ['maxthon', testVs(/maxthon\/[\d._]+/g)]], // [遨游浏览器,]
-  ]).get(true) || ['none', 'unknow'];
+  ]).get(true) || ['none', 'unknow']
 
   return {
     'zh-cn': Object.assign(
@@ -138,5 +138,5 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
             shellVs, // 外壳版本
           }
     ),
-  }[lang];
+  }[lang]
 }

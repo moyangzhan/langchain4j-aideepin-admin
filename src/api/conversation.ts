@@ -1,6 +1,6 @@
 import { http } from '@/utils/http/axios'
 
-function searchPresetConvs(data, params: { current: number, size: number }) {
+function searchPresetConvs(data, params: { current: number; size: number }) {
   return http.request({
     url: `/admin/conv-preset/search?currentPage=${params.current}&pageSize=${params.size}`,
     method: 'post',
@@ -25,15 +25,13 @@ function editPresetConv(uuid: string, data) {
 }
 
 function deletePresetConv(uuid: string) {
-  return http.request(
-    {
-      url: `/admin/conv-preset/del/${uuid}`,
-      method: 'POST',
-    }
-  )
+  return http.request({
+    url: `/admin/conv-preset/del/${uuid}`,
+    method: 'POST',
+  })
 }
 
-function searchConvs(data, params: { current: number, size: number }) {
+function searchConvs(data, params: { current: number; size: number }) {
   return http.request({
     url: `/admin/conv/search?currentPage=${params.current}&pageSize=${params.size}`,
     method: 'post',
@@ -50,12 +48,10 @@ function editConv(uuid: string, data) {
 }
 
 function deleteConv(uuid: string) {
-  return http.request(
-    {
-      url: `/admin/conv/del/${uuid}`,
-      method: 'POST',
-    }
-  )
+  return http.request({
+    url: `/admin/conv/del/${uuid}`,
+    method: 'POST',
+  })
 }
 
 export default {

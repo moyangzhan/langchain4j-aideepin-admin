@@ -1,7 +1,7 @@
-import { useUserStore } from '@/store/modules/user';
+import { useUserStore } from '@/store/modules/user'
 
 export function usePermission() {
-  const userStore = useUserStore();
+  const userStore = useUserStore()
 
   /**
    * 检查权限
@@ -9,8 +9,8 @@ export function usePermission() {
    */
   function _somePermissions(accesses: string[]) {
     return userStore.getPermissions.some((item) => {
-      const { value }: any = item;
-      return accesses.includes(value);
+      const { value }: any = item
+      return accesses.includes(value)
     })
   }
 
@@ -19,8 +19,8 @@ export function usePermission() {
    * 可用于 v-if 显示逻辑
    * */
   function hasPermission(accesses: string[]): boolean {
-    if (!accesses || !accesses.length) return true;
-    return _somePermissions(accesses);
+    if (!accesses || !accesses.length) return true
+    return _somePermissions(accesses)
   }
 
   /**
@@ -28,11 +28,11 @@ export function usePermission() {
    * @param accesses
    */
   function hasEveryPermission(accesses: string[]): boolean {
-    const permissionsList = userStore.getPermissions;
+    const permissionsList = userStore.getPermissions
     if (Array.isArray(accesses)) {
-      return permissionsList.every((access: any) => accesses.includes(access.value));
+      return permissionsList.every((access: any) => accesses.includes(access.value))
     }
-    throw new Error(`[hasEveryPermission]: ${accesses} should be a array !`);
+    throw new Error(`[hasEveryPermission]: ${accesses} should be a array !`)
   }
 
   /**
@@ -41,12 +41,12 @@ export function usePermission() {
    * @param accessMap
    */
   function hasSomePermission(accesses: string[]): boolean {
-    const permissionsList = userStore.getPermissions;
+    const permissionsList = userStore.getPermissions
     if (Array.isArray(accesses)) {
-      return permissionsList.some((access: any) => accesses.includes(access.value));
+      return permissionsList.some((access: any) => accesses.includes(access.value))
     }
-    throw new Error(`[hasSomePermission]: ${accesses} should be a array !`);
+    throw new Error(`[hasSomePermission]: ${accesses} should be a array !`)
   }
 
-  return { hasPermission, hasEveryPermission, hasSomePermission };
+  return { hasPermission, hasEveryPermission, hasSomePermission }
 }

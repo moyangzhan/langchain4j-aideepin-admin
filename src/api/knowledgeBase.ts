@@ -1,6 +1,6 @@
 import { http } from '@/utils/http/axios'
 
-function search(data, params: { current: number, size: number }) {
+function search(data, params: { current: number; size: number }) {
   return http.request({
     url: `/admin/kb/search?currentPage=${params.current}&pageSize=${params.size}`,
     method: 'post',
@@ -9,12 +9,10 @@ function search(data, params: { current: number, size: number }) {
 }
 
 function deleteOne(uuid: string) {
-  return http.request(
-    {
-      url: `/admin/kb/del/${uuid}`,
-      method: 'POST',
-    }
-  )
+  return http.request({
+    url: `/admin/kb/del/${uuid}`,
+    method: 'POST',
+  })
 }
 
 function edit(data) {
@@ -39,5 +37,5 @@ export default {
   search,
   getInfo,
   edit,
-  deleteOne
+  deleteOne,
 }
