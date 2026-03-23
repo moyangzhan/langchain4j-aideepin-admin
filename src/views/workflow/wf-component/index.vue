@@ -32,7 +32,7 @@
     >
       <n-form
         :model="editFormParams"
-        :rules="newUserRules"
+        :rules="formRules"
         ref="formRef"
         label-placement="left"
         :label-width="100"
@@ -95,7 +95,7 @@
   //'Start', 'End', 'Answer', 'KnowledgeRetrieval', 'Switcher', 'Classifier', 'Template', 'DocumentExtractor', 'KeywordExtractor'
   const nonDeletableNodes = ['Start', 'End']
 
-  const newUserRules: FormRules = {
+  const formRules: FormRules = {
     name: {
       required: true,
       trigger: ['blur', 'input'],
@@ -115,9 +115,6 @@
       label: '标题',
       componentProps: {
         placeholder: '请输入标题',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -135,9 +132,6 @@
             value: false,
           },
         ],
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
       },
     },
   ]
@@ -205,7 +199,7 @@
                 handleDel(record)
               },
               onNegativeClick: () => {
-                console.log('已取消')
+                // 取消删除
               },
             })
           }
@@ -236,7 +230,7 @@
   }
 
   function onCheckedRow(rowKeys) {
-    console.log(rowKeys)
+    // 选中行回调
   }
 
   function reloadTable() {
@@ -296,12 +290,11 @@
   }
 
   function handleSubmit(values: Recordable) {
-    console.log(values)
     reloadTable()
   }
 
   function handleReset(values: Recordable) {
-    console.log(values)
+    // 重置回调
   }
 </script>
 

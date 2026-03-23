@@ -48,10 +48,20 @@
           <n-input placeholder="请输入接口地址" v-model:value="editFormParams.baseUrl" />
         </n-form-item>
         <n-form-item label="Api Key" path="apiKey">
-          <n-input placeholder="Api Key" v-model:value="editFormParams.apiKey" />
+          <n-input
+            placeholder="Api Key"
+            v-model:value="editFormParams.apiKey"
+            type="password"
+            show-password-on="click"
+          />
         </n-form-item>
         <n-form-item label="Secret Key" path="secretKey">
-          <n-input placeholder="Secret Key" v-model:value="editFormParams.secretKey" />
+          <n-input
+            placeholder="Secret Key"
+            v-model:value="editFormParams.secretKey"
+            type="password"
+            show-password-on="click"
+          />
         </n-form-item>
         <n-form-item
           label="启用代理"
@@ -74,6 +84,9 @@
               {{ opt.label }}
             </n-radio>
           </n-radio-group>
+        </n-form-item>
+        <n-form-item label="说明" path="remark">
+          <n-input type="textarea" placeholder="请输入说明" v-model:value="editFormParams.remark" />
         </n-form-item>
       </n-form>
       <template #action>
@@ -108,6 +121,7 @@
     secretKey: '',
     isProxyEnable: false,
     isOpenaiApiCompatible: false,
+    remark: '',
   })
   const dialog = useDialog()
   const formRef: any = ref(null)
@@ -175,9 +189,6 @@
       label: '名称',
       componentProps: {
         placeholder: '请输入名称',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -186,9 +197,6 @@
       label: '标题',
       componentProps: {
         placeholder: '请输入标题',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
   ]

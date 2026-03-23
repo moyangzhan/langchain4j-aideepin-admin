@@ -31,7 +31,7 @@
     >
       <n-form
         :model="editFormParams"
-        :rules="newUserRules"
+        :rules="formRules"
         ref="formRef"
         label-placement="left"
         :label-width="100"
@@ -83,11 +83,11 @@
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
 
-  const newUserRules: FormRules = {
-    name: {
-      required: false,
+  const formRules: FormRules = {
+    title: {
+      required: true,
       trigger: ['blur', 'input'],
-      message: '请输入名称',
+      message: '请输入标题',
     },
   }
 
@@ -98,9 +98,6 @@
       label: '标题',
       componentProps: {
         placeholder: '请输入标题',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -109,9 +106,6 @@
       label: '描述',
       componentProps: {
         placeholder: '请输入描述',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -176,11 +170,10 @@
               positiveText: '确定',
               negativeText: '取消',
               onPositiveClick: () => {
-                console.log('删除成功')
                 handleDelete(record)
               },
               onNegativeClick: () => {
-                console.log('已取消')
+                // 取消删除
               },
             })
           }
@@ -210,7 +203,7 @@
   }
 
   function onCheckedRow(rowKeys) {
-    console.log(rowKeys)
+    // 选中行回调
   }
 
   function reloadTable() {
@@ -251,12 +244,11 @@
   }
 
   function handleSubmit(values: Recordable) {
-    console.log(values)
     reloadTable()
   }
 
   function handleReset(values: Recordable) {
-    console.log(values)
+    // 重置回调
   }
 </script>
 

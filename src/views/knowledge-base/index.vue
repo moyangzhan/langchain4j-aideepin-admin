@@ -36,6 +36,9 @@
         <n-form-item label="是否公开" path="isPublic">
           <n-switch v-model:value="editFormParams.isPublic" />
         </n-form-item>
+        <n-form-item label="是否严格模式" path="isStrict">
+          <n-switch v-model:value="editFormParams.isStrict" />
+        </n-form-item>
         <n-form-item label="文档切块时重叠数量" path="ingestMaxOverlap">
           <n-input-number
             placeholder="文档切块时重叠数量"
@@ -49,6 +52,14 @@
             :options="aiModelOpts"
             v-model:value="editFormParams.ingestModelId"
             filterable
+            clearable
+          />
+        </n-form-item>
+        <n-form-item label="Token估计器" path="ingestTokenEstimator">
+          <n-select
+            placeholder="请选择Token估计器"
+            :options="tokenEstimatorOpts"
+            v-model:value="editFormParams.ingestTokenEstimator"
             clearable
           />
         </n-form-item>
@@ -118,8 +129,10 @@
     title: '',
     remark: '',
     isPublic: false,
+    isStrict: false,
     ingestMaxOverlap: 0,
     ingestModelId: 0,
+    ingestTokenEstimator: '',
     retrieveMaxResults: 0,
     retrieveMinScore: 0.0,
     queryLlmTemperature: 0.0,
@@ -134,6 +147,11 @@
       label: '否',
       value: 0,
     },
+  ]
+  const tokenEstimatorOpts = [
+    { label: 'OpenAI', value: 'openai' },
+    { label: 'HuggingFace', value: 'huggingface' },
+    { label: 'Qwen', value: 'qwen' },
   ]
   const aiModelOpts = ref<SelectOpt[]>([])
   const dialog = useDialog()
@@ -152,9 +170,6 @@
       label: '标题',
       componentProps: {
         placeholder: '请输入名称',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -163,9 +178,6 @@
       label: '所属用户名称',
       componentProps: {
         placeholder: '请输入所属用户名称',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -174,9 +186,6 @@
       label: '是否公开',
       componentProps: {
         options: publicOpts,
-        onUpdateChecked: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -187,9 +196,6 @@
         type: 'datetimerange',
         'value-format': 'yyyy.MM.dd HH:mm:ss',
         clearable: true,
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -199,9 +205,6 @@
       componentProps: {
         type: 'datetimerange',
         clearable: true,
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
       },
     },
   ]
@@ -238,7 +241,7 @@
                 handleDelete(record)
               },
               onNegativeClick: () => {
-                console.log('已取消')
+                // 取消删除
               },
             })
           }
@@ -259,7 +262,7 @@
   }
 
   function onCheckedRow(rowKeys) {
-    console.log(rowKeys)
+    // 选中行回调
   }
 
   function reloadTable() {
@@ -296,12 +299,11 @@
   }
 
   function handleSubmit(values: Recordable) {
-    console.log(values)
     reloadTable()
   }
 
   function handleReset(values: Recordable) {
-    console.log(values)
+    // 重置回调
   }
 
   onMounted(async () => {

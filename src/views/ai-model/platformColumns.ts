@@ -27,12 +27,20 @@ export const columns: BasicColumn<AiPlatformData>[] = [
     key: 'baseUrl',
   },
   {
-    title: 'Api key',
+    title: 'API Key',
     key: 'apiKey',
+    width: 100,
+    render(row) {
+      return row.apiKey ? '已配置' : '未配置'
+    },
   },
   {
-    title: 'Secret key',
+    title: 'Secret Key',
     key: 'secretKey',
+    width: 100,
+    render(row) {
+      return row.secretKey ? '已配置' : '-'
+    },
   },
   {
     title: '启用代理',

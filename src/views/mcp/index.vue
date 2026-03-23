@@ -17,7 +17,7 @@
       :show-icon="false"
       preset="card"
       :title="editFormParams.label"
-      class="max-w-[1000px]"
+      class="max-w-[1000px] edit-modal"
     >
       <div class="h-[90%] max-h-[700px] overflow-y-auto">
         <n-form
@@ -44,6 +44,33 @@
                 {{ opt.label }}
               </n-radio>
             </n-radio-group>
+          </n-form-item>
+          <n-form-item v-if="editFormParams.transportType === 'sse'" label="SSE地址" path="sseUrl">
+            <n-input placeholder="请输入SSE地址" v-model:value="editFormParams.sseUrl" />
+          </n-form-item>
+          <n-form-item
+            v-if="editFormParams.transportType === 'sse'"
+            label="SSE超时时间(秒)"
+            path="sseTimeout"
+          >
+            <n-input-number v-model:value="editFormParams.sseTimeout" :min="1" />
+          </n-form-item>
+          <n-form-item
+            v-if="editFormParams.transportType === 'stdio'"
+            label="STDIO命令"
+            path="stdioCommand"
+          >
+            <n-input placeholder="请输入STDIO命令" v-model:value="editFormParams.stdioCommand" />
+          </n-form-item>
+          <n-form-item
+            v-if="editFormParams.transportType === 'stdio'"
+            label="STDIO参数"
+            path="stdioArg"
+          >
+            <n-input placeholder="请输入STDIO参数" v-model:value="editFormParams.stdioArg" />
+          </n-form-item>
+          <n-form-item label="网址" path="website">
+            <n-input placeholder="请输入MCP服务的网址" v-model:value="editFormParams.website" />
           </n-form-item>
           <n-form-item label="参数设置" path="presetParams">
             <n-table :single-line="false">
@@ -266,9 +293,6 @@
       label: '标题',
       componentProps: {
         placeholder: '请输入标题',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -277,9 +301,6 @@
       label: '传输类型',
       componentProps: {
         options: mcpTransportType,
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -288,9 +309,6 @@
       label: '安装类型',
       componentProps: {
         options: mcpInstallType,
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -308,9 +326,6 @@
             value: false,
           },
         ],
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -350,6 +365,7 @@
     sseTimeout: 30,
     stdioCommand: '',
     stdioArg: '',
+    website: '',
     presetParams: [] as PresetParam[],
     customizedParamDefinitions: [] as McpCustomizedParamDefinition[],
     repoUrl: '',
@@ -421,7 +437,7 @@
   }
 
   function onCheckedRow(rowKeys) {
-    console.log(rowKeys)
+    // 选中行回调
   }
 
   function reloadTable() {
@@ -432,17 +448,22 @@
     e.preventDefault()
     formBtnLoading.value = true
     formRef.value.validate(async (errors) => {
-      if (!errors) {
-        await mcpApi.mcpEdit(editFormParams)
-        window['$message'].success(`${editFormParams.label}成功`)
-        setTimeout(() => {
-          showEditModal.value = false
-          reloadTable()
-        })
-      } else {
-        window['$message'].error('请填写完整信息')
+      try {
+        if (!errors) {
+          await mcpApi.mcpEdit(editFormParams)
+          window['$message'].success(`${editFormParams.label}成功`)
+          setTimeout(() => {
+            showEditModal.value = false
+            reloadTable()
+          })
+        } else {
+          window['$message'].error('请填写完整信息')
+        }
+      } catch (error) {
+        window['$message'].error('操作失败')
+      } finally {
+        formBtnLoading.value = false
       }
-      formBtnLoading.value = false
     })
   }
 
@@ -465,7 +486,6 @@
   }
 
   function handleSubmit(values: Recordable) {
-    console.log(values)
     reloadTable()
   }
 
@@ -508,9 +528,11 @@
   }
 </script>
 <style lang="less" scoped>
-  ::v-deep(.n-form-item-label__text) {
-    font-weight: bold;
-    border-left: 3px solid gray;
-    padding-left: 0.2rem;
+  .edit-modal {
+    ::v-deep(.n-form-item-label__text) {
+      font-weight: bold;
+      border-left: 3px solid gray;
+      padding-left: 0.2rem;
+    }
   }
 </style>

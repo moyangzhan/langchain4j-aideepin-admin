@@ -49,6 +49,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       host: true,
       port: VITE_PORT,
       proxy: createProxy(VITE_PROXY),
+      hmr: {
+        overlay: true,
+      },
+      watch: {
+        usePolling: true,
+        interval: 100,
+      },
     },
     optimizeDeps: {
       include: [],

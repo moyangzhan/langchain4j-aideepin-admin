@@ -109,6 +109,17 @@
             v-model:value="editFormParams.setting"
           />
         </n-form-item>
+        <n-form-item label="说明" path="remark">
+          <n-input type="textarea" placeholder="请输入说明" v-model:value="editFormParams.remark" />
+        </n-form-item>
+        <n-form-item label="属性" path="properties">
+          <JsonEditorVue
+            v-model="editFormParams.properties"
+            :main-menu-bar="false"
+            :mode="Mode.text"
+            style="width: 100%; height: 200px"
+          />
+        </n-form-item>
       </n-form>
       <template #action>
         <n-space>
@@ -121,7 +132,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { h, onMounted, reactive, ref } from 'vue'
+  import { h, onMounted, reactive, ref, computed } from 'vue'
   import { BasicTable, TableAction } from '@/components/Table'
   import { BasicForm, useForm } from '@/components/Form/index'
   import api from '@/api/aiModel'
@@ -132,6 +143,12 @@
   import { AiModelData } from '/#/aiModel'
   import type { FormItemRule, FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
+  import JsonEditorVue from 'json-editor-vue'
+
+  enum Mode {
+    text = 'text',
+    tree = 'tree',
+  }
 
   const newRecordRules: FormRules = {
     name: {
@@ -194,6 +211,8 @@
     isThinkingClosable: false,
     isSupportWebSearch: false,
     setting: '',
+    remark: '',
+    properties: null as Record<string, any> | null,
 
     inputTypes: '',
     responseFormatTypes: '',
@@ -258,7 +277,7 @@
                 handleDelete(record)
               },
               onNegativeClick: () => {
-                console.log('已取消')
+                // 取消删除
               },
             })
           }
@@ -298,7 +317,7 @@
   }
 
   function onCheckedRow(rowKeys) {
-    console.log(rowKeys)
+    // 选中行回调
   }
 
   function reloadTable() {
@@ -309,23 +328,41 @@
     e.preventDefault()
     formBtnLoading.value = true
     formRef.value.validate(async (errors) => {
-      if (!errors) {
-        editFormParams.inputTypes = editFormParams.inputTypeList.join(',')
-        editFormParams.responseFormatTypes = editFormParams.responseFormatTypeList.join(',')
-        if (editFormParams.id === '') {
-          await api.addOne(editFormParams)
+      try {
+        if (!errors) {
+          editFormParams.inputTypes = editFormParams.inputTypeList.join(',')
+          editFormParams.responseFormatTypes = editFormParams.responseFormatTypeList.join(',')
+          // 处理 properties：如果是字符串则解析为对象
+          let propertiesValue: Record<string, any> | null = editFormParams.properties
+          if (typeof propertiesValue === 'string' && (propertiesValue as string).trim()) {
+            try {
+              propertiesValue = JSON.parse(propertiesValue as string)
+            } catch {
+              propertiesValue = null
+            }
+          }
+          const submitData = {
+            ...editFormParams,
+            properties: propertiesValue || null,
+          }
+          if (editFormParams.id === '') {
+            await api.addOne(submitData)
+          } else {
+            await api.edit(submitData)
+          }
+          window['$message'].success(`${editFormParams.label}成功`)
+          setTimeout(() => {
+            showEditModal.value = false
+            reloadTable()
+          })
         } else {
-          await api.edit(editFormParams)
+          window['$message'].error('请填写完整信息')
         }
-        window['$message'].success('新建成功')
-        setTimeout(() => {
-          showEditModal.value = false
-          reloadTable()
-        })
-      } else {
-        window['$message'].error('请填写完整信息')
+      } catch (error) {
+        window['$message'].error('操作失败')
+      } finally {
+        formBtnLoading.value = false
       }
-      formBtnLoading.value = false
     })
   }
 
@@ -353,6 +390,20 @@
     if (!editFormParams.setting) {
       editFormParams.setting = ''
     }
+    // 处理 properties 字段（后端返回的可能是对象或字符串）
+    if (record.properties) {
+      if (typeof record.properties === 'string') {
+        try {
+          editFormParams.properties = JSON.parse(record.properties)
+        } catch {
+          editFormParams.properties = null
+        }
+      } else {
+        editFormParams.properties = record.properties
+      }
+    } else {
+      editFormParams.properties = null
+    }
     editFormParams.label = '编辑'
   }
 
@@ -361,13 +412,12 @@
     window['$message'].info('删除成功')
   }
 
-  function handleSubmit(values: Recordable) {
-    console.log(values)
+  function handleSubmit(_values: Recordable) {
     reloadTable()
   }
 
-  function handleReset(values: Recordable) {
-    console.log(values)
+  function handleReset(_values: Recordable) {
+    // 重置回调
   }
 
   onMounted(() => {

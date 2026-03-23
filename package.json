@@ -40,6 +40,7 @@
     "date-fns": "^2.30.0",
     "echarts": "^5.5.0",
     "element-resize-detector": "^1.2.4",
+    "json-editor-vue": "^0.18.1",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
     "mockjs": "^1.1.0",

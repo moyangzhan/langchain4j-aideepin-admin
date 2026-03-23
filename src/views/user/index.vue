@@ -83,7 +83,7 @@
 
   const newUserRules: FormRules = {
     name: {
-      required: false,
+      required: true,
       trigger: ['blur', 'input'],
       message: '请输入名称',
     },
@@ -96,9 +96,6 @@
       label: '姓名',
       componentProps: {
         placeholder: '请输入姓名',
-        onInput: (e: any) => {
-          console.log(e)
-        },
       },
     },
     {
@@ -121,9 +118,7 @@
             value: 3,
           },
         ],
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
+        onUpdateValue: (e: any) => {},
       },
     },
     {
@@ -159,9 +154,7 @@
             value: false,
           },
         ],
-        onUpdateValue: (e: any) => {
-          console.log(e)
-        },
+        onUpdateValue: (e: any) => {},
       },
     },
   ]
@@ -245,7 +238,7 @@
   }
 
   function onCheckedRow(rowKeys) {
-    console.log(rowKeys)
+    // 选中行回调
   }
 
   function reloadTable() {
@@ -256,21 +249,26 @@
     e.preventDefault()
     formBtnLoading.value = true
     formRef.value.validate(async (errors) => {
-      if (!errors) {
-        if (editFormParams.uuid === '') {
-          await userApi.addOne(editFormParams)
+      try {
+        if (!errors) {
+          if (editFormParams.uuid === '') {
+            await userApi.addOne(editFormParams)
+          } else {
+            await userApi.edit(editFormParams)
+          }
+          window['$message'].success(`${editFormParams.label}成功`)
+          setTimeout(() => {
+            showEditModal.value = false
+            reloadTable()
+          })
         } else {
-          await userApi.edit(editFormParams)
+          window['$message'].error('请填写完整信息')
         }
-        window['$message'].success(`${editFormParams.label}成功`)
-        setTimeout(() => {
-          showEditModal.value = false
-          reloadTable()
-        })
-      } else {
-        window['$message'].error('请填写完整信息')
+      } catch (error) {
+        window['$message'].error('操作失败')
+      } finally {
+        formBtnLoading.value = false
       }
-      formBtnLoading.value = false
     })
   }
 
@@ -293,12 +291,11 @@
   }
 
   function handleSubmit(values: Recordable) {
-    console.log(values)
     reloadTable()
   }
 
   function handleReset(values: Recordable) {
-    console.log(values)
+    // 重置回调
   }
 </script>
 
