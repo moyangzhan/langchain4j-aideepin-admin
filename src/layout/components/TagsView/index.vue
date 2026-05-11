@@ -112,6 +112,7 @@
   import { useProjectSettingStore } from '@/store/modules/projectSetting'
   import { useThemeVars } from 'naive-ui'
   import { useGo } from '@/hooks/web/usePage'
+  import { t } from '@/locales'
 
   export default defineComponent({
     name: 'TabsView',
@@ -205,24 +206,24 @@
         const isDisabled = tabsList.value.length <= 1
         return [
           {
-            label: '刷新当前',
+            label: t('layout.tabsView.refreshCurrent'),
             key: '1',
             icon: renderIcon(ReloadOutlined),
           },
           {
-            label: '关闭当前',
+            label: t('layout.tabsView.closeCurrent'),
             key: '2',
             disabled: isCurrent.value || isDisabled,
             icon: renderIcon(CloseOutlined),
           },
           {
-            label: '关闭其他',
+            label: t('layout.tabsView.closeOther'),
             key: '3',
             disabled: isDisabled,
             icon: renderIcon(ColumnWidthOutlined),
           },
           {
-            label: '关闭全部',
+            label: t('layout.tabsView.closeAll'),
             key: '4',
             disabled: isDisabled,
             icon: renderIcon(MinusOutlined),
@@ -308,7 +309,7 @@
       // 关闭当前页面
       const removeTab = (route) => {
         if (tabsList.value.length === 1) {
-          return message.warning('这已经是最后一页，不能再关闭了！')
+          return message.warning(t('layout.tabsView.lastTabWarning'))
         }
         delKeepAliveCompName()
         tabsViewStore.closeCurrentTab(route)

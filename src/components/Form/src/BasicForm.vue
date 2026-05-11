@@ -91,13 +91,13 @@
             @click="handleSubmit"
             :loading="loadingSub"
             attr-type="submit"
-            >{{ getProps.submitButtonText }}</n-button
+            >{{ getProps.submitButtonText || t('common.search') }}</n-button
           >
           <n-button
             v-if="getProps.showResetButton"
             v-bind="getResetBtnOptions"
             @click="resetFields"
-            >{{ getProps.resetButtonText }}</n-button
+            >{{ getProps.resetButtonText || t('common.reset') }}</n-button
           >
           <n-button
             type="primary"
@@ -114,7 +114,7 @@
                 <UpOutlined />
               </n-icon>
             </template>
-            {{ overflow ? '展开' : '收起' }}
+            {{ overflow ? t('form.expand') : t('form.collapse') }}
           </n-button>
         </n-space>
       </n-gi>
@@ -137,6 +137,7 @@
 
   import { isArray } from '@/utils/is/index'
   import { deepMerge } from '@/utils'
+  import { t } from '@/locales'
 
   export default defineComponent({
     name: 'BasicForm',

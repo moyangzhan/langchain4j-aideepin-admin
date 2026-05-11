@@ -1,4 +1,5 @@
 import { computed, onMounted, reactive, toRefs } from 'vue'
+import { t } from '@/locales'
 
 interface Battery {
   charging: boolean // 当前电池是否正在充电
@@ -30,7 +31,7 @@ export const useBattery = () => {
   const calcDischargingTime = computed(() => {
     const hour = state.battery.dischargingTime / 3600
     const minute = (state.battery.dischargingTime / 60) % 60
-    return `${~~hour}小时${~~minute}分钟`
+    return `${~~hour}${t('lockscreen.recharge.hour')}${~~minute}${t('lockscreen.recharge.minute')}`
   })
 
   // 计算电池充满剩余时间
@@ -38,17 +39,17 @@ export const useBattery = () => {
     console.log(state.battery)
     const hour = state.battery.chargingTime / 3600
     const minute = (state.battery.chargingTime / 60) % 60
-    return `${~~hour}小时${~~minute}分钟`
+    return `${~~hour}${t('lockscreen.recharge.hour')}${~~minute}${t('lockscreen.recharge.minute')}`
   })
 
   // 电池状态
   const batteryStatus = computed(() => {
     if (state.battery.charging && state.battery.level >= 100) {
-      return '已充满'
+      return t('lockscreen.recharge.fullyCharged')
     } else if (state.battery.charging) {
-      return '充电中'
+      return t('lockscreen.recharge.charging')
     } else {
-      return '已断开电源'
+      return t('lockscreen.recharge.disconnected')
     }
   })
 

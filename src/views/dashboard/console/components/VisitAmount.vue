@@ -5,6 +5,7 @@
   import { onMounted, ref, Ref } from 'vue'
   import { useECharts } from '@/hooks/web/useECharts'
   import { basicProps } from './props'
+  import { t } from '@/locales'
 
   defineProps({
     ...basicProps,
@@ -27,20 +28,7 @@
       grid: { left: '1%', right: '1%', top: '2  %', bottom: 0, containLabel: true },
       xAxis: {
         type: 'category',
-        data: [
-          '1月',
-          '2月',
-          '3月',
-          '4月',
-          '5月',
-          '6月',
-          '7月',
-          '8月',
-          '9月',
-          '10月',
-          '11月',
-          '12月',
-        ],
+        data: t('dashboard.months'),
       },
       yAxis: {
         type: 'value',

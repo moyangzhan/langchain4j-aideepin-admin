@@ -41,7 +41,7 @@
               <n-icon size="18" class="m-auto">
                 <PlusOutlined />
               </n-icon>
-              <span class="upload-title">上传图片</span>
+              <span class="upload-title">{{ t('upload.uploadImage') }}</span>
             </div>
           </n-upload>
         </div>
@@ -50,7 +50,7 @@
 
     <!--上传图片-->
     <n-space>
-      <n-alert title="提示" type="info" v-if="helpText" class="flex w-full">
+      <n-alert :title="t('common.tip')" type="info" v-if="helpText" class="flex w-full">
         {{ helpText }}
       </n-alert>
     </n-space>
@@ -60,7 +60,7 @@
   <n-modal
     v-model:show="showModal"
     preset="card"
-    title="预览"
+    :title="t('upload.preview')"
     :bordered="false"
     :style="{ width: '520px' }"
   >
@@ -77,6 +77,7 @@
   import componentSetting from '@/settings/componentSetting'
   import { useGlobSetting } from '@/hooks/setting'
   import { isString } from '@/utils/is'
+  import { t } from '@/locales'
 
   const globSetting = useGlobSetting()
 
@@ -126,10 +127,10 @@
       //删除
       function remove(index: number) {
         dialog.info({
-          title: '提示',
-          content: '你确定要删除吗？',
-          positiveText: '确定',
-          negativeText: '取消',
+          title: t('common.tip'),
+          content: t('upload.deleteConfirm'),
+          positiveText: t('common.positiveText'),
+          negativeText: t('common.negativeText'),
           onPositiveClick: () => {
             state.imgList.splice(index, 1)
             state.originalImgList.splice(index, 1)
@@ -158,14 +159,14 @@
 
         // 设置最大值，则判断
         if (maxSize && fileInfo.size / 1024 / 1024 >= maxSize) {
-          message.error(`上传文件最大值不能超过${maxSize}M`)
+          message.error(t('upload.maxSizeError', { maxSize }))
           return false
         }
 
         // 设置类型,则判断
         const fileType = componentSetting.upload.fileType
         if (acceptRef.length > 0 && !checkFileType(fileInfo.type)) {
-          message.error(`只能上传文件类型为${fileType.join(',')}`)
+          message.error(t('upload.fileTypeError', { fileType: fileType.join(',') }))
           return false
         }
 
@@ -177,7 +178,7 @@
         const res = eval('(' + Event.target.response + ')')
         const infoField = componentSetting.upload.apiSetting.infoField
         const { code } = res
-        const message = res.msg || res.message || '上传失败'
+        const message = res.msg || res.message || t('upload.uploadFailed')
         const result = res[infoField]
         //成功
         if (code === ResultEnum.SUCCESS) {

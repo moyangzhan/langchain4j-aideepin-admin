@@ -16,7 +16,7 @@
       v-model:show="showEditModal"
       :show-icon="false"
       preset="dialog"
-      title="编辑"
+      :title="t('common.edit')"
       class="min-w-[600px]"
     >
       <n-form
@@ -27,52 +27,52 @@
         :label-width="150"
         class="py-4"
       >
-        <n-form-item label="标题" path="title">
-          <n-input placeholder="请输入标题" v-model:value="editFormParams.title" />
+        <n-form-item :label="t('common.title')" path="title">
+          <n-input :placeholder="t('knowledgeBase.titlePlaceholder')" v-model:value="editFormParams.title" />
         </n-form-item>
-        <n-form-item label="描述" path="remark">
-          <n-input type="textarea" placeholder="请输入描述" v-model:value="editFormParams.remark" />
+        <n-form-item :label="t('common.description')" path="remark">
+          <n-input type="textarea" :placeholder="t('common.description')" v-model:value="editFormParams.remark" />
         </n-form-item>
-        <n-form-item label="是否公开" path="isPublic">
+        <n-form-item :label="t('common.isPublic')" path="isPublic">
           <n-switch v-model:value="editFormParams.isPublic" />
         </n-form-item>
-        <n-form-item label="是否严格模式" path="isStrict">
+        <n-form-item :label="t('knowledgeBase.isStrict')" path="isStrict">
           <n-switch v-model:value="editFormParams.isStrict" />
         </n-form-item>
-        <n-form-item label="文档切块时重叠数量" path="ingestMaxOverlap">
+        <n-form-item :label="t('knowledgeBase.ingestMaxOverlap')" path="ingestMaxOverlap">
           <n-input-number
-            placeholder="文档切块时重叠数量"
+            :placeholder="t('knowledgeBase.ingestMaxOverlap')"
             v-model:value="editFormParams.ingestMaxOverlap"
             class="flex-grow"
           />
         </n-form-item>
-        <n-form-item label="模型" path="ingestModelName">
+        <n-form-item :label="t('knowledgeBase.ingestModelName')" path="ingestModelName">
           <n-select
-            placeholder="抽取图谱知识时的模型"
+            :placeholder="t('knowledgeBase.ingestModelNamePlaceholder')"
             :options="aiModelOpts"
             v-model:value="editFormParams.ingestModelId"
             filterable
             clearable
           />
         </n-form-item>
-        <n-form-item label="Token估计器" path="ingestTokenEstimator">
+        <n-form-item :label="t('knowledgeBase.tokenEstimator')" path="ingestTokenEstimator">
           <n-select
-            placeholder="请选择Token估计器"
+            :placeholder="t('knowledgeBase.tokenEstimatorPlaceholder')"
             :options="tokenEstimatorOpts"
             v-model:value="editFormParams.ingestTokenEstimator"
             clearable
           />
         </n-form-item>
-        <n-form-item label="文档召回最大数量" path="retrieveMaxResults">
+        <n-form-item :label="t('knowledgeBase.retrieveMaxResults')" path="retrieveMaxResults">
           <n-input-number
-            placeholder="文档召回最大数量"
+            :placeholder="t('knowledgeBase.retrieveMaxResults')"
             v-model:value="editFormParams.retrieveMaxResults"
             class="flex-grow"
           />
         </n-form-item>
-        <n-form-item label="文档召回最小分数" path="retrieveMinScore">
+        <n-form-item :label="t('knowledgeBase.retrieveMinScore')" path="retrieveMinScore">
           <n-input-number
-            placeholder="文档召回最小分数"
+            :placeholder="t('knowledgeBase.retrieveMinScore')"
             v-model:value="editFormParams.retrieveMinScore"
             :precision="1"
             :min="0"
@@ -80,9 +80,9 @@
             class="flex-grow"
           />
         </n-form-item>
-        <n-form-item label="响应时的创造性" path="queryLlmTemperature">
+        <n-form-item :label="t('knowledgeBase.queryLlmTemperature')" path="queryLlmTemperature">
           <n-input-number
-            placeholder="响应时的创造性"
+            :placeholder="t('knowledgeBase.queryLlmTemperature')"
             v-model:value="editFormParams.queryLlmTemperature"
             :precision="1"
             :min="0"
@@ -90,18 +90,18 @@
             class="flex-grow"
           />
         </n-form-item>
-        <n-form-item label="请求时使用的系统提示词" path="querySystemMessage">
+        <n-form-item :label="t('knowledgeBase.querySystemMessage')" path="querySystemMessage">
           <n-input
             type="textarea"
-            placeholder="请求时使用的系统提示词"
+            :placeholder="t('knowledgeBase.querySystemMessage')"
             v-model:value="editFormParams.querySystemMessage"
           />
         </n-form-item>
       </n-form>
       <template #action>
         <n-space>
-          <n-button @click="() => (showEditModal = false)">取消</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">确定</n-button>
+          <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">{{ t('common.confirm') }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -117,6 +117,7 @@
   import { columns, KbInfoData } from './columns'
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
+  import { t } from '@/locales'
 
   interface SelectOpt {
     label: string
@@ -140,11 +141,11 @@
   })
   const publicOpts = [
     {
-      label: '是',
+      label: t('common.yes'),
       value: 1,
     },
     {
-      label: '否',
+      label: t('common.no'),
       value: 0,
     },
   ]
@@ -160,30 +161,30 @@
     title: {
       required: true,
       trigger: ['blur', 'input'],
-      message: '请输入标题',
+      message: () => t('common.title'),
     },
   }
   const schemas: FormSchema[] = [
     {
       field: 'title',
       component: 'NInput',
-      label: '标题',
+      label: t('common.title'),
       componentProps: {
-        placeholder: '请输入名称',
+        placeholder: t('knowledgeBase.titlePlaceholder'),
       },
     },
     {
       field: 'ownerName',
       component: 'NInput',
-      label: '所属用户名称',
+      label: t('knowledgeBase.ownerName'),
       componentProps: {
-        placeholder: '请输入所属用户名称',
+        placeholder: t('knowledgeBase.ownerNamePlaceholder'),
       },
     },
     {
       field: 'isPublic',
       component: 'NSelect',
-      label: '是否公开',
+      label: t('common.isPublic'),
       componentProps: {
         options: publicOpts,
       },
@@ -191,7 +192,7 @@
     {
       field: 'createDate',
       component: 'NDatePicker',
-      label: '创建时间',
+      label: t('common.createTime'),
       componentProps: {
         type: 'datetimerange',
         'value-format': 'yyyy.MM.dd HH:mm:ss',
@@ -201,7 +202,7 @@
     {
       field: 'updateTime',
       component: 'NDatePicker',
-      label: '更新时间',
+      label: t('common.updateTime'),
       componentProps: {
         type: 'datetimerange',
         clearable: true,
@@ -212,7 +213,7 @@
   const actionRef = ref()
   const actionColumn = reactive({
     width: 160,
-    title: '操作',
+    title: t('common.action'),
     key: 'action',
     fixed: 'right',
     render(record) {
@@ -220,23 +221,23 @@
         style: 'button',
         actions: [
           {
-            label: '编辑',
+            label: t('common.edit'),
             onClick: handleEdit.bind(null, record),
           },
         ],
         dropDownActions: [
           {
-            label: '删除',
+            label: t('common.delete'),
             key: 'delete',
           },
         ],
         select: (key) => {
           if (key === 'delete') {
             dialog.warning({
-              title: '提示',
-              content: `删除后数据无法恢复，确定要删除 ${record.title} 吗?`,
-              positiveText: '确定',
-              negativeText: '取消',
+              title: t('common.tip'),
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              positiveText: t('common.positiveText'),
+              negativeText: t('common.negativeText'),
               onPositiveClick: () => {
                 handleDelete(record)
               },
@@ -275,13 +276,13 @@
     formRef.value.validate(async (errors) => {
       if (!errors) {
         await api.edit({ ...editFormParams, isPublic: editFormParams.isPublic })
-        window['$message'].success('编辑成功')
+        window['$message'].success(t('common.editSuccess'))
         setTimeout(() => {
           showEditModal.value = false
           reloadTable()
         })
       } else {
-        window['$message'].error('请填写完整信息')
+        window['$message'].error(t('common.fillCompleteInfo'))
       }
       formBtnLoading.value = false
     })
@@ -294,7 +295,7 @@
 
   async function handleDelete(record: Recordable) {
     await api.deleteOne(record.uuid)
-    window['$message'].info('删除成功')
+    window['$message'].info(t('common.deleteSuccess'))
     reloadTable()
   }
 

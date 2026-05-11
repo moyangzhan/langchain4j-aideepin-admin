@@ -29,7 +29,7 @@
             <n-switch v-model:value="isStriped" @update:value="setStriped" />
           </div>
         </template>
-        <span>表格斑马纹</span>
+        <span>{{ t('table.stripe') }}</span>
       </n-tooltip>
       <n-divider vertical />
 
@@ -42,7 +42,7 @@
             </n-icon>
           </div>
         </template>
-        <span>刷新</span>
+        <span>{{ t('table.refresh') }}</span>
       </n-tooltip>
 
       <!--密度-->
@@ -61,7 +61,7 @@
             </n-dropdown>
           </div>
         </template>
-        <span>密度</span>
+        <span>{{ t('table.density') }}</span>
       </n-tooltip>
 
       <!--表格设置单独抽离成组件-->
@@ -113,21 +113,22 @@
   import { getViewportOffset } from '@/utils/domUtils'
   import { useWindowSizeFn } from '@/hooks/event/useWindowSizeFn'
   import { isBoolean } from '@/utils/is'
+  import { t } from '@/locales'
 
   const densityOptions = [
     {
       type: 'menu',
-      label: '紧凑',
+      label: t('table.densityCompact'),
       key: 'small',
     },
     {
       type: 'menu',
-      label: '默认',
+      label: t('table.densityDefault'),
       key: 'medium',
     },
     {
       type: 'menu',
-      label: '宽松',
+      label: t('table.densityLoose'),
       key: 'large',
     },
   ]

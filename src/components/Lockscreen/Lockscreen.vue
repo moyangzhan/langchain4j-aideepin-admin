@@ -9,7 +9,7 @@
     <template v-if="!showLogin">
       <div class="lock-box">
         <div class="lock">
-          <span class="lock-icon" title="解锁屏幕" @click="onLockLogin(true)">
+          <span class="lock-icon" :title="t('lockscreen.unlockScreen')" @click="onLockLogin(true)">
             <n-icon>
               <lock-outlined />
             </n-icon>
@@ -26,7 +26,7 @@
 
       <div class="local-time">
         <div class="time">{{ hour }}:{{ minute }}</div>
-        <div class="date">{{ month }}月{{ day }}号，星期{{ week }}</div>
+        <div class="date">{{ t('lockscreen.date', { month, day, week }) }}</div>
       </div>
       <div class="computer-status">
         <span :class="{ offline: !online }" class="network">
@@ -50,7 +50,7 @@
           autofocus
           v-model:value="loginParams.password"
           @keyup.enter="onLogin"
-          placeholder="请输入登录密码"
+          :placeholder="t('lockscreen.enterPassword')"
         >
           <template #suffix>
             <n-icon @click="onLogin" style="cursor: pointer">
@@ -65,9 +65,9 @@
         </div>
 
         <div class="flex justify-around w-full mt-1">
-          <div><a @click="showLogin = false">返回</a></div>
-          <div><a @click="goLogin">重新登录</a></div>
-          <div><a @click="onLogin">进入系统</a></div>
+          <div><a @click="showLogin = false">{{ t('lockscreen.goBack') }}</a></div>
+          <div><a @click="goLogin">{{ t('lockscreen.reLogin') }}</a></div>
+          <div><a @click="onLogin">{{ t('lockscreen.enterSystem') }}</a></div>
         </div>
       </div>
     </template>
@@ -93,6 +93,7 @@
   import { useScreenLockStore } from '@/store/modules/screenLock'
   import { UserInfoType } from '/#/user'
   import { useUserStore } from '@/store/modules/user'
+  import { t } from '@/locales'
 
   export default defineComponent({
     name: 'ScreenLock',
@@ -123,7 +124,7 @@
         showLogin: false,
         loginLoading: false, // 正在登录
         isLoginError: false, //密码错误
-        errorMsg: '密码错误',
+        errorMsg: t('lockscreen.passwordError'),
         loginParams: {
           username: username || '',
           password: '',

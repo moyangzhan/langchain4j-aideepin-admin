@@ -12,13 +12,13 @@
             <div class="table-toolbar-inner-popover-title">
               <n-space>
                 <n-checkbox v-model:checked="checkAll" @update:checked="onCheckAll"
-                  >列展示</n-checkbox
+                  >{{ t('table.columnDisplay') }}</n-checkbox
                 >
                 <n-checkbox v-model:checked="selection" @update:checked="onSelection"
-                  >勾选列</n-checkbox
+                  >{{ t('table.columnSelection') }}</n-checkbox
                 >
                 <n-button text type="info" size="small" class="mt-1" @click="resetColumns"
-                  >重置</n-button
+                  >{{ t('common.reset') }}</n-button
                 >
               </n-space>
             </div>
@@ -62,7 +62,7 @@
                             <VerticalRightOutlined />
                           </n-icon>
                         </template>
-                        <span>固定到左侧</span>
+                        <span>{{ t('table.fixedLeft') }}</span>
                       </n-tooltip>
                       <n-divider vertical />
                       <n-tooltip trigger="hover" placement="bottom">
@@ -76,7 +76,7 @@
                             <VerticalLeftOutlined />
                           </n-icon>
                         </template>
-                        <span>固定到右侧</span>
+                        <span>{{ t('table.fixedRight') }}</span>
                       </n-tooltip>
                     </div>
                   </div>
@@ -87,7 +87,7 @@
         </n-popover>
       </div>
     </template>
-    <span>列设置</span>
+    <span>{{ t('table.columnSetting') }}</span>
   </n-tooltip>
 </template>
 
@@ -103,6 +103,7 @@
   } from '@vicons/antd'
   import Draggable from 'vuedraggable'
   import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
+  import { t } from '@/locales'
 
   interface Options {
     title: string

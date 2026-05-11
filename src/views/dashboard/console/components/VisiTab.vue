@@ -4,10 +4,10 @@
       <NCol :span="24">
         <n-card content-style="padding: 0;" :bordered="false">
           <n-tabs type="line" size="large" :tabs-padding="20" pane-style="padding: 20px;">
-            <n-tab-pane name="流量趋势">
+            <n-tab-pane :name="t('dashboard.fluxTrend')">
               <FluxTrend />
             </n-tab-pane>
-            <n-tab-pane name="访问量">
+            <n-tab-pane :name="t('dashboard.visitAmount')">
               <VisitAmount />
             </n-tab-pane>
           </n-tabs>
@@ -19,4 +19,5 @@
 <script lang="ts" setup>
   import FluxTrend from './FluxTrend.vue'
   import VisitAmount from './VisitAmount.vue'
+  import { t } from '@/locales'
 </script>

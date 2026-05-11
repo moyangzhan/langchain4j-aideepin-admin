@@ -17,7 +17,7 @@
           :rules="rules"
         >
           <n-form-item path="username">
-            <n-input v-model:value="formInline.email" placeholder="请输入邮箱">
+            <n-input v-model:value="formInline.email" :placeholder="t('login.emailPlaceholder')">
               <template #prefix>
                 <n-icon size="18" color="#808695">
                   <PersonOutline />
@@ -30,7 +30,7 @@
               v-model:value="formInline.password"
               type="password"
               showPasswordOn="click"
-              placeholder="请输入密码"
+              :placeholder="t('login.passwordPlaceholder')"
             >
               <template #prefix>
                 <n-icon size="18" color="#808695">
@@ -43,7 +43,7 @@
             <n-input
               v-model:value="loginCaptchaCode"
               style="flex: 1; height: 40px"
-              placeholder="输入验证码"
+              :placeholder="t('login.captchaPlaceholder')"
             />
             <n-image
               :src="`/api/auth/login/captcha?captchaId=${loginCaptchaId}&t_${captchaTimestamp}`"
@@ -62,12 +62,12 @@
           </n-form-item> -->
           <n-form-item>
             <n-button type="primary" @click="handleSubmit" size="large" :loading="loading" block>
-              登录
+              {{ t('login.title') }}
             </n-button>
           </n-form-item>
           <n-form-item class="default-color">
             <div class="flex-initial" style="margin-left: auto">
-              <a href="http://www.aideepin.com" target="_blank">去aideepin</a>
+              <a href="http://www.aideepin.com" target="_blank">{{ t('login.goToSite') }}</a>
             </div>
           </n-form-item>
         </n-form>
@@ -81,6 +81,7 @@
   import { useRoute, useRouter } from 'vue-router'
   import { useUserStore } from '@/store/modules/user'
   import { useMessage } from 'naive-ui'
+  import { t } from '@/locales'
   import { PersonOutline, LockClosedOutline } from '@vicons/ionicons5'
   import { PageEnum } from '@/enums/pageEnum'
   import { websiteConfig } from '@/config/website.config'
@@ -109,8 +110,8 @@
   })
 
   const rules = {
-    email: { required: true, message: '请输入邮箱', trigger: 'blur' },
-    password: { required: true, message: '请输入密码', trigger: 'blur' },
+    email: { required: true, message: () => t('login.emailRequired'), trigger: 'blur' },
+    password: { required: true, message: () => t('login.passwordRequired'), trigger: 'blur' },
   }
 
   const userStore = useUserStore()
@@ -121,13 +122,13 @@
   const handleSubmit = (e) => {
     e.preventDefault()
     if (loginCaptchaId.value && !loginCaptchaCode.value) {
-      message.error('请输入验证码')
+      message.error(t('login.captchaRequired'))
       return
     }
     formRef.value.validate(async (errors) => {
       if (!errors) {
         const { email, password } = formInline
-        message.loading('登录中...')
+        message.loading(t('login.loggingIn'))
         loading.value = true
         const params: FormState = {
           email,
@@ -140,7 +141,7 @@
           message.destroyAll()
           if (success) {
             const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
-            message.success('登录成功，即将进入系统')
+            message.success(t('login.loginSuccess'))
             if (route.name === LOGIN_NAME) {
               router.replace('/')
             } else router.replace(toPath)
@@ -148,13 +149,13 @@
             // 显示验证码
             loginCaptchaId.value = data.captchaId
           } else {
-            message.error(msg || '登录失败')
+            message.error(msg || t('login.loginFailed'))
           }
         } finally {
           loading.value = false
         }
       } else {
-        message.error('请填写完整信息，并且进行验证码校验')
+        message.error(t('login.fillCompleteInfo'))
       }
     })
   }

@@ -1,15 +1,16 @@
 <template>
   <div class="page-footer">
     <div class="page-footer-link">
-      <a href="https://github.com/jekip/naive-ui-admin" target="_blank"> 官网 </a>
-      <a href="https://github.com/jekip/naive-ui-admin" target="_blank"> 社区 </a>
-      <a href="https://github.com/jekip/naive-ui-admin/issues" target="_blank"> 交流 </a>
+      <a href="https://github.com/jekip/naive-ui-admin" target="_blank"> {{ t('footer.officialSite') }} </a>
+      <a href="https://github.com/jekip/naive-ui-admin" target="_blank"> {{ t('footer.community') }} </a>
+      <a href="https://github.com/jekip/naive-ui-admin/issues" target="_blank"> {{ t('footer.communication') }} </a>
     </div>
     <div class="copyright">naive-ui-admin 1.4 · Made by Ah jung</div>
   </div>
 </template>
 
 <script>
+  import { t } from '@/locales'
   export default {
     name: 'PageFooter',
     components: {},

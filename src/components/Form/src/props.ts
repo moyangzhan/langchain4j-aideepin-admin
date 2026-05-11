@@ -3,6 +3,7 @@ import { FormSchema } from './types/form'
 import type { GridProps, GridItemProps } from 'naive-ui/lib/grid'
 import type { ButtonProps } from 'naive-ui/lib/button'
 import { propTypes } from '@/utils/propTypes'
+import { t } from '@/locales'
 export const basicProps = {
   // 标签宽度  固定宽度
   labelWidth: {
@@ -54,12 +55,10 @@ export const basicProps = {
   // 确认按钮文字
   submitButtonText: {
     type: String,
-    default: '查询',
   },
   //重置按钮文字
   resetButtonText: {
     type: String,
-    default: '重置',
   },
   //grid 配置
   gridProps: Object as PropType<GridProps>,

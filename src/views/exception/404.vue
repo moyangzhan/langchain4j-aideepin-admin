@@ -4,14 +4,15 @@
       <img src="~@/assets/images/exception/404.svg" alt="" />
     </div>
     <div class="text-center">
-      <h1 class="text-base text-gray-500">抱歉，你访问的页面不存在</h1>
-      <n-button type="info" @click="goHome">回到首页</n-button>
+      <h1 class="text-base text-gray-500">{{ t('exception.notFound') }}</h1>
+      <n-button type="info" @click="goHome">{{ t('common.backToHome') }}</n-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useRouter } from 'vue-router'
+  import { t } from '@/locales'
   const router = useRouter()
   function goHome() {
     router.push('/')

@@ -1,41 +1,63 @@
-## 简介
+> **[🇨🇳 中文文档](README.zh-CN.md)** | English
 
-本仓库为langchain4j-aideepin的管理后台WEB端，基于[naive-ui-admin](https://github.com/jekip/naive-ui-admin)
+## Introduction
 
-👉[详细文档](https://github.com/moyangzhan/langchain4j-aideepin/wiki)
+This repository is the admin dashboard for [langchain4j-aideepin](https://github.com/moyangzhan/langchain4j-aideepin), built on [naive-ui-admin](https://github.com/jekip/naive-ui-admin).
 
-默认管理员账号：catkeeper@aideepin.com 密码：123456
+**LangChain4j-AIDeepin is an AI-based productivity enhancement tool.**
 
-本项目仓库地址：[github](https://github.com/moyangzhan/langchain4j-aideepin-admin) [gitee](https://gitee.com/moyangzhan/langchain4j-aideepin-admin)
+👉 [Detailed Documentation](https://github.com/moyangzhan/langchain4j-aideepin/wiki)
 
-关联项目
+Default admin account: catkeeper@aideepin.com / Password: 123456
 
-* 后端服务 langchain4j-aideepin:
-  * [github](https://github.com/moyangzhan/langchain4j-aideepin)
-  * [gitee](https://gitee.com/moyangzhan/langchain4j-aideepin)
-* 用户端WEB langchain4j-aideepin-web:
-  * [github](https://github.com/moyangzhan/langchain4j-aideepin-web)
-  * [gitee](https://gitee.com/moyangzhan/langchain4j-aideepin-web)
+## System Composition
 
-## 功能
+```
+AIDEEPIN
+  |__ Server (langchain4j-aideepin)
+  |__ User Web (langchain4j-aideepin-web)
+  |__ Admin Web (langchain4j-aideepin-admin) ← This repository
+```
 
-用户管理
+Related Projects:
 
-模型管理
+- Backend - langchain4j-aideepin: [github](https://github.com/moyangzhan/langchain4j-aideepin)
+- User Web - langchain4j-aideepin-web: [github](https://github.com/moyangzhan/langchain4j-aideepin-web)
+- Admin Web - langchain4j-aideepin-admin: [github](https://github.com/moyangzhan/langchain4j-aideepin-admin)
 
-知识库管理
+## Features
 
-AI工作流管理
+- **Dashboard** — System overview with key metrics including user activity, Token usage, and model usage statistics
+- **User Management** — View user list, manage user status (enable/disable), and allocate quotas
+- **Model Management**
+  - Platform Configuration: Manage API Keys, Base URLs, and other parameters for AI platforms (OpenAI, DeepSeek, DashScope, SiliconFlow, Ollama, etc.)
+  - Model List: Configure specific models under each platform, including enable/disable, set as free model, sorting, etc.
+- **Knowledge Base Management** — View all knowledge bases in the system with document counts, vectorization status, and enable/disable management
+- **Conversation Management** — View all user conversations with message history; manage preset conversations (system-predefined AI role templates)
+- **Workflow Management** — Manage AI workflow components and process lists, support enabling/disabling workflows
+- **MCP Management** — Manage MCP (Model Context Protocol) servers, configure SSE/stdio type MCP services
+- **System Configuration**
+  - Storage: Local storage or Alibaba Cloud OSS
+  - ASR: Speech recognition service parameters
+  - TTS: Text-to-speech service parameters (client-side/server-side synthesis)
+  - Quota: Free quotas and paid strategies for user Token and image generation
+  - Rate Limiting: Frequency limits for text requests and image generation
 
-MCP管理
+## Tech Stack
 
-系统配置
+- Vue 3 + TypeScript
+- [Naive UI](https://www.naiveui.com/)
+- Vite
+- Pinia
+- Vue Router
+- ECharts
+- vue-i18n (Chinese/English supported)
 
-## 前置要求
+## Prerequisites
 
 ### Node
 
-`node` 需要 `^19 || ^20` 版本
+`node` requires `^19 || ^20`
 
 ```shell
 node -v
@@ -43,78 +65,105 @@ node -v
 
 ### PNPM
 
-如果你没有安装过 `pnpm`
+If you haven't installed `pnpm`:
 
 ```shell
 npm install pnpm -g
 ```
 
-## 安装依赖
+## Install Dependencies
 
-根目录下运行以下命令
+Run the following command in the root directory:
 
 ```shell
 pnpm bootstrap
 ```
 
-## 本地环境开发
+## Local Development
 
-1、修改根目录下 `.env` 文件中的 `VITE_GLOB_API_URL` 为你的实际后端口地址
+1. Modify `VITE_GLOB_API_URL` in the `.env` file to your actual backend address
 
-2、根目录下运行以下命令
+2. Run the following command in the root directory:
 
 ```shell
 pnpm dev
 ```
 
-## 正式环境
+## Production
 
-### 发布方式1 - Docker
+### Option 1 - Docker
 
-待办
+TODO
 
-### 发布方式2 - 手动打包
+### Option 2 - Manual Build
 
-1、 nginx配置
+1. Nginx Configuration
 
-服务器上nginx的配置可以参考根目录下的 `nginx.conf` 文件，将 `proxy_pass http://localhost:9999/;` 中的 `localhost:9999`改成后端服务对应的ip及端口
+   Refer to the `nginx.conf` file in the root directory. Change `localhost:9999` in `proxy_pass http://localhost:9999/;` to your backend service's IP and port.
 
-2、根目录下运行以下命令，[参考信息](https://cn.vitejs.dev/guide/static-deploy.html#building-the-app)
+   **If admin web and user web share the same nginx**, use this configuration:
+
+```shell
+# adi-web: user web build output
+# adi-admin-web: admin web build output
+
+# User Web
+# URL: http://your-ip:port/
+location / {
+  root /usr/share/nginx/adi-web;
+  try_files $uri /index.html;
+}
+
+# Admin Web
+# URL: http://your-ip:port/admin
+  location /admin/ {
+    alias /usr/share/nginx/adi-admin-web/;
+   	index /index.html;
+  }
+
+# Backend API
+location /api/ {
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_pass http://localhost:9999/;
+}
+```
+
+2. Run the following command in the root directory ([reference](https://vitejs.dev/guide/static-deploy.html#building-the-app)):
 
 ```shell
 pnpm build
 ```
 
-3、将 `dist` 文件夹内的文件复制到网站服务的根目录下
+3. Copy the contents of the `dist` folder to the root directory of your web server.
 
-网站服务的根目录：`nginx.conf` 的 `location /` 设置的目录
+   The web server root directory is configured in `nginx.conf` under `location /`.
 
-## 浏览器支持
+## Browser Support
 
-本地开发推荐使用 `Chrome 80+` 浏览器
+`Chrome 80+` is recommended for local development.
 
-支持现代浏览器, 不支持 IE
+Supports modern browsers, does not support IE.
 
-| ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) IE | ![Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) Edge | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png)Firefox | ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png)Chrome | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)Safari |
+| ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) IE | ![Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) Edge | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) Firefox | ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) Chrome | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png) Safari |
 | :------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
 |                                         not support                                         |                                         last 2 versions                                         |                                               last 2 versions                                               |                                             last 2 versions                                             |                                             last 2 versions                                             |
 
-## 截图
+## Screenshots
 
-首页
+Dashboard
 ![console](image/README/console.png)
 
-用户管理
+User Management
 ![user](image/README/user.png)
 
-模型管理
+Model Management
 ![model](image/README/model.png)
 
-知识库管理
+Knowledge Base Management
 ![knowledgebase](image/README/knowledgebase.png)
 
-AI工作流
+AI Workflow
 ![workflow](image/README/workflow.png)
 
-系统设置
+System Settings
 ![sysconfig](image/README/sysconfig.png)

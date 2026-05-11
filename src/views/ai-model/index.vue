@@ -18,7 +18,7 @@
               <PlusOutlined />
             </n-icon>
           </template>
-          新建
+          {{ t('common.create') }}
         </n-button>
       </template>
     </BasicTable>
@@ -39,80 +39,90 @@
         class="p-2"
         style="overflow-y: auto; overflow-x: hidden; max-height: 600px; width: 500px"
       >
-        <n-form-item label="名称" path="name">
-          <n-input placeholder="请输入模型名称" v-model:value="editFormParams.name" />
+        <n-form-item :label="t('model.modelName')" path="name">
+          <n-input
+            :placeholder="t('model.modelNamePlaceholder')"
+            v-model:value="editFormParams.name"
+          />
         </n-form-item>
-        <n-form-item label="标题" path="title">
-          <n-input placeholder="请输入模型标题" v-model:value="editFormParams.title" />
+        <n-form-item :label="t('model.modelTitle')" path="title">
+          <n-input
+            :placeholder="t('model.modelTitlePlaceholder')"
+            v-model:value="editFormParams.title"
+          />
         </n-form-item>
-        <n-form-item label="类型" path="type">
+        <n-form-item :label="t('model.type')" path="type">
           <n-select
-            placeholder="选择模型的类型"
+            :placeholder="t('model.typePlaceholder')"
             :options="MODEL_TYPES"
             v-model:value="editFormParams.type"
           />
         </n-form-item>
-        <n-form-item label="平台" path="platform">
+        <n-form-item :label="t('model.platform')" path="platform">
           <n-select
-            placeholder="选择模型所属的平台"
+            :placeholder="t('model.platformPlaceholder')"
             :options="allPlatforms"
             v-model:value="editFormParams.platform"
           />
         </n-form-item>
-        <n-form-item label="上下文长度" path="contextWindow">
+        <n-form-item :label="t('model.contextWindow')" path="contextWindow">
           <n-input-number
-            placeholder="请输入上下文长度"
+            :placeholder="t('model.contextWindowPlaceholder')"
             v-model:value="editFormParams.contextWindow"
           />
         </n-form-item>
-        <n-form-item label="最大输入token数" path="maxInputTokens">
+        <n-form-item :label="t('model.maxInputTokens')" path="maxInputTokens">
           <n-input-number
-            placeholder="请输入最大输入token数"
+            :placeholder="t('model.maxInputTokensPlaceholder')"
             v-model:value="editFormParams.maxInputTokens"
           />
         </n-form-item>
-        <n-form-item label="最大输出token数" path="maxOutputTokens">
+        <n-form-item :label="t('model.maxOutputTokens')" path="maxOutputTokens">
           <n-input-number
-            placeholder="请输入最大输出token数"
+            :placeholder="t('model.maxOutputTokensPlaceholder')"
             v-model:value="editFormParams.maxOutputTokens"
           />
         </n-form-item>
-        <n-form-item label="输入类型" path="inputTypeList">
+        <n-form-item :label="t('model.inputType')" path="inputTypeList">
           <n-select
             multiple
-            placeholder="选择模型的输入类型"
+            :placeholder="t('model.inputTypePlaceholder')"
             :options="MODEL_INPUT_TYPES"
             v-model:value="editFormParams.inputTypeList"
           />
         </n-form-item>
-        <n-form-item label="输出格式" path="responseFormatTypeList">
+        <n-form-item :label="t('model.responseFormat')" path="responseFormatTypeList">
           <n-select
             multiple
-            placeholder="选择输出格式"
+            :placeholder="t('model.responseFormatPlaceholder')"
             :options="MODEL_RESPONSE_FORMAT_TYPES"
             v-model:value="editFormParams.responseFormatTypeList"
           />
         </n-form-item>
-        <n-form-item label="是否推理模型" path="isReasoner">
+        <n-form-item :label="t('model.isReasoner')" path="isReasoner">
           <n-switch v-model:value="editFormParams.isReasoner" />
         </n-form-item>
-        <n-form-item label="推理过程是否可以关闭" path="isThinkingClosable">
+        <n-form-item :label="t('model.isThinkingClosable')" path="isThinkingClosable">
           <n-switch v-model:value="editFormParams.isThinkingClosable" />
         </n-form-item>
-        <n-form-item label="是否支持web搜索" path="isSupportWebSearch">
+        <n-form-item :label="t('model.isSupportWebSearch')" path="isSupportWebSearch">
           <n-switch v-model:value="editFormParams.isSupportWebSearch" />
         </n-form-item>
-        <n-form-item label="个性化配置" path="setting">
+        <n-form-item :label="t('model.personalSetting')" path="setting">
           <n-input
             type="textarea"
-            placeholder="个性化配置"
+            :placeholder="t('model.personalSetting')"
             v-model:value="editFormParams.setting"
           />
         </n-form-item>
-        <n-form-item label="说明" path="remark">
-          <n-input type="textarea" placeholder="请输入说明" v-model:value="editFormParams.remark" />
+        <n-form-item :label="t('model.remark')" path="remark">
+          <n-input
+            type="textarea"
+            :placeholder="t('model.remarkPlaceholder')"
+            v-model:value="editFormParams.remark"
+          />
         </n-form-item>
-        <n-form-item label="属性" path="properties">
+        <n-form-item :label="t('model.properties')" path="properties">
           <JsonEditorVue
             v-model="editFormParams.properties"
             :main-menu-bar="false"
@@ -123,8 +133,10 @@
       </n-form>
       <template #action>
         <n-space>
-          <n-button @click="() => (showEditModal = false)">取消</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">确定</n-button>
+          <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">
+            {{ t('common.confirm') }}
+          </n-button>
         </n-space>
       </template>
     </n-modal>
@@ -144,6 +156,7 @@
   import type { FormItemRule, FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
   import JsonEditorVue from 'json-editor-vue'
+  import { t } from '@/locales'
 
   enum Mode {
     text = 'text',
@@ -154,25 +167,25 @@
     name: {
       required: false,
       trigger: ['blur', 'input'],
-      message: '请输入名称',
+      message: () => t('model.nameRequired'),
     },
     type: {
       required: true,
       trigger: ['blur', 'input'],
-      message: '请输入类型',
+      message: () => t('model.typeRequired'),
     },
     platform: {
       required: true,
       trigger: ['blur', 'input'],
-      message: '请输入平台',
+      message: () => t('model.platformRequired'),
     },
     inputTypeList: {
       required: true,
       trigger: ['blur'],
-      message: '请选择输入类型',
+      message: () => t('model.inputTypePlaceholder'),
       validator(rule: FormItemRule, value: string[]) {
         if (value.length === 0) {
-          return new Error('至少选择一个输入类型')
+          return new Error(t('model.inputTypeRequired'))
         }
         return true
       },
@@ -180,10 +193,10 @@
     responseFormatTypeList: {
       required: true,
       trigger: ['blur'],
-      message: '请选择输出格式',
+      message: () => t('model.responseFormatPlaceholder'),
       validator(rule: FormItemRule, value: string[]) {
         if (value.length === 0) {
-          return new Error('至少选择一个输出格式')
+          return new Error(t('model.responseFormatRequired'))
         }
         return true
       },
@@ -196,7 +209,7 @@
   const showEditModal = ref(false)
   const formBtnLoading = ref(false)
   const editFormParams = reactive({
-    label: '新建',
+    label: t('common.create'),
     id: '0',
     name: '',
     title: '',
@@ -220,7 +233,7 @@
 
   const actionColumn = reactive({
     width: 300,
-    title: '操作',
+    title: t('common.action'),
     key: 'action',
     fixed: 'right',
     render(record) {
@@ -228,32 +241,32 @@
         style: 'button',
         actions: [
           {
-            label: '编辑',
+            label: t('common.edit'),
             onClick: handleEdit.bind(null, record),
           },
           {
-            label: '启用',
+            label: t('common.enable'),
             onClick: handleEnable.bind(null, record),
             ifShow: () => {
               return !record.isEnable
             },
           },
           {
-            label: '禁用',
+            label: t('common.disable'),
             onClick: handleDisable.bind(null, record),
             ifShow: () => {
               return record.isEnable
             },
           },
           {
-            label: '设为免费',
+            label: t('model.setFree'),
             onClick: handleFree.bind(null, record, true),
             ifShow: () => {
               return !record.isFree
             },
           },
           {
-            label: '设为收费',
+            label: t('model.setPaid'),
             onClick: handleFree.bind(null, record, false),
             ifShow: () => {
               return record.isFree
@@ -262,17 +275,19 @@
         ],
         dropDownActions: [
           {
-            label: '删除',
+            label: t('common.delete'),
             key: 'delete',
           },
         ],
         select: (key) => {
           if (key === 'delete') {
             dialog.warning({
-              title: '提示',
-              content: `删除后数据无法恢复，确定要删除模型 ${record.name} 吗?`,
-              positiveText: '确定',
-              negativeText: '取消',
+              title: t('common.tip'),
+              content: `${t('model.deleteModelConfirmPrefix')} ${record.name} ${t(
+                'model.deleteModelConfirmSuffix'
+              )}`,
+              positiveText: t('common.positiveText'),
+              negativeText: t('common.negativeText'),
               onPositiveClick: () => {
                 handleDelete(record)
               },
@@ -293,7 +308,7 @@
 
   function addTable() {
     showEditModal.value = true
-    editFormParams.label = '新建'
+    editFormParams.label = t('common.create')
     editFormParams.id = ''
   }
 
@@ -350,16 +365,18 @@
           } else {
             await api.edit(submitData)
           }
-          window['$message'].success(`${editFormParams.label}成功`)
+          window['$message'].success(
+            editFormParams.id === '' ? t('common.createSuccess') : t('common.editSuccess')
+          )
           setTimeout(() => {
             showEditModal.value = false
             reloadTable()
           })
         } else {
-          window['$message'].error('请填写完整信息')
+          window['$message'].error(t('common.fillCompleteInfo'))
         }
       } catch (error) {
-        window['$message'].error('操作失败')
+        window['$message'].error(t('common.operationFailed'))
       } finally {
         formBtnLoading.value = false
       }
@@ -368,19 +385,19 @@
 
   async function handleEnable(record: Recordable) {
     await api.enable(record.id)
-    window['$message'].success('操作成功')
+    window['$message'].success(t('common.operationSuccess'))
     reloadTable()
   }
 
   async function handleDisable(record: Recordable) {
     await api.disable(record.id)
-    window['$message'].success('操作成功')
+    window['$message'].success(t('common.operationSuccess'))
     reloadTable()
   }
 
   async function handleFree(record: Recordable, isFree: boolean) {
     await api.edit({ id: record.id, isFree })
-    window['$message'].success('操作成功')
+    window['$message'].success(t('common.operationSuccess'))
     reloadTable()
   }
 
@@ -404,12 +421,12 @@
     } else {
       editFormParams.properties = null
     }
-    editFormParams.label = '编辑'
+    editFormParams.label = t('common.edit')
   }
 
   async function handleDelete(record: Recordable) {
     await api.deleteOne(record.uuid)
-    window['$message'].info('删除成功')
+    window['$message'].info(t('common.deleteSuccess'))
   }
 
   function handleSubmit(_values: Recordable) {

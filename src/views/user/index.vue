@@ -18,7 +18,7 @@
               <PlusOutlined />
             </n-icon>
           </template>
-          新建
+          {{ t('common.create') }}
         </n-button>
       </template>
     </BasicTable>
@@ -37,35 +37,35 @@
         :label-width="120"
         class="py-4"
       >
-        <n-form-item label="名称" path="name">
-          <n-input placeholder="请输入名称" v-model:value="editFormParams.name" />
+        <n-form-item :label="t('common.name')" path="name">
+          <n-input :placeholder="t('user.namePlaceholder')" v-model:value="editFormParams.name" />
         </n-form-item>
-        <n-form-item label="密码" path="password">
-          <n-input placeholder="请输入密码" v-model:value="editFormParams.password" />
+        <n-form-item :label="t('user.password')" path="password">
+          <n-input :placeholder="t('user.passwordPlaceholder')" v-model:value="editFormParams.password" />
         </n-form-item>
-        <n-form-item label="每日token配额" path="quotaByTokenDaily">
+        <n-form-item :label="t('user.dailyTokenQuota')" path="quotaByTokenDaily">
           <n-input-number v-model:value="editFormParams.quotaByTokenDaily" />
         </n-form-item>
-        <n-form-item label="每月token配额" path="quotaByTokenMonthly">
+        <n-form-item :label="t('user.monthlyTokenQuota')" path="quotaByTokenMonthly">
           <n-input-number v-model:value="editFormParams.quotaByTokenMonthly" />
         </n-form-item>
-        <n-form-item label="每日请求配额" path="quotaByRequestDaily">
+        <n-form-item :label="t('user.dailyRequestQuota')" path="quotaByRequestDaily">
           <n-input-number v-model:value="editFormParams.quotaByRequestDaily" />
         </n-form-item>
-        <n-form-item label="每月请求配额" path="quotaByRequestMonthly">
+        <n-form-item :label="t('user.monthlyRequestQuota')" path="quotaByRequestMonthly">
           <n-input-number v-model:value="editFormParams.quotaByRequestMonthly" />
         </n-form-item>
-        <n-form-item label="每日图片配额" path="quotaByImageDaily">
+        <n-form-item :label="t('user.dailyImageQuota')" path="quotaByImageDaily">
           <n-input-number v-model:value="editFormParams.quotaByImageDaily" />
         </n-form-item>
-        <n-form-item label="每月图片配额" path="quotaByImageMonthly">
+        <n-form-item :label="t('user.monthlyImageQuota')" path="quotaByImageMonthly">
           <n-input-number v-model:value="editFormParams.quotaByImageMonthly" />
         </n-form-item>
       </n-form>
       <template #action>
         <n-space>
-          <n-button @click="() => (showEditModal = false)">取消</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">确定</n-button>
+          <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -80,12 +80,13 @@
   import { columns, UserData } from './columns'
   import { PlusOutlined } from '@vicons/antd'
   import { type FormRules } from 'naive-ui'
+  import { t } from '@/locales'
 
   const newUserRules: FormRules = {
     name: {
       required: true,
       trigger: ['blur', 'input'],
-      message: '请输入名称',
+      message: () => t('common.name'),
     },
   }
 
@@ -93,28 +94,28 @@
     {
       field: 'name',
       component: 'NInput',
-      label: '姓名',
+      label: t('common.name'),
       componentProps: {
-        placeholder: '请输入姓名',
+        placeholder: t('user.nameSearchPlaceholder'),
       },
     },
     {
       field: 'userStatus',
       component: 'NSelect',
-      label: '状态',
+      label: t('user.userStatus'),
       componentProps: {
-        placeholder: '请选择状态',
+        placeholder: t('user.statusPlaceholder'),
         options: [
           {
-            label: '待激活',
+            label: t('user.statusPending'),
             value: 1,
           },
           {
-            label: '正常',
+            label: t('user.statusNormal'),
             value: 2,
           },
           {
-            label: '禁用',
+            label: t('user.statusDisabled'),
             value: 3,
           },
         ],
@@ -124,7 +125,7 @@
     {
       field: 'createTime',
       component: 'NDatePicker',
-      label: '创建时间',
+      label: t('common.createTime'),
       componentProps: {
         type: 'datetimerange',
         clearable: true,
@@ -133,7 +134,7 @@
     {
       field: 'updateTime',
       component: 'NDatePicker',
-      label: '更新时间',
+      label: t('common.updateTime'),
       componentProps: {
         type: 'datetimerange',
         clearable: true,
@@ -142,15 +143,15 @@
     {
       field: 'isAdmin',
       component: 'NSelect',
-      label: '管理员',
+      label: t('user.admin'),
       componentProps: {
         options: [
           {
-            label: '是',
+            label: t('common.yes'),
             value: true,
           },
           {
-            label: '否',
+            label: t('common.no'),
             value: false,
           },
         ],
@@ -165,7 +166,7 @@
   const showEditModal = ref(false)
   const formBtnLoading = ref(false)
   const editFormParams = reactive({
-    label: '新建',
+    label: t('common.create'),
     uuid: '',
     name: '',
     email: '',
@@ -181,7 +182,7 @@
 
   const actionColumn = reactive({
     width: 200,
-    title: '操作',
+    title: t('common.action'),
     key: 'action',
     fixed: 'right',
     render(record) {
@@ -189,18 +190,18 @@
         style: 'button',
         actions: [
           {
-            label: '编辑',
+            label: t('common.edit'),
             onClick: handleEdit.bind(null, record),
           },
           {
-            label: '禁用',
+            label: t('common.disable'),
             onClick: handleDisable.bind(null, record),
             ifShow: () => {
               return record.userStatus === 'NORMAL'
             },
           },
           {
-            label: '启用',
+            label: t('common.enable'),
             onClick: handleEnable.bind(null, record),
             ifShow: () => {
               return record.userStatus === 'FREEZE'
@@ -219,7 +220,7 @@
 
   function addTable() {
     showEditModal.value = true
-    editFormParams.label = '新建'
+    editFormParams.label = t('common.create')
     editFormParams.uuid = ''
     editFormParams.name = ''
     editFormParams.email = ''
@@ -256,16 +257,16 @@
           } else {
             await userApi.edit(editFormParams)
           }
-          window['$message'].success(`${editFormParams.label}成功`)
+          window['$message'].success(editFormParams.uuid === '' ? t('common.createSuccess') : t('common.editSuccess'))
           setTimeout(() => {
             showEditModal.value = false
             reloadTable()
           })
         } else {
-          window['$message'].error('请填写完整信息')
+          window['$message'].error(t('common.fillCompleteInfo'))
         }
       } catch (error) {
-        window['$message'].error('操作失败')
+        window['$message'].error(t('common.operationFailed'))
       } finally {
         formBtnLoading.value = false
       }
@@ -275,18 +276,18 @@
   function handleEdit(record: Recordable) {
     showEditModal.value = true
     Object.assign(editFormParams, record)
-    editFormParams.label = '编辑'
+    editFormParams.label = t('common.edit')
   }
 
   async function handleEnable(record: Recordable) {
     await userApi.active(record.uuid)
-    window['$message'].success('操作成功')
+    window['$message'].success(t('common.operationSuccess'))
     reloadTable()
   }
 
   async function handleDisable(record: Recordable) {
     await userApi.freeze(record.uuid)
-    window['$message'].success('操作成功')
+    window['$message'].success(t('common.operationSuccess'))
     reloadTable()
   }
 

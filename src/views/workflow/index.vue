@@ -26,28 +26,28 @@
         :label-width="120"
         class="py-4"
       >
-        <n-form-item label="标题" path="title">
-          <n-input placeholder="请输入标题" v-model:value="editFormParams.title" />
+        <n-form-item :label="t('common.title')" path="title">
+          <n-input :placeholder="t('common.title')" v-model:value="editFormParams.title" />
         </n-form-item>
-        <n-form-item label="是否公开" path="isPublic">
+        <n-form-item :label="t('common.isPublic')" path="isPublic">
           <n-switch v-model:value="editFormParams.isPublic" />
         </n-form-item>
-        <n-form-item label="是否启用" path="isEnable">
+        <n-form-item :label="t('common.isEnable')" path="isEnable">
           <n-switch v-model:value="editFormParams.isEnable" />
         </n-form-item>
-        <n-form-item label="描述" path="remark">
+        <n-form-item :label="t('common.description')" path="remark">
           <n-input
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 10 }"
-            placeholder="请输入描述"
+            :placeholder="t('common.description')"
             v-model:value="editFormParams.remark"
           />
         </n-form-item>
       </n-form>
       <template #action>
         <n-space>
-          <n-button @click="() => (showEditModal = false)">取消</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">确定</n-button>
+          <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -62,12 +62,13 @@
   import { columns, Data } from './columns'
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
+  import { t } from '@/locales'
 
   const newUserRules: FormRules = {
     title: {
       required: false,
       trigger: ['blur', 'input'],
-      message: '请输入标题',
+      message: () => t('common.title'),
     },
   }
 
@@ -75,9 +76,9 @@
     {
       field: 'title',
       component: 'NInput',
-      label: '标题',
+      label: t('common.title'),
       componentProps: {
-        placeholder: '请输入标题',
+        placeholder: t('common.title'),
         onInput: (e: any) => {
           console.log(e)
         },
@@ -86,15 +87,15 @@
     {
       field: 'isPublic',
       component: 'NSelect',
-      label: '是否公开',
+      label: t('common.isPublic'),
       componentProps: {
         options: [
           {
-            label: '是',
+            label: t('common.yes'),
             value: true,
           },
           {
-            label: '否',
+            label: t('common.no'),
             value: false,
           },
         ],
@@ -106,15 +107,15 @@
     {
       field: 'isEnable',
       component: 'NSelect',
-      label: '是否启用',
+      label: t('common.isEnable'),
       componentProps: {
         options: [
           {
-            label: '是',
+            label: t('common.yes'),
             value: true,
           },
           {
-            label: '否',
+            label: t('common.no'),
             value: false,
           },
         ],
@@ -126,7 +127,7 @@
     {
       field: 'createTime',
       component: 'NDatePicker',
-      label: '创建时间',
+      label: t('common.createTime'),
       componentProps: {
         type: 'datetimerange',
         clearable: true,
@@ -135,7 +136,7 @@
     {
       field: 'updateTime',
       component: 'NDatePicker',
-      label: '更新时间',
+      label: t('common.updateTime'),
       componentProps: {
         type: 'datetimerange',
         clearable: true,
@@ -149,7 +150,7 @@
   const showEditModal = ref(false)
   const formBtnLoading = ref(false)
   const editFormParams = reactive({
-    label: '编辑',
+    label: t('common.edit'),
     uuid: '',
     title: '',
     remark: '',
@@ -159,7 +160,7 @@
 
   const actionColumn = reactive({
     width: 200,
-    title: '操作',
+    title: t('common.action'),
     key: 'action',
     fixed: 'right',
     render(record) {
@@ -167,18 +168,18 @@
         style: 'button',
         actions: [
           {
-            label: '编辑',
+            label: t('common.edit'),
             onClick: handleEdit.bind(null, record),
           },
           {
-            label: '禁用',
+            label: t('common.disable'),
             onClick: handleDisable.bind(null, record),
             ifShow: () => {
               return record.isEnable
             },
           },
           {
-            label: '启用',
+            label: t('common.enable'),
             onClick: handleEnable.bind(null, record),
             ifShow: () => {
               return !record.isEnable
@@ -187,17 +188,17 @@
         ],
         dropDownActions: [
           {
-            label: '删除',
+            label: t('common.delete'),
             key: 'delete',
           },
         ],
         select: (key) => {
           if (key === 'delete') {
             dialog.warning({
-              title: '提示',
-              content: `删除后数据无法恢复，确定要删除 ${record.title} 吗?`,
-              positiveText: '确定',
-              negativeText: '取消',
+              title: t('common.tip'),
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              positiveText: t('common.positiveText'),
+              negativeText: t('common.negativeText'),
               onPositiveClick: () => {
                 handleDel(record)
               },
@@ -236,13 +237,13 @@
     formRef.value.validate(async (errors) => {
       if (!errors) {
         await workflowApi.updateBaseInfo(editFormParams)
-        window['$message'].success(`${editFormParams.label}成功`)
+        window['$message'].success(t('common.editSuccess'))
         setTimeout(() => {
           showEditModal.value = false
           reloadTable()
         })
       } else {
-        window['$message'].error('请填写完整信息')
+        window['$message'].error(t('common.fillCompleteInfo'))
       }
       formBtnLoading.value = false
     })
@@ -251,18 +252,18 @@
   function handleEdit(record: Recordable) {
     showEditModal.value = true
     Object.assign(editFormParams, record)
-    editFormParams.label = '编辑'
+    editFormParams.label = t('common.edit')
   }
 
   async function handleEnable(record: Recordable) {
     await workflowApi.setEnable({ uuid: record.uuid, isEnable: true })
-    window['$message'].success('操作成功')
+    window['$message'].success(t('common.operationSuccess'))
     reloadTable()
   }
 
   async function handleDisable(record: Recordable) {
     await workflowApi.setEnable({ uuid: record.uuid, isEnable: false })
-    window['$message'].success('操作成功')
+    window['$message'].success(t('common.operationSuccess'))
     reloadTable()
   }
 
@@ -278,7 +279,7 @@
   async function handleDel(record: Recordable) {
     let { success } = await workflowApi.del(record.uuid)
     if (success) {
-      window['$message'].success('操作成功')
+      window['$message'].success(t('common.operationSuccess'))
       reloadTable()
     }
   }

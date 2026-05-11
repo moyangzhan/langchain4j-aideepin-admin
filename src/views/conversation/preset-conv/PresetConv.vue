@@ -18,7 +18,7 @@
               <PlusOutlined />
             </n-icon>
           </template>
-          新建
+          {{ t('common.create') }}
         </n-button>
       </template>
     </BasicTable>
@@ -37,35 +37,35 @@
         :label-width="100"
         class="py-4"
       >
-        <n-form-item label="标题" path="title">
+        <n-form-item :label="t('common.title')" path="title">
           <n-input
-            placeholder="请输入名称"
+            :placeholder="t('conversation.titlePlaceholder')"
             v-model:value="editFormParams.title"
             maxlength="45"
             show-count
           />
         </n-form-item>
-        <n-form-item label="描述" path="remark">
+        <n-form-item :label="t('common.description')" path="remark">
           <n-input
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 10 }"
-            placeholder="请输入描述"
+            :placeholder="t('conversation.descriptionPlaceholder')"
             v-model:value="editFormParams.remark"
           />
         </n-form-item>
-        <n-form-item label="角色设定" path="aiSystemMessage">
+        <n-form-item :label="t('conversation.aiSystemMessage')" path="aiSystemMessage">
           <n-input
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 10 }"
-            placeholder="请输入角色设定内容"
+            :placeholder="t('conversation.aiSystemMessagePlaceholder')"
             v-model:value="editFormParams.aiSystemMessage"
           />
         </n-form-item>
       </n-form>
       <template #action>
         <n-space>
-          <n-button @click="() => (showEditModal = false)">取消</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">确定</n-button>
+          <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -82,12 +82,13 @@
   import { PlusOutlined } from '@vicons/antd'
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
+  import { t } from '@/locales'
 
   const formRules: FormRules = {
     title: {
       required: true,
       trigger: ['blur', 'input'],
-      message: '请输入标题',
+      message: () => t('common.title'),
     },
   }
 
@@ -95,23 +96,23 @@
     {
       field: 'title',
       component: 'NInput',
-      label: '标题',
+      label: t('common.title'),
       componentProps: {
-        placeholder: '请输入标题',
+        placeholder: t('conversation.titlePlaceholder'),
       },
     },
     {
       field: 'remark',
       component: 'NInput',
-      label: '描述',
+      label: t('common.description'),
       componentProps: {
-        placeholder: '请输入描述',
+        placeholder: t('conversation.descriptionPlaceholder'),
       },
     },
     {
       field: 'createTime',
       component: 'NDatePicker',
-      label: '创建时间',
+      label: t('common.createTime'),
       componentProps: {
         type: 'datetimerange',
         clearable: true,
@@ -120,7 +121,7 @@
     {
       field: 'updateTime',
       component: 'NDatePicker',
-      label: '更新时间',
+      label: t('common.updateTime'),
       componentProps: {
         type: 'datetimerange',
         clearable: true,
@@ -135,7 +136,7 @@
   const showEditModal = ref(false)
   const formBtnLoading = ref(false)
   const editFormParams = reactive({
-    label: '新建',
+    label: t('common.create'),
     uuid: '',
     title: '',
     remark: '',
@@ -144,7 +145,7 @@
 
   const actionColumn = reactive({
     width: 120,
-    title: '操作',
+    title: t('common.action'),
     key: 'action',
     fixed: 'right',
     render(record) {
@@ -152,23 +153,23 @@
         style: 'button',
         actions: [
           {
-            label: '编辑',
+            label: t('common.edit'),
             onClick: handleEdit.bind(null, record),
           },
         ],
         dropDownActions: [
           {
-            label: '删除',
+            label: t('common.delete'),
             key: 'delete',
           },
         ],
         select: (key) => {
           if (key === 'delete') {
             dialog.warning({
-              title: '提示',
-              content: `删除后数据无法恢复，确定要删除 ${record.title} 吗?`,
-              positiveText: '确定',
-              negativeText: '取消',
+              title: t('common.tip'),
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              positiveText: t('common.positiveText'),
+              negativeText: t('common.negativeText'),
               onPositiveClick: () => {
                 handleDelete(record)
               },
@@ -190,7 +191,7 @@
 
   function addTable() {
     showEditModal.value = true
-    editFormParams.label = '新建'
+    editFormParams.label = t('common.create')
     editFormParams.uuid = ''
     editFormParams.title = ''
     editFormParams.remark = ''
@@ -220,13 +221,13 @@
         } else {
           await conversationApi.editPresetConv(editFormParams.uuid, editFormParams)
         }
-        window['$message'].success(`${editFormParams.label}成功`)
+        window['$message'].success(editFormParams.uuid === '' ? t('common.createSuccess') : t('common.editSuccess'))
         setTimeout(() => {
           showEditModal.value = false
           reloadTable()
         })
       } else {
-        window['$message'].error('请填写完整信息')
+        window['$message'].error(t('common.fillCompleteInfo'))
       }
       formBtnLoading.value = false
     })
@@ -235,7 +236,7 @@
   function handleEdit(record: Recordable) {
     showEditModal.value = true
     Object.assign(editFormParams, record)
-    editFormParams.label = '编辑'
+    editFormParams.label = t('common.edit')
   }
 
   function handleDelete(record: Recordable) {

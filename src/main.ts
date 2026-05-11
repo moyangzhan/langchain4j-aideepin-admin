@@ -5,6 +5,7 @@ import { setupNaiveDiscreteApi, setupNaive, setupDirectives } from '@/plugins'
 import App from './App.vue'
 import router, { setupRouter } from './router'
 import { setupStore } from '@/store'
+import { setupI18n } from './locales'
 
 async function bootstrap() {
   const app = createApp(App)
@@ -26,6 +27,9 @@ async function bootstrap() {
 
   // 注册全局方法，如：app.config.globalProperties.$message = message
   //setupGlobalMethods(app);
+
+  // 挂载国际化
+  setupI18n(app)
 
   // 挂载路由
   setupRouter(app)

@@ -1,9 +1,9 @@
 <template>
   <NConfigProvider
-    :locale="zhCN"
+    :locale="naiveLocalePair.locale"
     :theme="getDarkTheme"
     :theme-overrides="getThemeOverrides"
-    :date-locale="dateZhCN"
+    :date-locale="naiveLocalePair.dateLocale"
   >
     <AppProvider>
       <RouterView />
@@ -13,16 +13,16 @@
 
 <script lang="ts" setup>
   import { computed } from 'vue'
-  import { zhCN, dateZhCN, darkTheme } from 'naive-ui'
+  import { darkTheme } from 'naive-ui'
   import { AppProvider } from '@/components/Application'
   import { useDesignSettingStore } from '@/store/modules/designSetting'
   import { lighten } from '@/utils/index'
+  import { useLocale } from '@/hooks/useLocale'
+
+  const { naiveLocalePair } = useLocale()
 
   const designStore = useDesignSettingStore()
 
-  /**
-   * @type import('naive-ui').GlobalThemeOverrides
-   */
   const getThemeOverrides = computed(() => {
     const appTheme = designStore.appTheme
     const lightenStr = lighten(designStore.appTheme, 6)

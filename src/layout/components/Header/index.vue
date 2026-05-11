@@ -86,6 +86,14 @@
           <span>{{ item.tips }}</span>
         </n-tooltip>
       </div> -->
+      <!--切换语言-->
+      <div class="layout-header-trigger layout-header-trigger-min">
+        <n-dropdown trigger="hover" :options="langOptions" @select="handleLangSelect">
+          <n-icon size="18" style="cursor: pointer;">
+            <GlobalOutlined />
+          </n-icon>
+        </n-dropdown>
+      </div>
       <!--切换全屏-->
       <div class="layout-header-trigger layout-header-trigger-min">
         <n-tooltip placement="bottom">
@@ -94,7 +102,7 @@
               <component :is="fullscreenIcon" @click="toggleFullScreen" />
             </n-icon>
           </template>
-          <span>全屏</span>
+          <span>{{ t('setting.fullscreen') }}</span>
         </n-tooltip>
       </div>
       <!-- 个人中心 -->
@@ -119,7 +127,7 @@
               <SettingOutlined />
             </n-icon>
           </template>
-          <span>项目配置</span>
+          <span>{{ t('setting.projectConfig') }}</span>
         </n-tooltip>
       </div>
     </div>
@@ -139,10 +147,13 @@
   import { AsideMenu } from '@/layout/components/Menu'
   import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
   import { websiteConfig } from '@/config/website.config'
+  import { t, type Locale } from '@/locales'
+  import { useLocale } from '@/hooks/useLocale'
+  import { GlobalOutlined } from '@vicons/antd'
 
   export default defineComponent({
     name: 'PageHeader',
-    components: { ...components, NDialogProvider, ProjectSetting, AsideMenu },
+    components: { ...components, NDialogProvider, ProjectSetting, AsideMenu, GlobalOutlined },
     props: {
       collapsed: {
         type: Boolean,
@@ -157,6 +168,7 @@
       const message = useMessage()
       const dialog = useDialog()
       const { navMode, navTheme, headerSetting, menuSetting, crumbsSetting } = useProjectSetting()
+      const { locale, changeLocale } = useLocale()
 
       const drawerSetting = ref()
 
@@ -228,13 +240,13 @@
       // 退出登录
       const doLogout = () => {
         dialog.info({
-          title: '提示',
-          content: '您确定要退出登录吗',
-          positiveText: '确定',
-          negativeText: '取消',
+          title: t('common.tip'),
+          content: t('login.logoutConfirmContent'),
+          positiveText: t('common.positiveText'),
+          negativeText: t('common.negativeText'),
           onPositiveClick: () => {
             userStore.logout().then(() => {
-              message.success('成功退出登录')
+              message.success(t('login.logoutSuccess'))
               // 移除标签页
               localStorage.removeItem(TABS_ROUTES)
               router
@@ -278,15 +290,20 @@
       //   },
       // ];
       const avatarOptions = [
-        // {
-        //   label: '个人设置',
-        //   key: 1,
-        // },
         {
-          label: '退出登录',
+          label: t('login.logout'),
           key: 2,
         },
       ]
+
+      const langOptions = [
+        { label: '简体中文', key: 'zh-CN' },
+        { label: 'English', key: 'en-US' },
+      ]
+
+      const handleLangSelect = (key: string) => {
+        changeLocale(key as Locale)
+      }
 
       //头像下拉菜单
       const avatarSelect = (key) => {
@@ -328,6 +345,8 @@
         mixMenu,
         websiteConfig,
         handleMenuCollapsed,
+        langOptions,
+        handleLangSelect,
       }
     },
   })

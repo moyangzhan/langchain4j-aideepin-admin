@@ -10,10 +10,10 @@
     <div class="charging">
       <div>{{ batteryStatus }}</div>
       <div v-show="Number.isFinite(battery.dischargingTime) && battery.dischargingTime != 0">
-        剩余可使用时间：{{ calcDischargingTime }}
+        {{ t('lockscreen.recharge.remainingTime') }}{{ calcDischargingTime }}
       </div>
       <span v-show="Number.isFinite(battery.chargingTime) && battery.chargingTime != 0">
-        距离电池充满需要：{{ calcChargingTime }}
+        {{ t('lockscreen.recharge.chargingTime') }}{{ calcChargingTime }}
       </span>
     </div>
   </div>
@@ -21,6 +21,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { t } from '@/locales'
 
   export default defineComponent({
     name: 'HuaweiCharge',
@@ -43,7 +44,11 @@
       batteryStatus: {
         // 电池状态
         type: String,
-        validator: (val: string) => ['充电中', '已充满', '已断开电源'].includes(val),
+        validator: (val: string) => [
+          t('lockscreen.recharge.charging'),
+          t('lockscreen.recharge.fullyCharged'),
+          t('lockscreen.recharge.disconnected'),
+        ].includes(val),
       },
     },
   })

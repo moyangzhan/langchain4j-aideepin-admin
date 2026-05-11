@@ -17,7 +17,7 @@
               <PlusOutlined />
             </n-icon>
           </template>
-          新建
+          {{ t('common.create') }}
         </n-button>
       </template>
     </BasicTable>
@@ -38,35 +38,35 @@
         class="py-4"
         style="overflow-y: auto; overflow-x: hidden; max-height: 600px; width: 500px"
       >
-        <n-form-item label="名称" path="name">
-          <n-input placeholder="请输入名称" v-model:value="editFormParams.name" />
+        <n-form-item :label="t('model.modelName')" path="name">
+          <n-input :placeholder="t('model.modelNamePlaceholder')" v-model:value="editFormParams.name" />
         </n-form-item>
-        <n-form-item label="标题" path="title">
-          <n-input placeholder="请输入标题" v-model:value="editFormParams.title" />
+        <n-form-item :label="t('common.title')" path="title">
+          <n-input :placeholder="t('common.title')" v-model:value="editFormParams.title" />
         </n-form-item>
-        <n-form-item label="接口地址" path="baseUrl">
-          <n-input placeholder="请输入接口地址" v-model:value="editFormParams.baseUrl" />
+        <n-form-item :label="t('model.platformBaseUrl')" path="baseUrl">
+          <n-input :placeholder="t('model.platformBaseUrlPlaceholder')" v-model:value="editFormParams.baseUrl" />
         </n-form-item>
-        <n-form-item label="Api Key" path="apiKey">
+        <n-form-item :label="t('model.apiKey')" path="apiKey">
           <n-input
-            placeholder="Api Key"
+            :placeholder="t('model.apiKey')"
             v-model:value="editFormParams.apiKey"
             type="password"
             show-password-on="click"
           />
         </n-form-item>
-        <n-form-item label="Secret Key" path="secretKey">
+        <n-form-item :label="t('model.secretKey')" path="secretKey">
           <n-input
-            placeholder="Secret Key"
+            :placeholder="t('model.secretKey')"
             v-model:value="editFormParams.secretKey"
             type="password"
             show-password-on="click"
           />
         </n-form-item>
         <n-form-item
-          label="启用代理"
+          :label="t('model.enableProxy')"
           path="isProxyEnable"
-          feedback="详细的代理配置存放于项目代码的配置文件中"
+          :feedback="t('model.proxyFeedback')"
         >
           <n-radio-group v-model:value="editFormParams.isProxyEnable" name="rg1">
             <n-radio v-for="opt in YES_NO" :key="opt.value" :value="opt.value">
@@ -75,9 +75,9 @@
           </n-radio-group>
         </n-form-item>
         <n-form-item
-          label="是否兼容OpenAI API"
+          :label="t('model.openaiCompatible')"
           path="isOpenaiApiCompatible"
-          feedback="兼容OpenAI API的平台，无需另外增加代码适配"
+          :feedback="t('model.openaiCompatibleFeedback')"
         >
           <n-radio-group v-model:value="editFormParams.isOpenaiApiCompatible" name="rg1">
             <n-radio v-for="opt in YES_NO" :key="opt.value" :value="opt.value">
@@ -85,14 +85,14 @@
             </n-radio>
           </n-radio-group>
         </n-form-item>
-        <n-form-item label="说明" path="remark">
-          <n-input type="textarea" placeholder="请输入说明" v-model:value="editFormParams.remark" />
+        <n-form-item :label="t('model.remark')" path="remark">
+          <n-input type="textarea" :placeholder="t('model.remarkPlaceholder')" v-model:value="editFormParams.remark" />
         </n-form-item>
       </n-form>
       <template #action>
         <n-space>
-          <n-button @click="() => (showEditModal = false)">取消</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">确定</n-button>
+          <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">{{ t('common.confirm') }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -108,11 +108,12 @@
   import { PlusOutlined } from '@vicons/antd'
   import { YES_NO, DEFAULT_MODEL_PLATFORMS } from '@/utils/constants'
   import { type FormRules, useDialog } from 'naive-ui'
+  import { t } from '@/locales'
 
   const showEditModal = ref(false)
   const formBtnLoading = ref(false)
   const editFormParams = reactive({
-    label: '新建',
+    label: t('common.create'),
     id: '0',
     name: '',
     title: '',
@@ -129,19 +130,19 @@
     name: {
       required: true,
       trigger: ['blur', 'input'],
-      message: '请输入名称',
+      message: () => t('model.nameRequired'),
     },
     title: {
       required: true,
       trigger: ['blur', 'input'],
-      message: '请输入标题',
+      message: () => t('common.title'),
     },
   }
 
   const actionRef = ref()
   const actionColumn = reactive({
     width: 160,
-    title: '操作',
+    title: t('common.action'),
     key: 'action',
     fixed: 'right',
     render(record) {
@@ -149,13 +150,13 @@
         style: 'button',
         actions: [
           {
-            label: '编辑',
+            label: t('common.edit'),
             onClick: handleEdit.bind(null, record),
           },
         ],
         dropDownActions: [
           {
-            label: '删除',
+            label: t('common.delete'),
             key: 'delete',
             ifShow: () => {
               return !DEFAULT_MODEL_PLATFORMS.find((item) => item.value == record.name)
@@ -165,10 +166,10 @@
         select: (key) => {
           if (key === 'delete') {
             dialog.warning({
-              title: '提示',
-              content: `删除后数据无法恢复，并且可能影响到模型调用，确定要删除模型平台【${record.name}】吗?`,
-              positiveText: '确定',
-              negativeText: '取消',
+              title: t('common.tip'),
+              content: `${t('model.deletePlatformConfirmPrefix')}${record.name}${t('model.deletePlatformConfirmSuffix')}`,
+              positiveText: t('common.positiveText'),
+              negativeText: t('common.negativeText'),
               onPositiveClick: () => {
                 handleDelete(record)
               },
@@ -186,17 +187,17 @@
     {
       field: 'name',
       component: 'NInput',
-      label: '名称',
+      label: t('model.modelName'),
       componentProps: {
-        placeholder: '请输入名称',
+        placeholder: t('model.modelNamePlaceholder'),
       },
     },
     {
       field: 'title',
       component: 'NInput',
-      label: '标题',
+      label: t('common.title'),
       componentProps: {
-        placeholder: '请输入标题',
+        placeholder: t('common.title'),
       },
     },
   ]
@@ -220,7 +221,7 @@
 
   function addTable() {
     showEditModal.value = true
-    editFormParams.label = '新建'
+    editFormParams.label = t('common.create')
     editFormParams.id = ''
   }
 
@@ -242,13 +243,13 @@
         } else {
           await api.edit(editFormParams)
         }
-        window['$message'].success(editFormParams.label + '成功')
+        window['$message'].success(editFormParams.id === '' ? t('common.createSuccess') : t('common.editSuccess'))
         setTimeout(() => {
           showEditModal.value = false
           reloadTable()
         })
       } else {
-        window['$message'].error('请填写完整信息')
+        window['$message'].error(t('common.fillCompleteInfo'))
       }
       formBtnLoading.value = false
     })
@@ -265,13 +266,13 @@
 
   async function handleDelete(record: Recordable) {
     await api.deleteOne(record.uuid)
-    window['$message'].info('删除成功')
+    window['$message'].info(t('common.deleteSuccess'))
   }
 
   function handleEdit(record: Recordable) {
     showEditModal.value = true
     Object.assign(editFormParams, record)
-    editFormParams.label = '编辑'
+    editFormParams.label = t('common.edit')
   }
 </script>
 

@@ -18,7 +18,7 @@
         <slot name="more"></slot>
         <n-button v-bind="getMoreProps" class="mx-1" v-if="!$slots.more" icon-placement="right">
           <div class="flex items-center">
-            <span>更多</span>
+            <span>{{ t('common.more') }}</span>
             <n-icon size="14" class="ml-1">
               <DownOutlined />
             </n-icon>
@@ -38,6 +38,7 @@
   import { usePermission } from '@/hooks/web/usePermission'
   import { isBoolean, isFunction } from '@/utils/is'
   import { DownOutlined } from '@vicons/antd'
+  import { t } from '@/locales'
 
   export default defineComponent({
     name: 'TableAction',

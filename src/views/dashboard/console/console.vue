@@ -4,13 +4,13 @@
     <n-grid cols="1 s:2 m:3 xl:4 2xl:5" responsive="screen" :x-gap="12" :y-gap="8">
       <n-grid-item>
         <NCard
-          title="新增用户"
+          :title="t('dashboard.newUsers')"
           :segmented="{ content: true, footer: true }"
           size="small"
           :bordered="false"
         >
           <template #header-extra>
-            <n-tag type="success">日</n-tag>
+            <n-tag type="success">{{ t('dashboard.day') }}</n-tag>
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
@@ -28,7 +28,7 @@
             <div class="flex justify-between">
               <n-skeleton v-if="loading" text :repeat="2" />
               <template v-else>
-                <div class="text-sn">总用户量：</div>
+                <div class="text-sn">{{ t('dashboard.totalUsers') }}</div>
                 <div class="text-sn">
                   <CountTo :startVal="0" :endVal="userStatistic.totalNormal" />
                 </div>
@@ -39,13 +39,13 @@
       </n-grid-item>
       <n-grid-item>
         <NCard
-          title="新增知识库"
+          :title="t('dashboard.newKnowledgeBases')"
           :segmented="{ content: true, footer: true }"
           size="small"
           :bordered="false"
         >
           <template #header-extra>
-            <n-tag type="success">日</n-tag>
+            <n-tag type="success">{{ t('dashboard.day') }}</n-tag>
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
@@ -63,7 +63,7 @@
             <div class="flex justify-between">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
-                <div class="text-sn">总数：</div>
+                <div class="text-sn">{{ t('dashboard.totalCount') }}</div>
                 <div class="text-sn">
                   <CountTo
                     v-if="kbStatistic.kbTotal > 0"
@@ -81,13 +81,13 @@
       </n-grid-item>
       <n-grid-item>
         <NCard
-          title="新增知识点"
+          :title="t('dashboard.newKnowledgePoints')"
           :segmented="{ content: true, footer: true }"
           size="small"
           :bordered="false"
         >
           <template #header-extra>
-            <n-tag type="success">日</n-tag>
+            <n-tag type="success">{{ t('dashboard.day') }}</n-tag>
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
@@ -105,7 +105,7 @@
             <div class="flex justify-between">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
-                <div class="text-sn">总数：</div>
+                <div class="text-sn">{{ t('dashboard.totalCount') }}</div>
                 <div class="text-sn">
                   <CountTo
                     v-if="kbStatistic.itemTotal > 0"
@@ -123,13 +123,13 @@
       </n-grid-item>
       <n-grid-item>
         <NCard
-          title="会话数"
+          :title="t('dashboard.conversationCount')"
           :segmented="{ content: true, footer: true }"
           size="small"
           :bordered="false"
         >
           <template #header-extra>
-            <n-tag type="success">日</n-tag>
+            <n-tag type="success">{{ t('dashboard.day') }}</n-tag>
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
@@ -147,7 +147,7 @@
             <div class="flex justify-between">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
-                <div class="text-sn">总数：</div>
+                <div class="text-sn">{{ t('dashboard.totalCount') }}</div>
                 <div class="text-sn">
                   <CountTo
                     v-if="convStatistic.total > 0"
@@ -165,13 +165,13 @@
       </n-grid-item>
       <n-grid-item>
         <NCard
-          title="TOKEN消耗"
+          :title="t('dashboard.tokenConsumption')"
           :segmented="{ content: true, footer: true }"
           size="small"
           :bordered="false"
         >
           <template #header-extra>
-            <n-tag type="success">日</n-tag>
+            <n-tag type="success">{{ t('dashboard.day') }}</n-tag>
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
@@ -189,7 +189,7 @@
             <div class="flex justify-between">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
-                <div class="text-sn">本月消耗：</div>
+                <div class="text-sn">{{ t('dashboard.monthlyConsumption') }}</div>
                 <div class="text-sn">
                   <CountTo
                     v-if="tokenCostStatistic.monthTokenCost > 0"
@@ -207,13 +207,13 @@
       </n-grid-item>
       <n-grid-item>
         <NCard
-          title="图片消耗"
+          :title="t('dashboard.imageConsumption')"
           :segmented="{ content: true, footer: true }"
           size="small"
           :bordered="false"
         >
           <template #header-extra>
-            <n-tag type="success">日</n-tag>
+            <n-tag type="success">{{ t('dashboard.day') }}</n-tag>
           </template>
           <div class="flex justify-between px-1 py-1">
             <n-skeleton v-if="loading" :width="100" size="medium" />
@@ -231,7 +231,7 @@
             <div class="flex justify-between">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
-                <div class="text-sn">本月消耗：</div>
+                <div class="text-sn">{{ t('dashboard.monthlyConsumption') }}</div>
                 <div class="text-sn">
                   <CountTo
                     v-if="imageCostStatistic.monthCost > 0"
@@ -254,6 +254,7 @@
   import { ref, onMounted } from 'vue'
   import { getStatistic } from '@/api/dashboard/console'
   import { CountTo } from '@/components/CountTo/index'
+  import { t } from '@/locales'
 
   interface UserStatistic {
     todayCreated: number

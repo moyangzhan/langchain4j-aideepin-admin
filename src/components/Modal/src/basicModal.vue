@@ -8,7 +8,7 @@
     </template>
     <template #action v-if="!$slots.action">
       <n-space>
-        <n-button @click="closeModal">取消</n-button>
+        <n-button @click="closeModal">{{ t('common.cancel') }}</n-button>
         <n-button type="primary" :loading="subLoading" @click="handleSubmit">{{
           subBtuText
         }}</n-button>
@@ -27,6 +27,7 @@
   import { deepMerge } from '@/utils'
   import { FormProps } from '@/components/Form'
   import { ModalProps, ModalMethods } from './type'
+  import { t } from '@/locales'
 
   const attrs = useAttrs()
   const props = defineProps({ ...basicProps })
