@@ -1,6 +1,8 @@
 import { h } from 'vue'
 import { NAvatar } from 'naive-ui'
 import { BasicColumn } from '@/components/Table'
+import { useI18n } from '@/locales'
+
 export interface UserData {
   id: string
   uuid: string
@@ -13,72 +15,76 @@ export interface UserData {
   updateTime: string
   isAdmin: boolean
 }
-export const columns: BasicColumn<UserData>[] = [
-  {
-    title: 'id',
-    key: 'id',
-    width: 50,
-  },
-  {
-    title: 'uuid',
-    key: 'uuid',
-    width: 120,
-  },
-  {
-    title: '名称',
-    key: 'name',
-    width: 100,
-  },
-  {
-    title: '邮箱',
-    key: 'email',
-    width: 150,
-  },
-  {
-    title: '头像',
-    key: 'avatar',
-    width: 70,
-    render(row) {
-      return h(NAvatar, {
-        size: 48,
-        src: `/api/user/avatar/${row.uuid}`,
-      })
+
+export function getColumns(): BasicColumn<UserData>[] {
+  const { t } = useI18n()
+  return [
+    {
+      title: 'id',
+      key: 'id',
+      width: 50,
     },
-  },
-  {
-    title: '状态',
-    key: 'userStatus',
-    width: 100,
-    render(row) {
-      if (row.userStatus === 'NORMAL') {
-        return '正常'
-      } else if (row.userStatus === 'WAIT_CONFIRM') {
-        return '待激活'
-      }
-      return '已禁用'
+    {
+      title: 'uuid',
+      key: 'uuid',
+      width: 120,
     },
-  },
-  {
-    title: '激活时间',
-    key: 'activeTime',
-    width: 180,
-  },
-  {
-    title: '创建时间',
-    key: 'createTime',
-    width: 180,
-  },
-  {
-    title: '更新时间',
-    key: 'updateTime',
-    width: 180,
-  },
-  {
-    title: '管理员',
-    key: 'isAmdin',
-    width: 100,
-    render(row) {
-      return row.isAdmin ? '是' : '否'
+    {
+      title: t('columns.name'),
+      key: 'name',
+      width: 100,
     },
-  },
-]
+    {
+      title: t('columns.email'),
+      key: 'email',
+      width: 150,
+    },
+    {
+      title: t('columns.avatar'),
+      key: 'avatar',
+      width: 70,
+      render(row) {
+        return h(NAvatar, {
+          size: 48,
+          src: `/api/user/avatar/${row.uuid}`,
+        })
+      },
+    },
+    {
+      title: t('columns.userStatus'),
+      key: 'userStatus',
+      width: 100,
+      render(row) {
+        if (row.userStatus === 'NORMAL') {
+          return t('columns.statusNormal')
+        } else if (row.userStatus === 'WAIT_CONFIRM') {
+          return t('columns.statusPending')
+        }
+        return t('columns.statusDisabled')
+      },
+    },
+    {
+      title: t('columns.activeTime'),
+      key: 'activeTime',
+      width: 180,
+    },
+    {
+      title: t('columns.createTime'),
+      key: 'createTime',
+      width: 180,
+    },
+    {
+      title: t('columns.updateTime'),
+      key: 'updateTime',
+      width: 180,
+    },
+    {
+      title: t('columns.isAdmin'),
+      key: 'isAmdin',
+      width: 100,
+      render(row) {
+        return row.isAdmin ? t('common.yes') : t('common.no')
+      },
+    },
+  ]
+}

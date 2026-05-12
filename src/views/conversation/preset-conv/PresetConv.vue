@@ -65,7 +65,9 @@
       <template #action>
         <n-space>
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{
+            t('common.confirm')
+          }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -77,7 +79,8 @@
   import { BasicTable, TableAction } from '@/components/Table'
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
   import conversationApi from '@/api/conversation'
-  import { columns } from './columns'
+  import { getColumns } from './columns'
+  const columns = getColumns()
   import { ConversationPreset } from '/#/conversation'
   import { PlusOutlined } from '@vicons/antd'
   import { type FormRules } from 'naive-ui'
@@ -167,7 +170,9 @@
           if (key === 'delete') {
             dialog.warning({
               title: t('common.tip'),
-              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t(
+                'common.deleteConfirmSuffix'
+              )}`,
               positiveText: t('common.positiveText'),
               negativeText: t('common.negativeText'),
               onPositiveClick: () => {
@@ -221,7 +226,9 @@
         } else {
           await conversationApi.editPresetConv(editFormParams.uuid, editFormParams)
         }
-        window['$message'].success(editFormParams.uuid === '' ? t('common.createSuccess') : t('common.editSuccess'))
+        window['$message'].success(
+          editFormParams.uuid === '' ? t('common.createSuccess') : t('common.editSuccess')
+        )
         setTimeout(() => {
           showEditModal.value = false
           reloadTable()

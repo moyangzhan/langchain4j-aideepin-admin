@@ -133,6 +133,7 @@
       })
 
       return {
+        t,
         getActions,
         getDropdownList,
         getMoreProps,

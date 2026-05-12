@@ -1,11 +1,9 @@
 <template>
   <div class="m-4">
-    <n-alert title="说明" type="info" :bordered="true" closable class="mb-4">
-      合成器位置：<br />
-      1.
-      客户端：表示使用客户端(如浏览器)的语音合成(TTS)功能，忽略【模型】、【平台】等参数，免费使用<br />
-      2.
-      服务端：表示使用服务端的语音合成功能，实际上就是使用大语言模型如cosyvoice-v2，FunAudioLLM/CosyVoice2-0.5B等进行合成，通常需付费使用
+    <n-alert :title="t('common.remark')" type="info" :bordered="true" closable class="mb-4">
+      {{ t('system.ttsExplanation') }}<br />
+      1. {{ t('system.ttsExplanation1') }}<br />
+      2. {{ t('system.ttsExplanation2') }}
     </n-alert>
     <n-form
       :label-width="150"
@@ -14,34 +12,38 @@
       ref="formRef"
       label-placement="left"
     >
-      <n-form-item label="合成器位置" path="synthesizer_side">
+      <n-form-item :label="t('system.synthesizerSide')" path="synthesizer_side">
         <n-select :options="synthesizerSide" v-model:value="formValue.synthesizer_side" />
       </n-form-item>
-      <n-form-item label="模型" path="platform">
+      <n-form-item :label="t('system.model')" path="platform">
         <n-select
-          placeholder="选择模型"
+          :placeholder="t('system.selectModel')"
           :options="modelOptions"
           :value="formValue.model_name"
           @update:value="handleModelChange"
         />
       </n-form-item>
-      <n-form-item label="平台" path="platform">
+      <n-form-item :label="t('system.platform')" path="platform">
         <n-select :options="DEFAULT_MODEL_PLATFORMS" v-model:value="formValue.platform" disabled />
       </n-form-item>
     </n-form>
-    <n-button type="primary" @click="formSubmit" :loading="submitting" :disable="!submitting"
-      >更新</n-button
-    >
+    <n-button type="primary" @click="formSubmit" :loading="submitting" :disable="!submitting">{{
+      t('common.update')
+    }}</n-button>
   </div>
 </template>
 <script lang="ts" setup>
   import { ref, reactive, onMounted } from 'vue'
   import { useMessage } from 'naive-ui'
   import { AiModelData } from '/#/aiModel'
-  import { DEFAULT_MODEL_PLATFORMS, synthesizerSide } from '@/utils/constants'
+  import { getDefaultModelPlatforms, getSynthesizerSide } from '@/utils/constants'
   import api from '@/api/sysConfig.js'
   import modelApi from '@/api/aiModel'
   import { TtsConfig } from '/#/sysConfig'
+  import { t } from '@/locales'
+
+  const DEFAULT_MODEL_PLATFORMS = getDefaultModelPlatforms()
+  const synthesizerSide = getSynthesizerSide()
 
   interface modelOption {
     label: string
@@ -93,16 +95,16 @@
     }
     formRef.value.validate(async (errors) => {
       if (errors) {
-        message.error('请填写完整信息')
+        message.error(t('common.fillCompleteInfo'))
       }
       submitting.value = true
       try {
         await api.edit({ name: 'tts_setting', value: JSON.stringify(formValue.value) })
         reloadConfig()
-        message.success('更新成功')
+        message.success(t('common.updateSuccess'))
       } catch (error) {
         console.error('Error updating ASR config:', error)
-        message.error('更新失败，请稍后重试')
+        message.error(t('system.updateFailedRetry'))
       } finally {
         submitting.value = false
       }

@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/user/list',
     component: Layout,
     meta: {
-      title: '用户管理',
+      title: 'route.userManagement',
       icon: renderIcon(UserOutlined),
       sort: 1,
     },
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'list',
         name: 'UserList',
         meta: {
-          title: '用户管理',
+          title: 'route.userList',
         },
         component: () => import('@/views/user/index.vue'),
       },

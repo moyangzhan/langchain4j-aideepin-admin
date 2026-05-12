@@ -126,7 +126,8 @@ export default {
     nameRequired: 'Please enter a name',
     typeRequired: 'Please select a type',
     platformRequired: 'Please select a platform',
-    deleteModelConfirmPrefix: 'Data cannot be recovered after deletion. Are you sure you want to delete model',
+    deleteModelConfirmPrefix:
+      'Data cannot be recovered after deletion. Are you sure you want to delete model',
     deleteModelConfirmSuffix: '?',
     platformConfig: 'Platform Configuration',
     platformBaseUrl: 'Base URL',
@@ -136,8 +137,10 @@ export default {
     enableProxy: 'Enable Proxy',
     proxyFeedback: 'Detailed proxy configuration is stored in the project configuration files',
     openaiCompatible: 'OpenAI API Compatible',
-    openaiCompatibleFeedback: 'Platforms compatible with OpenAI API require no additional code adaptation',
-    deletePlatformConfirmPrefix: 'Data cannot be recovered after deletion, and it may affect model calls. Are you sure you want to delete the platform [',
+    openaiCompatibleFeedback:
+      'Platforms compatible with OpenAI API require no additional code adaptation',
+    deletePlatformConfirmPrefix:
+      'Data cannot be recovered after deletion, and it may affect model calls. Are you sure you want to delete the platform [',
     deletePlatformConfirmSuffix: ']?',
     // Table columns
     colBaseUrl: 'Base URL',
@@ -170,7 +173,7 @@ export default {
   conversation: {
     title: 'Conversation Management',
     presetTitle: 'Preset Conversation Management',
-    conversationIsRole: 'Conversations in this system are AI roles',
+    conversationIsRole: 'A conversation is an AI character',
     roleDescription: 'Role Description',
     totalTokenCost: 'Total Token Cost',
     openContext: 'Context Enabled',
@@ -184,9 +187,11 @@ export default {
     workflowList: 'Workflow List',
     componentTitle: 'Basic Components',
     componentDisplayOrder: 'Display Order',
-    componentDisplayOrderTip: 'Display order of components in the workflow designer, sorted from smallest to largest',
-    componentNameTip1: '1. The name is the unique identifier of the component and cannot be modified after saving',
-    componentNameTip2: '2. English letters only, no spaces allowed',
+    componentDisplayOrderTip:
+      'Display order of components in the workflow designer, sorted from smallest to largest',
+    componentNameTip1:
+      '1. The name is the unique identifier of the component and cannot be modified after saving',
+    componentNameTip2: '2. Only alphabetic characters allowed, no spaces',
     createBy: 'Created By',
     note: 'Note',
     componentTitlePlaceholder: 'Enter name',
@@ -205,7 +210,8 @@ export default {
     website: 'Website',
     websitePlaceholder: 'Enter MCP service URL',
     presetParams: 'Preset Parameters',
-    paramConfigNote: 'Parameter Definitions (users will fill in actual values based on these definitions)',
+    paramConfigNote:
+      'Parameter Definitions (users will fill in actual values based on these definitions)',
     paramName: 'Parameter Name',
     paramNameTip: 'Must match the parameter name in the MCP Server',
     paramTitle: 'Parameter Title',
@@ -234,9 +240,11 @@ export default {
     aliyunOss: 'Alibaba Cloud OSS',
     localStorageDesc: 'Store files on the server local hard drive',
     aliyunOssDesc: 'Store files on Alibaba Cloud OSS',
-    localStorageContent: 'Files uploaded by users (images, documents, etc.) are stored on the server\'s local hard drive',
+    localStorageContent:
+      "Files uploaded by users (images, documents, etc.) are stored on the server's local hard drive",
     useThisStorage: 'Use This Storage',
-    localStorageSuccess: 'Setting saved. Uploaded files will be stored on the server\'s local hard drive',
+    localStorageSuccess:
+      "Setting saved. Uploaded files will be stored on the server's local hard drive",
     aliyunOssSuccess: 'Setting saved. Uploaded files will be stored on Alibaba Cloud OSS',
     accessKeyId: 'Access Key ID',
     accessKeySecret: 'Access Key Secret',
@@ -284,8 +292,10 @@ export default {
     updateFailedRetry: 'Update failed, please try again later',
     // TTS
     ttsExplanation: 'Synthesizer Location: ',
-    ttsExplanation1: '1. Client: Uses the client\'s (e.g., browser) speech synthesis (TTS) function, ignoring Model, Platform, and other parameters. Free to use',
-    ttsExplanation2: '2. Server: Uses the server\'s speech synthesis function, which actually uses large language models like cosyvoice-v2, FunAudioLLM/CosyVoice2-0.5B, etc. Usually requires payment',
+    ttsExplanation1:
+      "1. Client: Uses the client's (e.g., browser) speech synthesis (TTS) function, ignoring Model, Platform, and other parameters. Free to use",
+    ttsExplanation2:
+      "2. Server: Uses the server's speech synthesis function, which actually uses large language models like cosyvoice-v2, FunAudioLLM/CosyVoice2-0.5B, etc. Usually requires payment",
     synthesizerSide: 'Synthesizer Location',
   },
   dashboard: {
@@ -337,12 +347,20 @@ export default {
     animation: 'Animation',
     disableAnimation: 'Disable Animation',
     animationType: 'Animation Type',
-    alertText: 'This feature is mainly for real-time preview of various layout effects. More complete configuration can be set in projectSetting.ts',
+    alertText:
+      'This feature is mainly for real-time preview of various layout effects. More complete configuration can be set in projectSetting.ts',
     fullscreen: 'Fullscreen',
     search: 'Search',
     darkThemeShort: 'Dark',
     lightThemeShort: 'Light',
     themeSuffix: ' Theme',
+    // Animation types
+    animateZoomFade: 'Zoom Fade',
+    animateZoomOut: 'Zoom Out',
+    animateFadeSlide: 'Fade Slide',
+    animateFade: 'Fade',
+    animateFadeBottom: 'Fade Bottom',
+    animateFadeScale: 'Fade Scale',
   },
   lockscreen: {
     unlockScreen: 'Unlock Screen',
@@ -387,6 +405,7 @@ export default {
     fixedLeft: 'Fixed to Left',
     fixedRight: 'Fixed to Right',
     columnSetting: 'Column Settings',
+    totalCount: '{count} total',
   },
   form: {
     pleaseInput: 'Please input',
@@ -423,5 +442,97 @@ export default {
     // Synthesizer side
     client: 'Client',
     server: 'Server',
+    // Model response format
+    json: 'JSON',
+    // Yes/No
+    yes: 'Yes',
+    no: 'No',
+    // Configured status
+    configured: 'Configured',
+    notConfigured: 'Not Configured',
+  },
+  columns: {
+    // Common columns
+    id: 'id',
+    uuid: 'uuid',
+    name: 'Name',
+    title: 'Title',
+    remark: 'Remark',
+    description: 'Description',
+    status: 'Status',
+    createTime: 'Create Time',
+    updateTime: 'Update Time',
+    action: 'Action',
+    // User columns
+    email: 'Email',
+    avatar: 'Avatar',
+    userStatus: 'Status',
+    activeTime: 'Activation Time',
+    isAdmin: 'Admin',
+    // Model columns
+    type: 'Type',
+    platform: 'Platform',
+    isEnable: 'Enabled',
+    isFree: 'Free',
+    contextWindow: 'Context Length',
+    maxInputTokens: 'Max Input Tokens',
+    maxOutputTokens: 'Max Output Tokens',
+    config: 'Config',
+    setting: 'Config',
+    // Platform columns
+    baseUrl: 'Base URL',
+    apiKey: 'API Key',
+    secretKey: 'Secret Key',
+    isProxyEnable: 'Proxy Enabled',
+    isOpenaiApiCompatible: 'OpenAI API Compatible',
+    // Conversation columns
+    aiSystemMessage: 'Role Description',
+    tokens: 'Total Token Cost',
+    understandContextEnable: 'Context Enabled',
+    // Knowledge base columns
+    ownerName: 'Owner',
+    itemCount: 'Knowledge Points',
+    embeddingCount: 'Vector Count',
+    starCount: 'Likes',
+    isPublic: 'Public',
+    ingestMaxOverlap: 'Overlap Count (Chunking)',
+    ingestModelName: 'Model (Chunking)',
+    retrieveMaxResults: 'Max Recall Count',
+    retrieveMinScore: 'Min Recall Score',
+    queryLlmTemperature: 'LLM Output Creativity',
+    querySystemMessage: 'System Prompt for Requests',
+    // Workflow component columns
+    displayOrder: 'Display Order',
+    userName: 'Created By',
+    // Status render
+    statusNormal: 'Active',
+    statusPending: 'Pending',
+    statusDisabled: 'Disabled',
+  },
+  route: {
+    dashboard: 'Dashboard',
+    console: 'Dashboard',
+    userManagement: 'User Management',
+    userList: 'User Management',
+    modelManagement: 'Model Management',
+    platformConfig: 'Platform Configuration',
+    modelList: 'Model Management',
+    conversationManagement: 'Conversation Management',
+    conversationList: 'Conversation Management',
+    presetConversation: 'Preset Conversation Management',
+    knowledgeBaseManagement: 'Knowledge Base Management',
+    knowledgeBaseList: 'Knowledge Base Management',
+    knowledgeBaseDetail: 'Knowledge Base Detail',
+    mcpManagement: 'MCP Management',
+    mcpServers: 'MCP Management',
+    systemSettings: 'System Settings',
+    storageConfig: 'Storage Configuration',
+    asrConfig: 'ASR Speech Recognition Configuration',
+    ttsConfig: 'TTS Speech Synthesis Configuration',
+    quotaConfig: 'Quota Configuration',
+    rateLimit: 'Rate Limiting',
+    workflow: 'Workflow Editor',
+    workflowComponent: 'Basic Components',
+    workflowList: 'Workflow List',
   },
 }

@@ -75,7 +75,9 @@
       <template #action>
         <n-space>
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{
+            t('common.confirm')
+          }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -87,7 +89,8 @@
   import { BasicTable, TableAction } from '@/components/Table'
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
   import workflowApi from '@/api/workflow'
-  import { columns, ComponentData } from './columns'
+  import { getColumns, ComponentData } from './columns'
+  const columns = getColumns()
   import { PlusOutlined } from '@vicons/antd'
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
@@ -194,7 +197,9 @@
           if (key === 'delete') {
             dialog.warning({
               title: t('common.tip'),
-              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t(
+                'common.deleteConfirmSuffix'
+              )}`,
               positiveText: t('common.positiveText'),
               negativeText: t('common.negativeText'),
               onPositiveClick: () => {
@@ -248,7 +253,9 @@
         if (!errors) {
           const { success } = await workflowApi.componentAddOrUpdate(editFormParams)
           if (success) {
-            window['$message'].success(editFormParams.isEdit ? t('common.editSuccess') : t('common.createSuccess'))
+            window['$message'].success(
+              editFormParams.isEdit ? t('common.editSuccess') : t('common.createSuccess')
+            )
             setTimeout(() => {
               showEditModal.value = false
               reloadTable()

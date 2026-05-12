@@ -47,7 +47,9 @@
       <template #action>
         <n-space>
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{
+            t('common.confirm')
+          }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -59,7 +61,8 @@
   import { BasicTable, TableAction } from '@/components/Table'
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
   import workflowApi from '@/api/workflow'
-  import { columns, Data } from './columns'
+  import { getColumns, Data } from './columns'
+  const columns = getColumns()
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
   import { t } from '@/locales'
@@ -196,7 +199,9 @@
           if (key === 'delete') {
             dialog.warning({
               title: t('common.tip'),
-              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t(
+                'common.deleteConfirmSuffix'
+              )}`,
               positiveText: t('common.positiveText'),
               negativeText: t('common.negativeText'),
               onPositiveClick: () => {

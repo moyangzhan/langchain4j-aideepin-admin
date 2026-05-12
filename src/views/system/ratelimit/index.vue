@@ -1,6 +1,8 @@
 <template>
   <div>
-    <n-alert title="提示" type="info" :bordered="true" closable> 配置变更后10分钟内生效 </n-alert>
+    <n-alert :title="t('common.tip')" type="info" :bordered="true" closable>
+      {{ t('system.configEffectTip') }}
+    </n-alert>
     <n-grid :x-gap="24">
       <n-grid-item span="6">
         <n-card :bordered="false" size="small" class="proCard">
@@ -34,26 +36,29 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, reactive } from 'vue'
+  import { ref, onMounted, reactive, computed } from 'vue'
   import TextRequestRateLimit from './TextRequestRateLimit.vue'
   import ImageGenerateRateLimit from './ImageGenerateRateLimit.vue'
   import api from '@/api/sysConfig.js'
+  import { t } from '@/locales'
 
-  const typeTabList = [
+  const typeTabList = computed(() => [
     {
-      name: '文本请求',
-      desc: '文本请求限流规则',
+      name: t('system.textRequest'),
+      desc: t('system.textRequestDesc'),
       key: 1,
     },
     {
-      name: '图片生成',
-      desc: '图片生成限流规则',
+      name: t('system.imageGenerate'),
+      desc: t('system.imageGenerateDesc'),
       key: 2,
     },
-  ]
+  ])
 
   const type = ref(1)
-  const typeTitle = ref('TOKEN额度')
+  const typeTitle = computed(
+    () => typeTabList.value.find((item) => item.key === type.value)?.name || ''
+  )
   const textConfig = reactive({
     times: 0,
     minutes: 0,
@@ -64,7 +69,6 @@
   })
   function switchType(e) {
     type.value = e.key
-    typeTitle.value = e.name
   }
   async function reloadConfig() {
     const { records } = await api.search({ keyword: 'rate_limit' }, 1, 100)

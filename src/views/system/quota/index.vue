@@ -1,6 +1,8 @@
 <template>
   <div>
-    <n-alert title="提示" type="info" :bordered="true" closable> 配置变更后10分钟内生效 </n-alert>
+    <n-alert :title="t('common.tip')" type="info" :bordered="true" closable>
+      {{ t('system.configEffectTip') }}
+    </n-alert>
     <n-grid :x-gap="24">
       <n-grid-item span="6">
         <n-card :bordered="false" size="small" class="proCard">
@@ -32,39 +34,42 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, reactive } from 'vue'
+  import { ref, onMounted, reactive, computed } from 'vue'
   import TokenSetting from './TokenSetting.vue'
   import ImageGenerateSetting from './ImageGenerateSetting.vue'
   import RequestSetting from './RequestSetting.vue'
   import KnowledgeBaseSetting from './KnowledgeBaseSetting.vue'
   import api from '@/api/sysConfig.js'
   import { QuotaConfig } from '/#/sysConfig'
+  import { t } from '@/locales'
 
-  const typeTabList = [
+  const typeTabList = computed(() => [
     {
-      name: 'TOKEN额度',
-      desc: '用户消耗TOKEN的额度设置',
+      name: t('system.tokenQuota'),
+      desc: t('system.tokenQuotaDesc'),
       key: 1,
     },
     {
-      name: '请求额度',
-      desc: '用户请求大语言模型的次数设置',
+      name: t('system.requestQuota'),
+      desc: t('system.requestQuotaDesc'),
       key: 2,
     },
     {
-      name: '图片额度',
-      desc: '用户生成图片的数量设置',
+      name: t('system.imageQuota'),
+      desc: t('system.imageQuotaDesc'),
       key: 3,
     },
     {
-      name: '聊天额度',
-      desc: '用户对话的数量设置',
+      name: t('system.chatQuota'),
+      desc: t('system.chatQuotaDesc'),
       key: 4,
     },
-  ]
+  ])
 
   const type = ref(1)
-  const typeTitle = ref('TOKEN额度')
+  const typeTitle = computed(
+    () => typeTabList.value.find((item) => item.key === type.value)?.name || ''
+  )
   const tokenQuota = ref<QuotaConfig>({
     daily: 0,
     monthly: 0,
@@ -83,7 +88,6 @@
   })
   function switchType(e) {
     type.value = e.key
-    typeTitle.value = e.name
   }
   async function reloadConfig() {
     const { records } = await api.search({ keyword: 'quota_by' }, 1, 100)

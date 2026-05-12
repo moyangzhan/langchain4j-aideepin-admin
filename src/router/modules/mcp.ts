@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/mcp/servers',
     component: Layout,
     meta: {
-      title: 'MCP管理',
+      title: 'route.mcpManagement',
       icon: renderIcon(Tools),
       sort: 5,
     },
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'servers',
         name: 'McpServers',
         meta: {
-          title: 'MCP管理',
+          title: 'route.mcpServers',
         },
         component: () => import('@/views/mcp/index.vue'),
       },

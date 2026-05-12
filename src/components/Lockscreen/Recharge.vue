@@ -44,12 +44,18 @@
       batteryStatus: {
         // 电池状态
         type: String,
-        validator: (val: string) => [
-          t('lockscreen.recharge.charging'),
-          t('lockscreen.recharge.fullyCharged'),
-          t('lockscreen.recharge.disconnected'),
-        ].includes(val),
+        validator: (val: string) =>
+          [
+            t('lockscreen.recharge.charging'),
+            t('lockscreen.recharge.fullyCharged'),
+            t('lockscreen.recharge.disconnected'),
+          ].includes(val),
       },
+    },
+    setup() {
+      return {
+        t,
+      }
     },
   })
 </script>

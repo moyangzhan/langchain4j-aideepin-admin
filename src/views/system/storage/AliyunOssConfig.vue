@@ -2,31 +2,35 @@
   <n-grid cols="2 s:2 m:2 l:3 xl:3 2xl:3" responsive="screen">
     <n-grid-item>
       <n-form :label-width="80" :model="formValue" :rules="rules" ref="formRef">
-        <n-form-item label="access key id" path="accessKeyId">
+        <n-form-item :label="t('system.accessKeyId')" path="accessKeyId">
           <n-input v-model:value="formValue.access_key_id" />
         </n-form-item>
 
-        <n-form-item label="access key secret" path="accessKeySecret">
+        <n-form-item :label="t('system.accessKeySecret')" path="accessKeySecret">
           <n-input v-model:value="formValue.access_key_secret" />
         </n-form-item>
 
-        <n-form-item label="bucket名称" path="bucketName">
+        <n-form-item :label="t('system.bucketName')" path="bucketName">
           <n-input v-model:value="formValue.bucket_name" />
         </n-form-item>
 
-        <n-form-item label="endpoint端点" path="endpoint">
+        <n-form-item :label="t('system.endpoint')" path="endpoint">
           <n-input v-model:value="formValue.endpoint" />
         </n-form-item>
         <div>
           <n-space>
-            <n-button type="info" :loading="loading" @click="formSubmit">保存OSS配置</n-button>
+            <n-button type="info" :loading="loading" @click="formSubmit">{{
+              t('system.saveOssConfig')
+            }}</n-button>
           </n-space>
         </div>
       </n-form>
     </n-grid-item>
   </n-grid>
   <br />
-  <n-button type="primary" :loading="loading" @click="activeSetting">使用该存储位置</n-button>
+  <n-button type="primary" :loading="loading" @click="activeSetting">{{
+    t('system.useThisStorage')
+  }}</n-button>
 </template>
 
 <script lang="ts" setup>
@@ -34,6 +38,7 @@
   import { useMessage } from 'naive-ui'
   import { AliyunOssConfig } from '/#/sysConfig'
   import api from '@/api/sysConfig.js'
+  import { t } from '@/locales'
 
   interface Emit {
     (e: 'reload'): void
@@ -72,9 +77,9 @@
       await api.edit({ name: 'storage_location_ali_oss', value: JSON.stringify(formValue.value) })
       if (!errors) {
         loadData()
-        message.success('更新成功')
+        message.success(t('common.updateSuccess'))
       } else {
-        message.error('更新失败')
+        message.error(t('common.updateFailed'))
       }
     })
   }
@@ -87,10 +92,10 @@
     formRef.value.validate(async (errors) => {
       if (!errors) {
         await api.edit({ name: 'storage_location', value: '2' })
-        message.success('设置成功，后续上传的文件将存储到阿里云OSS')
+        message.success(t('system.aliyunOssSuccess'))
         emit('reload')
       } else {
-        message.error('设置失败')
+        message.error(t('system.settingFailed'))
       }
     })
   }

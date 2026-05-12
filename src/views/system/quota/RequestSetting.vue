@@ -2,17 +2,19 @@
   <n-grid cols="2 s:2 m:2 l:3 xl:3 2xl:3" responsive="screen">
     <n-grid-item>
       <n-form :label-width="80" :model="formValue" :rules="rules" ref="formRef">
-        <n-form-item label="每日最多请求数量" path="daily">
+        <n-form-item :label="t('system.dailyMaxRequests')" path="daily">
           <n-input-number v-model:value="formValue.daily" :min="0" />
         </n-form-item>
 
-        <n-form-item label="每月最多请求数量" path="monthly">
+        <n-form-item :label="t('system.monthlyMaxRequests')" path="monthly">
           <n-input-number v-model:value="formValue.monthly" :min="0" />
         </n-form-item>
 
         <div>
           <n-space>
-            <n-button type="primary" @click="formSubmit">更新请求限额</n-button>
+            <n-button type="primary" @click="formSubmit">{{
+              t('system.updateRequestLimit')
+            }}</n-button>
           </n-space>
         </div>
       </n-form>
@@ -25,6 +27,7 @@
   import { useMessage } from 'naive-ui'
   import { QuotaConfig } from '/#/sysConfig'
   import api from '@/api/sysConfig.js'
+  import { t } from '@/locales'
 
   const rules = {}
   interface Props {
@@ -59,9 +62,9 @@
       await api.edit({ name: 'quota_by_request_monthly', value: formValue.monthly })
       if (!errors) {
         reloadConfig()
-        message.success('更新成功')
+        message.success(t('common.updateSuccess'))
       } else {
-        message.error('更新失败，请填写完整信息')
+        message.error(t('common.fillCompleteInfo'))
       }
     })
   }

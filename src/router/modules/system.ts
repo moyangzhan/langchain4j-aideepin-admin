@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/system/quota',
     component: Layout,
     meta: {
-      title: '系统设置',
+      title: 'route.systemSettings',
       icon: renderIcon(OptionsSharp),
       sort: 6,
     },
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'storage',
         name: 'storage',
         meta: {
-          title: '存储配置',
+          title: 'route.storageConfig',
         },
         component: () => import('@/views/system/storage/index.vue'),
       },
@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'audio/asr',
         name: 'asr',
         meta: {
-          title: 'ASR语音识别配置',
+          title: 'route.asrConfig',
         },
         component: () => import('@/views/system/audio/Asr.vue'),
       },
@@ -46,7 +46,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'audio/tts',
         name: 'tts',
         meta: {
-          title: 'TTS语音合成配置',
+          title: 'route.ttsConfig',
         },
         component: () => import('@/views/system/audio/Tts.vue'),
       },
@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'quota',
         name: 'TokenQuota',
         meta: {
-          title: '额度配置',
+          title: 'route.quotaConfig',
         },
         component: () => import('@/views/system/quota/index.vue'),
       },
@@ -62,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'ratelimit',
         name: 'RateLimit',
         meta: {
-          title: '限流策略',
+          title: 'route.rateLimit',
         },
         component: () => import('@/views/system/ratelimit/index.vue'),
       },

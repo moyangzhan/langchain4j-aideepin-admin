@@ -1,50 +1,63 @@
 import { BasicColumn } from '@/components/Table'
-import { mcpInstallType, mcpTransportType } from '@/utils/constants'
+import { useI18n } from '@/locales'
 import { McpInfo } from '/#/mcp'
 
-export const columns: BasicColumn<McpInfo>[] = [
-  {
-    title: 'id',
-    key: 'id',
-    width: 50,
-  },
-  {
-    title: '标题',
-    key: 'title',
-    width: 100,
-  },
-  {
-    title: '传输类型',
-    key: 'transportType',
-    width: 100,
-    render(row) {
-      return mcpTransportType.find((item) => item.value === row.transportType)?.label
+export function getColumns(): BasicColumn<McpInfo>[] {
+  const { t } = useI18n()
+  return [
+    {
+      title: 'id',
+      key: 'id',
+      width: 50,
     },
-  },
-  {
-    title: '安装类型',
-    key: 'installType',
-    width: 100,
-    render(row) {
-      return mcpInstallType.find((item) => item.value === row.installType)?.label
+    {
+      title: t('columns.title'),
+      key: 'title',
+      width: 100,
     },
-  },
-  {
-    title: '是否启用',
-    key: 'isEnable',
-    width: 100,
-    render(row) {
-      return row.isEnable ? '是' : '否'
+    {
+      title: t('mcp.transportType'),
+      key: 'transportType',
+      width: 100,
+      render(row) {
+        const types: Record<string, string> = {
+          sse: t('constants.sse'),
+          stdio: t('constants.stdio'),
+        }
+        return types[row.transportType] || row.transportType
+      },
     },
-  },
-  {
-    title: '创建时间',
-    key: 'createTime',
-    width: 180,
-  },
-  {
-    title: '更新时间',
-    key: 'updateTime',
-    width: 180,
-  },
-]
+    {
+      title: t('mcp.installType'),
+      key: 'installType',
+      width: 100,
+      render(row) {
+        const types: Record<string, string> = {
+          docker: t('constants.docker'),
+          local: t('constants.local'),
+          remote: t('constants.remote'),
+          wasm: t('constants.wasm'),
+        }
+        return types[row.installType] || row.installType
+      },
+    },
+    {
+      title: t('columns.isEnable'),
+      key: 'isEnable',
+      width: 100,
+      render(row) {
+        return row.isEnable ? t('common.yes') : t('common.no')
+      },
+    },
+    {
+      title: t('columns.createTime'),
+      key: 'createTime',
+      width: 180,
+    },
+    {
+      title: t('columns.updateTime'),
+      key: 'updateTime',
+      width: 180,
+    },
+  ]
+}

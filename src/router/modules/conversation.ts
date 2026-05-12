@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/conversation/list',
     component: Layout,
     meta: {
-      title: '会话管理',
+      title: 'route.conversationManagement',
       icon: renderIconWithProps(ChatboxEllipsesOutline, { size: 20 }),
       sort: 3,
     },
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'list',
         name: 'ConversationList',
         meta: {
-          title: '会话管理',
+          title: 'route.conversationList',
         },
         component: () => import('@/views/conversation/index.vue'),
       },
@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'preset',
         name: 'PresetConversationList',
         meta: {
-          title: '预设会话管理',
+          title: 'route.presetConversation',
         },
         component: () => import('@/views/conversation/preset-conv/PresetConv.vue'),
       },

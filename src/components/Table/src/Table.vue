@@ -293,6 +293,7 @@
 
       return {
         ...toRefs(state),
+        t,
         tableElRef,
         getBindValues,
         getDataSource,

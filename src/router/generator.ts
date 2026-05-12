@@ -3,6 +3,7 @@ import { constantRouterIcon } from './icons'
 import { RouteRecordRaw } from 'vue-router'
 import { Layout, ParentLayout } from '@/router/constant'
 import type { AppRouteRecordRaw } from '@/router/types'
+import { t } from '@/locales'
 
 // const Iframe = () => import('@/views/iframe/index.vue');
 const LayoutMap = new Map<string, () => Promise<typeof import('*.vue')>>()
@@ -28,7 +29,7 @@ export const generateRoutes = (routerMap, parent?): any[] => {
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
         ...item.meta,
-        label: item.meta.title,
+        label: t(item.meta.title),
         icon: constantRouterIcon[item.meta.icon] || null,
         permissions: item.meta.permissions || null,
       },

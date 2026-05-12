@@ -57,7 +57,7 @@
                   v-if="crumbsSetting.showIcon && routeItem.meta.icon"
                   :is="routeItem.meta.icon"
                 />
-                {{ routeItem.meta.title }}
+                {{ t(routeItem.meta.title) }}
               </span>
             </n-dropdown>
             <span class="link-text" v-else>
@@ -65,7 +65,7 @@
                 v-if="crumbsSetting.showIcon && routeItem.meta.icon"
                 :is="routeItem.meta.icon"
               />
-              {{ routeItem.meta.title }}
+              {{ t(routeItem.meta.title) }}
             </span>
           </n-breadcrumb-item>
         </template>
@@ -87,15 +87,13 @@
         </n-tooltip>
       </div> -->
       <!--切换语言-->
-      <div class="layout-header-trigger layout-header-trigger-min">
+      <div class="layout-header-trigger layout-header-trigger-min layout-header-text-btn mr-3">
         <n-dropdown trigger="hover" :options="langOptions" @select="handleLangSelect">
-          <n-icon size="18" style="cursor: pointer;">
-            <GlobalOutlined />
-          </n-icon>
+          <span class="cursor-pointer">{{ locale === 'zh-CN' ? '简体中文' : 'ENGLISH' }}</span>
         </n-dropdown>
       </div>
       <!--切换全屏-->
-      <div class="layout-header-trigger layout-header-trigger-min">
+      <!-- <div class="layout-header-trigger layout-header-trigger-min">
         <n-tooltip placement="bottom">
           <template #trigger>
             <n-icon size="18">
@@ -104,23 +102,19 @@
           </template>
           <span>{{ t('setting.fullscreen') }}</span>
         </n-tooltip>
-      </div>
-      <!-- 个人中心 -->
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <n-dropdown trigger="hover" @select="avatarSelect" :options="avatarOptions">
-          <div class="avatar">
-            <n-avatar round :src="websiteConfig.logo">
-              <template #icon>
-                <UserOutlined />
-              </template>
-            </n-avatar>
-            <n-divider vertical />
-            <span>{{ username }}</span>
-          </div>
-        </n-dropdown>
+      </div> -->
+      <!-- 退出登录 -->
+      <div
+        class="layout-header-trigger layout-header-trigger-min layout-header-text-btn"
+        @click="doLogout"
+      >
+        <span style="display: inline-flex; align-items: center; gap: 4px">
+          {{ username }}
+          <n-icon size="16"><LogoutOutlined /></n-icon>
+        </span>
       </div>
       <!--设置-->
-      <div class="layout-header-trigger layout-header-trigger-min" @click="openSetting">
+      <!-- <div class="layout-header-trigger layout-header-trigger-min" @click="openSetting">
         <n-tooltip placement="bottom-end">
           <template #trigger>
             <n-icon size="18" style="font-weight: bold">
@@ -129,7 +123,7 @@
           </template>
           <span>{{ t('setting.projectConfig') }}</span>
         </n-tooltip>
-      </div>
+      </div> -->
     </div>
   </div>
   <!--项目配置-->
@@ -209,7 +203,7 @@
         return routerMap.map((item) => {
           const currentMenu = {
             ...item,
-            label: item.meta.title,
+            label: t(item.meta.title),
             key: item.name,
             disabled: item.path === '/',
           }
@@ -347,6 +341,8 @@
         handleMenuCollapsed,
         langOptions,
         handleLangSelect,
+        t,
+        locale,
       }
     },
   })
@@ -419,10 +415,11 @@
     }
 
     &-trigger {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 64px;
       height: 64px;
-      text-align: center;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
 
@@ -430,7 +427,6 @@
         display: flex;
         align-items: center;
         height: 64px;
-        line-height: 64px;
       }
 
       &:hover {
@@ -446,6 +442,21 @@
     &-trigger-min {
       width: auto;
       padding: 0 12px;
+    }
+
+    &-text-btn {
+      height: 36px;
+      border: 1px solid #e0e0e0;
+      padding: 0 16px;
+      font-size: 14px;
+      color: #515a6e;
+      background: #fff;
+      white-space: nowrap;
+
+      &:hover {
+        border-color: #36ad6a;
+        color: #36ad6a;
+      }
     }
   }
 

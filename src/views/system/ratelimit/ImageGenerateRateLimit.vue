@@ -2,17 +2,19 @@
   <n-grid cols="2 s:2 m:2 l:3 xl:3 2xl:3" responsive="screen">
     <n-grid-item>
       <n-form :label-width="80" :model="formValue" :rules="rules" ref="formRef">
-        <n-form-item label="图片生成数量" path="times">
+        <n-form-item :label="t('system.imageGenerateCount')" path="times">
           <n-input-number v-model:value="formValue.times" :min="0" />
         </n-form-item>
 
-        <n-form-item label="时间窗口（分钟）" path="minutes">
+        <n-form-item :label="t('system.timeWindowMinutes')" path="minutes">
           <n-input-number v-model:value="formValue.minutes" :min="0" />
         </n-form-item>
 
         <div>
           <n-space>
-            <n-button type="primary" @click="formSubmit">更新生成图片限流规则</n-button>
+            <n-button type="primary" @click="formSubmit">{{
+              t('system.updateImageRateLimit')
+            }}</n-button>
           </n-space>
         </div>
       </n-form>
@@ -25,6 +27,7 @@
   import { useMessage } from 'naive-ui'
   import { RateLimitConfig } from '/#/sysConfig'
   import api from '@/api/sysConfig.js'
+  import { t } from '@/locales'
 
   const rules = {}
   interface Props {
@@ -60,9 +63,9 @@
       })
       if (!errors) {
         reloadConfig()
-        message.success('更新成功')
+        message.success(t('common.updateSuccess'))
       } else {
-        message.error('更新成功，请填写完整信息')
+        message.error(t('common.fillCompleteInfo'))
       }
     })
   }

@@ -41,7 +41,10 @@
           <n-input :placeholder="t('user.namePlaceholder')" v-model:value="editFormParams.name" />
         </n-form-item>
         <n-form-item :label="t('user.password')" path="password">
-          <n-input :placeholder="t('user.passwordPlaceholder')" v-model:value="editFormParams.password" />
+          <n-input
+            :placeholder="t('user.passwordPlaceholder')"
+            v-model:value="editFormParams.password"
+          />
         </n-form-item>
         <n-form-item :label="t('user.dailyTokenQuota')" path="quotaByTokenDaily">
           <n-input-number v-model:value="editFormParams.quotaByTokenDaily" />
@@ -65,7 +68,9 @@
       <template #action>
         <n-space>
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{
+            t('common.confirm')
+          }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -77,7 +82,8 @@
   import { BasicTable, TableAction } from '@/components/Table'
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
   import userApi from '@/api/user'
-  import { columns, UserData } from './columns'
+  import { getColumns, UserData } from './columns'
+  const columns = getColumns()
   import { PlusOutlined } from '@vicons/antd'
   import { type FormRules } from 'naive-ui'
   import { t } from '@/locales'
@@ -257,7 +263,9 @@
           } else {
             await userApi.edit(editFormParams)
           }
-          window['$message'].success(editFormParams.uuid === '' ? t('common.createSuccess') : t('common.editSuccess'))
+          window['$message'].success(
+            editFormParams.uuid === '' ? t('common.createSuccess') : t('common.editSuccess')
+          )
           setTimeout(() => {
             showEditModal.value = false
             reloadTable()

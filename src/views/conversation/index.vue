@@ -1,6 +1,8 @@
 <template>
   <n-card :bordered="false" class="proCard">
-    <n-alert type="info" :show-icon="false" closable> {{ t('conversation.conversationIsRole') }} </n-alert>
+    <n-alert type="info" :show-icon="false" closable>
+      {{ t('conversation.conversationIsRole') }}
+    </n-alert>
 
     <BasicForm class="mt-3" @register="register" @submit="handleSubmit" @reset="handleReset" />
 
@@ -48,7 +50,9 @@
       <template #action>
         <n-space>
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{
+            t('common.confirm')
+          }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -60,7 +64,8 @@
   import { BasicTable, TableAction } from '@/components/Table'
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
   import convApi from '@/api/conversation'
-  import { columns } from './columns'
+  import { getColumns } from './columns'
+  const columns = getColumns()
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
   import { Conversation } from '/#/conversation'
@@ -144,7 +149,9 @@
           if (key === 'deleteConv') {
             dialog.warning({
               title: t('common.tip'),
-              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t(
+                'common.deleteConfirmSuffix'
+              )}`,
               positiveText: t('common.positiveText'),
               negativeText: t('common.negativeText'),
               onPositiveClick: () => {

@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import { createI18n } from 'vue-i18n'
+import { createI18n, useI18n } from 'vue-i18n'
 import {
   zhCN as naiveZhCN,
   dateZhCN as naiveDateZhCN,
@@ -24,7 +24,9 @@ const i18n = createI18n({
   },
 })
 
-export const t = i18n.global.t
+export function t(key: string) {
+  return i18n.global.t(key)
+}
 
 export function setLocale(locale: Locale) {
   i18n.global.locale.value = locale
@@ -49,6 +51,8 @@ export function getNaiveLocale(locale?: Locale) {
       return { locale: naiveZhCN, dateLocale: naiveDateZhCN }
   }
 }
+
+export { useI18n }
 
 export function setupI18n(app: App) {
   app.use(i18n)

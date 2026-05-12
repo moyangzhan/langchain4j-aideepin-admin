@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/dashboard/console',
     component: Layout,
     meta: {
-      title: 'Dashboard',
+      title: 'route.dashboard',
       icon: renderIcon(DashboardOutlined),
       sort: 0,
     },
@@ -31,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'console',
         name: `${routeName}_console`,
         meta: {
-          title: '主控台',
+          title: 'route.console',
           affix: true,
         },
         component: () => import('@/views/dashboard/console/console.vue'),

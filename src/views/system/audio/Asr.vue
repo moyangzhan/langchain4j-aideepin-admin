@@ -7,37 +7,40 @@
       ref="formRef"
       label-placement="left"
     >
-      <n-form-item label="模型" path="platform">
+      <n-form-item :label="t('system.model')" path="platform">
         <n-select
-          placeholder="选择模型"
+          :placeholder="t('system.selectModel')"
           :options="modelOptions"
           :value="formValue.model_name"
           @update:value="handleModelChange"
         />
       </n-form-item>
-      <n-form-item label="平台" path="platform">
+      <n-form-item :label="t('system.platform')" path="platform">
         <n-select :options="DEFAULT_MODEL_PLATFORMS" v-model:value="formValue.platform" disabled />
       </n-form-item>
-      <n-form-item label="最大识别时长(秒)" path="max_record_duration">
+      <n-form-item :label="t('system.maxRecordDuration')" path="max_record_duration">
         <n-input-number v-model:value="formValue.max_record_duration" />
       </n-form-item>
-      <n-form-item label="最大文件大小(KB)" path="max_file_size">
+      <n-form-item :label="t('system.maxFileSize')" path="max_file_size">
         <n-input-number v-model:value="formValue.max_file_size" />
       </n-form-item>
     </n-form>
-    <n-button type="primary" @click="formSubmit" :loading="submitting" :disable="!submitting"
-      >更新</n-button
-    >
+    <n-button type="primary" @click="formSubmit" :loading="submitting" :disable="!submitting">{{
+      t('common.update')
+    }}</n-button>
   </div>
 </template>
 <script lang="ts" setup>
   import { ref, reactive, onMounted } from 'vue'
   import { useMessage } from 'naive-ui'
   import { AiModelData } from '/#/aiModel'
-  import { DEFAULT_MODEL_PLATFORMS } from '@/utils/constants'
+  import { getDefaultModelPlatforms } from '@/utils/constants'
   import api from '@/api/sysConfig.js'
   import modelApi from '@/api/aiModel'
   import { AsrConfig } from '/#/sysConfig'
+  import { t } from '@/locales'
+
+  const DEFAULT_MODEL_PLATFORMS = getDefaultModelPlatforms()
 
   interface modelOption {
     label: string
@@ -90,16 +93,16 @@
     }
     formRef.value.validate(async (errors) => {
       if (errors) {
-        message.error('请填写完整信息')
+        message.error(t('common.fillCompleteInfo'))
       }
       submitting.value = true
       try {
         await api.edit({ name: 'asr_setting', value: JSON.stringify(formValue.value) })
         reloadConfig()
-        message.success('更新成功')
+        message.success(t('common.updateSuccess'))
       } catch (error) {
         console.error('Error updating ASR config:', error)
-        message.error('更新失败，请稍后重试')
+        message.error(t('system.updateFailedRetry'))
       } finally {
         submitting.value = false
       }

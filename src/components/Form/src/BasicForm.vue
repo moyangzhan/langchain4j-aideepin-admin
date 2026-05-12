@@ -300,6 +300,7 @@
         isInline,
         getComponentProps,
         unfoldToggle,
+        t,
       }
     },
   })

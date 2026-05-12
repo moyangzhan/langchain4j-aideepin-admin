@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { isNavigationFailure, Router } from 'vue-router'
+import { t } from '@/locales'
 import { useUser } from '@/store/modules/user'
 import { useAsyncRoute } from '@/store/modules/asyncRoute'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
@@ -79,7 +80,7 @@ export function createRouterGuards(router: Router) {
   })
 
   router.afterEach((to, _, failure) => {
-    document.title = (to?.meta?.title as string) || document.title
+    document.title = t(to?.meta?.title as string) || document.title
     if (isNavigationFailure(failure)) {
       //console.log('failed navigation', failure)
     }

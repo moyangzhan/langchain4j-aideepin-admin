@@ -1,4 +1,5 @@
 import { BasicColumn } from '@/components/Table'
+import { useI18n } from '@/locales'
 
 export interface AiPlatformData {
   id: string
@@ -12,48 +13,52 @@ export interface AiPlatformData {
   createTime: string
   updateTime: string
 }
-export const columns: BasicColumn<AiPlatformData>[] = [
-  {
-    title: '名称',
-    key: 'name',
-    width: 120,
-  },
-  {
-    title: '标题',
-    key: 'title',
-  },
-  {
-    title: '接口地址(base_url)',
-    key: 'baseUrl',
-  },
-  {
-    title: 'API Key',
-    key: 'apiKey',
-    width: 100,
-    render(row) {
-      return row.apiKey ? '已配置' : '未配置'
+
+export function getColumns(): BasicColumn<AiPlatformData>[] {
+  const { t } = useI18n()
+  return [
+    {
+      title: t('columns.name'),
+      key: 'name',
+      width: 120,
     },
-  },
-  {
-    title: 'Secret Key',
-    key: 'secretKey',
-    width: 100,
-    render(row) {
-      return row.secretKey ? '已配置' : '-'
+    {
+      title: t('columns.title'),
+      key: 'title',
     },
-  },
-  {
-    title: '启用代理',
-    key: 'isProxyEnable',
-    render(row) {
-      return row.isProxyEnable ? '启用' : '禁用'
+    {
+      title: t('columns.baseUrl'),
+      key: 'baseUrl',
     },
-  },
-  {
-    title: '兼容OpenAI Api格式',
-    key: 'isOpenaiApiCompatible',
-    render(row) {
-      return row.isOpenaiApiCompatible ? '是' : '否'
+    {
+      title: t('columns.apiKey'),
+      key: 'apiKey',
+      width: 100,
+      render(row) {
+        return row.apiKey ? t('constants.configured') : t('constants.notConfigured')
+      },
     },
-  },
-]
+    {
+      title: t('columns.secretKey'),
+      key: 'secretKey',
+      width: 100,
+      render(row) {
+        return row.secretKey ? t('constants.configured') : '-'
+      },
+    },
+    {
+      title: t('columns.isProxyEnable'),
+      key: 'isProxyEnable',
+      render(row) {
+        return row.isProxyEnable ? t('common.enable') : t('common.disable')
+      },
+    },
+    {
+      title: t('columns.isOpenaiApiCompatible'),
+      key: 'isOpenaiApiCompatible',
+      render(row) {
+        return row.isOpenaiApiCompatible ? t('common.yes') : t('common.no')
+      },
+    },
+  ]
+}

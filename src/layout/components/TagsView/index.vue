@@ -39,7 +39,7 @@
                 @click.stop="goPage(element)"
                 @contextmenu="handleContextMenu($event, element)"
               >
-                <span>{{ element.meta.title }}</span>
+                <span>{{ t(element.meta.title) }}</span>
                 <n-icon size="14" @click.stop="closeTabItem(element)" v-if="!element.meta.affix">
                   <CloseOutlined />
                 </n-icon>
@@ -497,6 +497,7 @@
 
       return {
         ...toRefs(state),
+        t,
         navWrap,
         navScroll,
         route,

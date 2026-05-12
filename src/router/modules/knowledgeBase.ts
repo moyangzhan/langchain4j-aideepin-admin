@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/knowledge-base/list',
     component: Layout,
     meta: {
-      title: '知识库管理',
+      title: 'route.knowledgeBaseManagement',
       icon: renderIconWithProps(LibraryOutline, { size: 20 }),
       sort: 3,
     },
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'list',
         name: 'KnowledgeBaseList',
         meta: {
-          title: '知识库管理',
+          title: 'route.knowledgeBaseList',
         },
         component: () => import('@/views/knowledge-base/index.vue'),
       },
@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'info/:uuid?',
         name: 'KnowledgeBaseInfo',
         meta: {
-          title: '知识库详情',
+          title: 'route.knowledgeBaseDetail',
           hidden: true,
           activeMenu: 'KnowledgeBaseList',
         },

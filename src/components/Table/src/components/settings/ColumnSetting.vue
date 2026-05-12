@@ -11,15 +11,15 @@
           <template #header>
             <div class="table-toolbar-inner-popover-title">
               <n-space>
-                <n-checkbox v-model:checked="checkAll" @update:checked="onCheckAll"
-                  >{{ t('table.columnDisplay') }}</n-checkbox
-                >
-                <n-checkbox v-model:checked="selection" @update:checked="onSelection"
-                  >{{ t('table.columnSelection') }}</n-checkbox
-                >
-                <n-button text type="info" size="small" class="mt-1" @click="resetColumns"
-                  >{{ t('common.reset') }}</n-button
-                >
+                <n-checkbox v-model:checked="checkAll" @update:checked="onCheckAll">{{
+                  t('table.columnDisplay')
+                }}</n-checkbox>
+                <n-checkbox v-model:checked="selection" @update:checked="onSelection">{{
+                  t('table.columnSelection')
+                }}</n-checkbox>
+                <n-button text type="info" size="small" class="mt-1" @click="resetColumns">{{
+                  t('common.reset')
+                }}</n-button>
               </n-space>
             </div>
           </template>
@@ -150,7 +150,7 @@
         const checkList: any = columns.map((item) => item.key)
         state.checkList = checkList
         state.defaultCheckList = checkList
-        const newColumns = columns.filter((item) => item.key != 'action' && item.title != '操作')
+        const newColumns = columns.filter((item) => item.key != 'action')
         if (!columnsList.value.length) {
           columnsList.value = cloneDeep(newColumns)
           cacheColumnsList.value = cloneDeep(newColumns)
@@ -246,6 +246,7 @@
 
       return {
         ...toRefs(state),
+        t,
         columnsList,
         getDarkTheme,
         onChange,

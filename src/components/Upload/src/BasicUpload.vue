@@ -191,6 +191,7 @@
 
       return {
         ...toRefs(state),
+        t,
         finish,
         preview,
         remove,

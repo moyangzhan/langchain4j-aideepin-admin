@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/ai-model/list',
     component: Layout,
     meta: {
-      title: '模型管理',
+      title: 'route.modelManagement',
       icon: renderIconWithProps(CodeSandboxOutlined, { size: 24 }),
       sort: 3,
     },
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'platform',
         name: 'AiModelPlatform',
         meta: {
-          title: '平台配置',
+          title: 'route.platformConfig',
           activeMenu: 'AiModelPlatform',
         },
         component: () => import('@/views/ai-model/platform.vue'),
@@ -39,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'list',
         name: 'AiModelList',
         meta: {
-          title: '模型管理',
+          title: 'route.modelList',
         },
         component: () => import('@/views/ai-model/index.vue'),
       },

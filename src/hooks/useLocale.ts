@@ -6,9 +6,13 @@ const STORAGE_KEY = 'admin-locale'
 
 const currentLocale = ref<Locale>((localStorage.getItem(STORAGE_KEY) as Locale) || 'zh-CN')
 
-watch(currentLocale, (val) => {
-  setLocale(val)
-}, { immediate: true })
+watch(
+  currentLocale,
+  (val) => {
+    setLocale(val)
+  },
+  { immediate: true }
+)
 
 export function useLocale() {
   const naiveLocalePair = computed(() => getNaiveLocale(currentLocale.value))

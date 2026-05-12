@@ -1,14 +1,46 @@
+import { t } from '@/locales'
+
+export function getDefaultModelPlatforms() {
+  return [
+    {
+      label: t('constants.openai'),
+      value: 'openai',
+    },
+    {
+      label: t('constants.dashscope'),
+      value: 'dashscope',
+    },
+    {
+      label: t('constants.qianfan'),
+      value: 'qianfan',
+    },
+    {
+      label: t('constants.ollama'),
+      value: 'ollama',
+    },
+    {
+      label: t('constants.deepseek'),
+      value: 'deepseek',
+    },
+    {
+      label: t('constants.siliconflow'),
+      value: 'siliconflow',
+    },
+  ]
+}
+
+/** @deprecated Use getDefaultModelPlatforms() instead */
 export const DEFAULT_MODEL_PLATFORMS = [
   {
     label: 'Openai',
     value: 'openai',
   },
   {
-    label: '灵积',
+    label: 'DashScope',
     value: 'dashscope',
   },
   {
-    label: '千帆',
+    label: 'Qianfan',
     value: 'qianfan',
   },
   {
@@ -16,61 +48,130 @@ export const DEFAULT_MODEL_PLATFORMS = [
     value: 'ollama',
   },
   {
-    label: '深度求索',
+    label: 'DeepSeek',
     value: 'deepseek',
   },
   {
-    label: '硅基流动',
+    label: 'SiliconFlow',
     value: 'siliconflow',
   },
 ]
+
+export function getModelTypes() {
+  return [
+    {
+      label: t('constants.text'),
+      value: 'text',
+    },
+    {
+      label: t('constants.image'),
+      value: 'image',
+    },
+    {
+      label: t('constants.embedding'),
+      value: 'embedding',
+    },
+    {
+      label: t('constants.rerank'),
+      value: 'rerank',
+    },
+    {
+      label: t('constants.tts'),
+      value: 'tts',
+    },
+    {
+      label: t('constants.asr'),
+      value: 'asr',
+    },
+  ]
+}
+
+/** @deprecated Use getModelTypes() instead */
 export const MODEL_TYPES = [
   {
-    label: '文本',
+    label: 'Text',
     value: 'text',
   },
   {
-    label: '图像',
+    label: 'Image',
     value: 'image',
   },
   {
-    label: '嵌入',
+    label: 'Embedding',
     value: 'embedding',
   },
   {
-    label: '重排',
+    label: 'Rerank',
     value: 'rerank',
   },
   {
-    label: '文本转语音',
+    label: 'Text-to-Speech',
     value: 'tts',
   },
   {
-    label: '语音识别',
+    label: 'Speech Recognition',
     value: 'asr',
   },
 ]
+
+export function getModelInputTypes() {
+  return [
+    {
+      label: t('constants.text'),
+      value: 'text',
+    },
+    {
+      label: t('constants.image'),
+      value: 'image',
+    },
+    {
+      label: t('constants.audio'),
+      value: 'audio',
+    },
+    {
+      label: t('constants.video'),
+      value: 'video',
+    },
+  ]
+}
+
+/** @deprecated Use getModelInputTypes() instead */
 export const MODEL_INPUT_TYPES = [
   {
-    label: '文本',
+    label: 'Text',
     value: 'text',
   },
   {
-    label: '图像',
+    label: 'Image',
     value: 'image',
   },
   {
-    label: '音频',
+    label: 'Audio',
     value: 'audio',
   },
   {
-    label: '视频',
+    label: 'Video',
     value: 'video',
   },
 ]
+
+export function getModelResponseFormatTypes() {
+  return [
+    {
+      label: t('constants.text'),
+      value: 'text',
+    },
+    {
+      label: t('constants.json'),
+      value: 'json_object',
+    },
+  ]
+}
+
+/** @deprecated Use getModelResponseFormatTypes() instead */
 export const MODEL_RESPONSE_FORMAT_TYPES = [
   {
-    label: '文本',
+    label: 'Text',
     value: 'text',
   },
   {
@@ -78,27 +179,65 @@ export const MODEL_RESPONSE_FORMAT_TYPES = [
     value: 'json_object',
   },
 ]
+
+export function getMcpTransportType() {
+  return [
+    {
+      label: t('constants.sse'),
+      value: 'sse',
+    },
+    {
+      label: t('constants.stdio'),
+      value: 'stdio',
+    },
+  ]
+}
+
+/** @deprecated Use getMcpTransportType() instead */
 export const mcpTransportType = [
   {
-    label: '网络传输(sse)',
+    label: 'SSE (Network)',
     value: 'sse',
   },
   {
-    label: '标准输入输出',
+    label: 'Standard I/O',
     value: 'stdio',
   },
 ]
+
+export function getMcpInstallType() {
+  return [
+    {
+      label: t('constants.docker'),
+      value: 'docker',
+    },
+    {
+      label: t('constants.local'),
+      value: 'local',
+    },
+    {
+      label: t('constants.remote'),
+      value: 'remote',
+    },
+    {
+      label: t('constants.wasm'),
+      value: 'wasm',
+    },
+  ]
+}
+
+/** @deprecated Use getMcpInstallType() instead */
 export const mcpInstallType = [
   {
-    label: 'docker',
+    label: 'Docker',
     value: 'docker',
   },
   {
-    label: '本地',
+    label: 'Local',
     value: 'local',
   },
   {
-    label: '远程',
+    label: 'Remote',
     value: 'remote',
   },
   {
@@ -106,24 +245,53 @@ export const mcpInstallType = [
     value: 'wasm',
   },
 ]
+
+export function getSynthesizerSide() {
+  return [
+    {
+      label: t('constants.client'),
+      value: 'client',
+    },
+    {
+      label: t('constants.server'),
+      value: 'server',
+    },
+  ]
+}
+
+/** @deprecated Use getSynthesizerSide() instead */
 export const synthesizerSide = [
   {
-    label: '客户端',
+    label: 'Client',
     value: 'client',
   },
   {
-    label: '服务端',
+    label: 'Server',
     value: 'server',
   },
 ]
 
+export function getYesNo() {
+  return [
+    {
+      label: t('constants.yes'),
+      value: true,
+    },
+    {
+      label: t('constants.no'),
+      value: false,
+    },
+  ]
+}
+
+/** @deprecated Use getYesNo() instead */
 export const YES_NO = [
   {
-    label: '是',
+    label: 'Yes',
     value: true,
   },
   {
-    label: '否',
+    label: 'No',
     value: false,
   },
 ]

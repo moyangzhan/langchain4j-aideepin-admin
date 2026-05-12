@@ -66,13 +66,10 @@ export function generatorMenu(routerMap: Array<any>) {
     const currentMenu = {
       ...info,
       ...info.meta,
-      label: info.meta?.title,
       key: info.name,
       icon: isRoot ? item.meta?.icon : info.meta?.icon,
     }
-    // 是否有子菜单，并递归处理
     if (info.children && info.children.length > 0) {
-      // Recursion
       currentMenu.children = generatorMenu(info.children)
     }
     return currentMenu
@@ -94,7 +91,6 @@ export function generatorMenuMix(routerMap: Array<any>, routerName: string, loca
       const currentMenu = {
         ...info,
         ...info.meta,
-        label: info.meta?.title,
         key: info.name,
       }
       firstRouter.push(currentMenu)
@@ -115,7 +111,6 @@ export function getChildrenRouter(routerMap: Array<any>) {
     const currentMenu = {
       ...info,
       ...info.meta,
-      label: info.meta?.title,
       key: info.name,
     }
     // 是否有子菜单，并递归处理

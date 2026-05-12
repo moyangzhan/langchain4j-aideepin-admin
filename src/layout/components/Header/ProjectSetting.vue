@@ -20,7 +20,11 @@
                 </template>
               </n-switch>
             </template>
-            <span>{{ designStore.darkTheme ? t('setting.darkThemeShort') : t('setting.lightThemeShort') }}{{ t('setting.themeSuffix') }}</span>
+            <span
+              >{{
+                designStore.darkTheme ? t('setting.darkThemeShort') : t('setting.lightThemeShort')
+              }}{{ t('setting.themeSuffix') }}</span
+            >
           </n-tooltip>
         </div>
 
@@ -236,7 +240,7 @@
   import { CheckOutlined } from '@vicons/antd'
   import { Moon, SunnySharp } from '@vicons/ionicons5'
   import { darkTheme } from 'naive-ui'
-  import { animates as animateOptions } from '@/settings/animateSetting'
+  import { getAnimates } from '@/settings/animateSetting'
   import { t } from '@/locales'
 
   export default defineComponent({
@@ -272,7 +276,7 @@
       )
 
       const directionsOptions = computed(() => {
-        return animateOptions.find((item) => item.value == unref(settingStore.pageAnimateType))
+        return getAnimates().find((item) => item.value == unref(settingStore.pageAnimateType))
       })
 
       function openDrawer() {
@@ -299,8 +303,11 @@
         settingStore.menuSetting.mixMenu = false
       }
 
+      const animateOptions = computed(() => getAnimates())
+
       return {
         ...toRefs(state),
+        t,
         settingStore,
         designStore,
         togNavTheme,

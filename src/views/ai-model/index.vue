@@ -149,8 +149,18 @@
   import { BasicForm, useForm } from '@/components/Form/index'
   import api from '@/api/aiModel'
   import platformApi from '@/api/modelPlatform'
-  import { MODEL_TYPES, MODEL_INPUT_TYPES, MODEL_RESPONSE_FORMAT_TYPES } from '@/utils/constants'
-  import { columns, allPlatforms } from './columns'
+  import {
+    getModelTypes,
+    getModelInputTypes,
+    getModelResponseFormatTypes,
+    getDefaultModelPlatforms,
+  } from '@/utils/constants'
+  import { getColumns } from './columns'
+  const columns = getColumns()
+  const MODEL_TYPES = getModelTypes()
+  const MODEL_INPUT_TYPES = getModelInputTypes()
+  const MODEL_RESPONSE_FORMAT_TYPES = getModelResponseFormatTypes()
+  const allPlatforms = getDefaultModelPlatforms()
   import { PlusOutlined } from '@vicons/antd'
   import { AiModelData } from '/#/aiModel'
   import type { FormItemRule, FormRules } from 'naive-ui'

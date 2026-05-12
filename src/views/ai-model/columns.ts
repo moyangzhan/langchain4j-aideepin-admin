@@ -1,83 +1,79 @@
 import { BasicColumn } from '@/components/Table'
-import { MODEL_TYPES, DEFAULT_MODEL_PLATFORMS } from '@/utils/constants'
+import { useI18n } from '@/locales'
 import { AiModelData } from '/#/aiModel'
 
-export const allPlatforms = [...DEFAULT_MODEL_PLATFORMS]
-export const columns: BasicColumn<AiModelData>[] = [
-  {
-    title: 'id',
-    key: 'id',
-    width: 50,
-  },
-  {
-    title: '名称',
-    key: 'name',
-    width: 180,
-  },
-  {
-    title: '标题',
-    key: 'title',
-    width: 180,
-  },
-  {
-    title: '类型',
-    key: 'type',
-    width: 80,
-    render(row) {
-      return MODEL_TYPES.find((item) => item.value === row.type)?.label
+export function getColumns(): BasicColumn<AiModelData>[] {
+  const { t } = useI18n()
+  return [
+    {
+      title: 'id',
+      key: 'id',
+      width: 50,
     },
-  },
-  {
-    title: '平台',
-    key: 'platform',
-    width: 120,
-    render(row) {
-      return allPlatforms.find((item) => item.value === row.platform)?.label
+    {
+      title: t('columns.name'),
+      key: 'name',
+      width: 180,
     },
-  },
-  {
-    title: '是否启用',
-    key: 'isEnable',
-    width: 80,
-    render(row) {
-      return row.isEnable ? '启用' : '禁用'
+    {
+      title: t('columns.title'),
+      key: 'title',
+      width: 180,
     },
-  },
-  {
-    title: '是否免费',
-    key: 'isFree',
-    width: 80,
-    render(row) {
-      return row.isFree ? '是' : '否'
+    {
+      title: t('columns.type'),
+      key: 'type',
+      width: 80,
     },
-  },
-  {
-    title: '上下文长度',
-    key: 'contextWindow',
-    width: 100,
-  },
-  {
-    title: '最大输入token数',
-    key: 'maxInputTokens',
-    width: 140,
-  },
-  {
-    title: '最大输出token数',
-    key: 'maxOutputTokens',
-    width: 140,
-  },
-  {
-    title: '配置',
-    key: 'setting',
-  },
-  {
-    title: '创建时间',
-    key: 'createTime',
-    width: 150,
-  },
-  {
-    title: '更新时间',
-    key: 'updateTime',
-    width: 150,
-  },
-]
+    {
+      title: t('columns.platform'),
+      key: 'platform',
+      width: 120,
+    },
+    {
+      title: t('columns.isEnable'),
+      key: 'isEnable',
+      width: 80,
+      render(row) {
+        return row.isEnable ? t('common.enable') : t('common.disable')
+      },
+    },
+    {
+      title: t('columns.isFree'),
+      key: 'isFree',
+      width: 80,
+      render(row) {
+        return row.isFree ? t('common.yes') : t('common.no')
+      },
+    },
+    {
+      title: t('columns.contextWindow'),
+      key: 'contextWindow',
+      width: 100,
+    },
+    {
+      title: t('columns.maxInputTokens'),
+      key: 'maxInputTokens',
+      width: 140,
+    },
+    {
+      title: t('columns.maxOutputTokens'),
+      key: 'maxOutputTokens',
+      width: 140,
+    },
+    {
+      title: t('columns.setting'),
+      key: 'setting',
+    },
+    {
+      title: t('columns.createTime'),
+      key: 'createTime',
+      width: 150,
+    },
+    {
+      title: t('columns.updateTime'),
+      key: 'updateTime',
+      width: 150,
+    },
+  ]
+}

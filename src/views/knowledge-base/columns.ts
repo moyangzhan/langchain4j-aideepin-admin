@@ -1,4 +1,5 @@
 import { BasicColumn } from '@/components/Table'
+import { useI18n } from '@/locales'
 import { wrapTableTitle } from '@/utils'
 
 export interface KbInfoData {
@@ -16,93 +17,96 @@ export interface KbInfoData {
   updateTime: string
 }
 
-export const columns: BasicColumn<KbInfoData>[] = [
-  {
-    title: 'id',
-    key: 'id',
-    width: 50,
-  },
-  {
-    title: '名称',
-    key: 'title',
-    width: 150,
-  },
-  {
-    title: '所属用户',
-    key: 'ownerName',
-    width: 150,
-  },
-  {
-    title: '知识点',
-    key: 'itemCount',
-    width: 80,
-  },
-  {
-    title: '向量数',
-    key: 'embeddingCount',
-    width: 80,
-  },
-  {
-    title: '点赞数',
-    key: 'starCount',
-    width: 80,
-  },
-  {
-    title: '是否公开',
-    key: 'isPublic',
-    width: 80,
-    render(row) {
-      return row.isPublic ? '是' : '否'
+export function getColumns(): BasicColumn<KbInfoData>[] {
+  const { t } = useI18n()
+  return [
+    {
+      title: 'id',
+      key: 'id',
+      width: 50,
     },
-  },
-  {
-    key: 'ingestMaxOverlap',
-    width: 100,
-    title(column) {
-      return wrapTableTitle('重叠数量(文档切块时)')
+    {
+      title: t('columns.name'),
+      key: 'title',
+      width: 150,
     },
-  },
-  {
-    key: 'ingestModelName',
-    width: 160,
-    title(column) {
-      return wrapTableTitle('模型(文档切块时)')
+    {
+      title: t('columns.ownerName'),
+      key: 'ownerName',
+      width: 150,
     },
-  },
-  {
-    key: 'retrieveMaxResults',
-    width: 100,
-    title(column) {
-      return wrapTableTitle('文档召回最大数量')
+    {
+      title: t('columns.itemCount'),
+      key: 'itemCount',
+      width: 80,
     },
-  },
-  {
-    key: 'retrieveMinScore',
-    width: 100,
-    title(column) {
-      return wrapTableTitle('文档召回最小分数')
+    {
+      title: t('columns.embeddingCount'),
+      key: 'embeddingCount',
+      width: 80,
     },
-  },
-  {
-    key: 'queryLlmTemperature',
-    width: 120,
-    title(column) {
-      return wrapTableTitle('大模型输出内容的创造性')
+    {
+      title: t('columns.starCount'),
+      key: 'starCount',
+      width: 80,
     },
-  },
-  {
-    title: '请求时的系统提示词',
-    key: 'querySystemMessage',
-    width: 150,
-  },
-  {
-    title: '创建时间',
-    key: 'createTime',
-    width: 180,
-  },
-  {
-    title: '更新时间',
-    key: 'updateTime',
-    width: 180,
-  },
-]
+    {
+      title: t('columns.isPublic'),
+      key: 'isPublic',
+      width: 80,
+      render(row) {
+        return row.isPublic ? t('common.yes') : t('common.no')
+      },
+    },
+    {
+      key: 'ingestMaxOverlap',
+      width: 100,
+      title(column) {
+        return wrapTableTitle(t('columns.ingestMaxOverlap'))
+      },
+    },
+    {
+      key: 'ingestModelName',
+      width: 160,
+      title(column) {
+        return wrapTableTitle(t('columns.ingestModelName'))
+      },
+    },
+    {
+      key: 'retrieveMaxResults',
+      width: 100,
+      title(column) {
+        return wrapTableTitle(t('columns.retrieveMaxResults'))
+      },
+    },
+    {
+      key: 'retrieveMinScore',
+      width: 100,
+      title(column) {
+        return wrapTableTitle(t('columns.retrieveMinScore'))
+      },
+    },
+    {
+      key: 'queryLlmTemperature',
+      width: 120,
+      title(column) {
+        return wrapTableTitle(t('columns.queryLlmTemperature'))
+      },
+    },
+    {
+      title: t('columns.querySystemMessage'),
+      key: 'querySystemMessage',
+      width: 150,
+    },
+    {
+      title: t('columns.createTime'),
+      key: 'createTime',
+      width: 180,
+    },
+    {
+      title: t('columns.updateTime'),
+      key: 'updateTime',
+      width: 180,
+    },
+  ]
+}

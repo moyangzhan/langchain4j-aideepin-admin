@@ -54,7 +54,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       },
       watch: {
         usePolling: true,
-        interval: 100,
+        interval: 1000,
       },
     },
     optimizeDeps: {

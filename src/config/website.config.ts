@@ -5,5 +5,5 @@ export const websiteConfig = Object.freeze({
   title: 'Aideepin Admin',
   logo: logoImage,
   loginImage: loginImage,
-  loginDesc: 'Aideepin管理后台',
+  loginDesc: 'AIDeepIn Admin',
 })

@@ -28,10 +28,17 @@
         class="py-4"
       >
         <n-form-item :label="t('common.title')" path="title">
-          <n-input :placeholder="t('knowledgeBase.titlePlaceholder')" v-model:value="editFormParams.title" />
+          <n-input
+            :placeholder="t('knowledgeBase.titlePlaceholder')"
+            v-model:value="editFormParams.title"
+          />
         </n-form-item>
         <n-form-item :label="t('common.description')" path="remark">
-          <n-input type="textarea" :placeholder="t('common.description')" v-model:value="editFormParams.remark" />
+          <n-input
+            type="textarea"
+            :placeholder="t('common.description')"
+            v-model:value="editFormParams.remark"
+          />
         </n-form-item>
         <n-form-item :label="t('common.isPublic')" path="isPublic">
           <n-switch v-model:value="editFormParams.isPublic" />
@@ -101,7 +108,9 @@
       <template #action>
         <n-space>
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">{{
+            t('common.confirm')
+          }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -114,7 +123,8 @@
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
   import api from '@/api/knowledgeBase'
   import aiModelApi from '@/api/aiModel'
-  import { columns, KbInfoData } from './columns'
+  import { getColumns, KbInfoData } from './columns'
+  const columns = getColumns()
   import { type FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
   import { t } from '@/locales'
@@ -235,7 +245,9 @@
           if (key === 'delete') {
             dialog.warning({
               title: t('common.tip'),
-              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t(
+                'common.deleteConfirmSuffix'
+              )}`,
               positiveText: t('common.positiveText'),
               negativeText: t('common.negativeText'),
               onPositiveClick: () => {

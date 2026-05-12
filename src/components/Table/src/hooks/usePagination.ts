@@ -3,6 +3,7 @@ import type { BasicTableProps } from '../types/table'
 import { computed, unref, ref, ComputedRef, watch } from 'vue'
 
 import { isBoolean } from '@/utils/is'
+import { t } from '@/locales'
 import { DEFAULTPAGESIZE, PAGESIZES } from '../const'
 
 export function usePagination(refProps: ComputedRef<BasicTableProps>) {
@@ -32,7 +33,7 @@ export function usePagination(refProps: ComputedRef<BasicTableProps>) {
       pageSizes: PAGESIZES, // 每页条数
       showSizePicker: true,
       showQuickJumper: true,
-      prefix: (pagingInfo) => `共 ${pagingInfo.itemCount} 条`, // 不需要可以通过 pagination 重置或者删除
+      prefix: (pagingInfo) => t('table.totalCount', { count: pagingInfo.itemCount }),
       ...(isBoolean(pagination) ? {} : pagination),
       ...unref(configRef),
     }

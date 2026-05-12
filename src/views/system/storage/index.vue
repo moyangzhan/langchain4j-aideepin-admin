@@ -1,8 +1,9 @@
 <template>
   <div>
-    <n-alert title="提示" type="info" :bordered="true">
-      当前存储位置：<span class="font-bold">{{
-        selectedStorageLocation === 1 ? '本地存储' : '阿里云OSS'
+    <n-alert :title="t('common.tip')" type="info" :bordered="true">
+      {{ t('system.currentStorageLocation')
+      }}<span class="font-bold">{{
+        selectedStorageLocation === 1 ? t('system.localStorage') : t('system.aliyunOss')
       }}</span>
     </n-alert>
     <n-grid :x-gap="24">
@@ -30,30 +31,32 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, computed } from 'vue'
   import LocalConfig from './LocalConfig.vue'
   import AliyunOssConfig from './AliyunOssConfig.vue'
   import api from '@/api/sysConfig.js'
+  import { t } from '@/locales'
 
-  const typeTabList = [
+  const typeTabList = computed(() => [
     {
-      name: '本地存储',
-      desc: '文件存储到服务器本地硬盘中',
+      name: t('system.localStorage'),
+      desc: t('system.localStorageDesc'),
       key: 1,
     },
     {
-      name: '阿里云OSS',
-      desc: '文件存储到阿里云OSS',
+      name: t('system.aliyunOss'),
+      desc: t('system.aliyunOssDesc'),
       key: 2,
     },
-  ]
+  ])
 
   const selectedStorageLocation = ref<number>(1)
   const type = ref<number>(1)
-  const typeTitle = ref<string>('本地存储')
+  const typeTitle = computed(
+    () => typeTabList.value.find((item) => item.key === type.value)?.name || ''
+  )
   function switchType(e) {
     type.value = e.key
-    typeTitle.value = e.name
   }
   async function loadData() {
     const { data: records } = await api.search({ names: ['storage_location'] }, 1, 10)

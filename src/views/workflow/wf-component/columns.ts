@@ -1,4 +1,6 @@
 import { BasicColumn } from '@/components/Table'
+import { useI18n } from '@/locales'
+
 export interface ComponentData {
   id: string
   uuid: string
@@ -9,48 +11,52 @@ export interface ComponentData {
   updateTime: string
   isEnable: boolean
 }
-export const columns: BasicColumn<ComponentData>[] = [
-  {
-    title: 'id',
-    key: 'id',
-    width: 50,
-  },
-  {
-    title: '名称',
-    key: 'name',
-    width: 130,
-  },
-  {
-    title: '标题',
-    key: 'title',
-    width: 100,
-  },
-  {
-    title: '描述',
-    key: 'remark',
-    width: 260,
-  },
-  {
-    title: '排列顺序',
-    key: 'displayOrder',
-    width: 80,
-  },
-  {
-    title: '创建时间',
-    key: 'createTime',
-    width: 180,
-  },
-  {
-    title: '更新时间',
-    key: 'updateTime',
-    width: 180,
-  },
-  {
-    title: '是否启用',
-    key: 'isEnable',
-    width: 100,
-    render(row) {
-      return row.isEnable ? '是' : '否'
+
+export function getColumns(): BasicColumn<ComponentData>[] {
+  const { t } = useI18n()
+  return [
+    {
+      title: 'id',
+      key: 'id',
+      width: 50,
     },
-  },
-]
+    {
+      title: t('columns.name'),
+      key: 'name',
+      width: 130,
+    },
+    {
+      title: t('columns.title'),
+      key: 'title',
+      width: 100,
+    },
+    {
+      title: t('columns.description'),
+      key: 'remark',
+      width: 260,
+    },
+    {
+      title: t('columns.displayOrder'),
+      key: 'displayOrder',
+      width: 80,
+    },
+    {
+      title: t('columns.createTime'),
+      key: 'createTime',
+      width: 180,
+    },
+    {
+      title: t('columns.updateTime'),
+      key: 'updateTime',
+      width: 180,
+    },
+    {
+      title: t('columns.isEnable'),
+      key: 'isEnable',
+      width: 100,
+      render(row) {
+        return row.isEnable ? t('common.yes') : t('common.no')
+      },
+    },
+  ]
+}

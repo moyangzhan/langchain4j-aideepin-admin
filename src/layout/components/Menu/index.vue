@@ -1,6 +1,7 @@
 <template>
   <NMenu
     :options="menus"
+    :render-label="renderMenuLabel"
     :inverted="inverted"
     :mode="mode"
     :collapsed="collapsed"
@@ -21,6 +22,8 @@
   import { generatorMenu, generatorMenuMix } from '@/utils'
   import { useProjectSettingStore } from '@/store/modules/projectSetting'
   import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+  import { t } from '@/locales'
+  import { useLocale } from '@/hooks/useLocale'
 
   export default defineComponent({
     name: 'AppMenu',
@@ -53,6 +56,7 @@
       const headerMenuSelectKey = ref<string>('')
 
       const { navMode } = useProjectSetting()
+      const { locale } = useLocale()
 
       // 获取当前打开的子菜单
       const matched = currentRoute.matched
@@ -99,6 +103,11 @@
           updateMenu()
         }
       )
+
+      // 跟随语言切换更新菜单
+      watch(locale, () => {
+        updateMenu()
+      })
 
       function updateSelectedKeys() {
         const matched = currentRoute.matched
@@ -154,6 +163,10 @@
         updateMenu()
       })
 
+      function renderMenuLabel(option: any) {
+        return t(option.title)
+      }
+
       return {
         ...toRefs(state),
         inverted,
@@ -163,6 +176,7 @@
         getSelectedKeys,
         clickMenuItem,
         menuExpanded,
+        renderMenuLabel,
       }
     },
   })

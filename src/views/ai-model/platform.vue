@@ -39,13 +39,19 @@
         style="overflow-y: auto; overflow-x: hidden; max-height: 600px; width: 500px"
       >
         <n-form-item :label="t('model.modelName')" path="name">
-          <n-input :placeholder="t('model.modelNamePlaceholder')" v-model:value="editFormParams.name" />
+          <n-input
+            :placeholder="t('model.modelNamePlaceholder')"
+            v-model:value="editFormParams.name"
+          />
         </n-form-item>
         <n-form-item :label="t('common.title')" path="title">
           <n-input :placeholder="t('common.title')" v-model:value="editFormParams.title" />
         </n-form-item>
         <n-form-item :label="t('model.platformBaseUrl')" path="baseUrl">
-          <n-input :placeholder="t('model.platformBaseUrlPlaceholder')" v-model:value="editFormParams.baseUrl" />
+          <n-input
+            :placeholder="t('model.platformBaseUrlPlaceholder')"
+            v-model:value="editFormParams.baseUrl"
+          />
         </n-form-item>
         <n-form-item :label="t('model.apiKey')" path="apiKey">
           <n-input
@@ -86,13 +92,19 @@
           </n-radio-group>
         </n-form-item>
         <n-form-item :label="t('model.remark')" path="remark">
-          <n-input type="textarea" :placeholder="t('model.remarkPlaceholder')" v-model:value="editFormParams.remark" />
+          <n-input
+            type="textarea"
+            :placeholder="t('model.remarkPlaceholder')"
+            v-model:value="editFormParams.remark"
+          />
         </n-form-item>
       </n-form>
       <template #action>
         <n-space>
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmForm">{{
+            t('common.confirm')
+          }}</n-button>
         </n-space>
       </template>
     </n-modal>
@@ -104,9 +116,12 @@
   import { BasicTable, TableAction } from '@/components/Table'
   import { FormSchema, useForm } from '@/components/Form/index'
   import api from '@/api/modelPlatform'
-  import { AiPlatformData, columns } from './platformColumns'
+  import { AiPlatformData, getColumns } from './platformColumns'
+  const columns = getColumns()
   import { PlusOutlined } from '@vicons/antd'
-  import { YES_NO, DEFAULT_MODEL_PLATFORMS } from '@/utils/constants'
+  import { getYesNo, getDefaultModelPlatforms } from '@/utils/constants'
+  const YES_NO = getYesNo()
+  const DEFAULT_MODEL_PLATFORMS = getDefaultModelPlatforms()
   import { type FormRules, useDialog } from 'naive-ui'
   import { t } from '@/locales'
 
@@ -167,7 +182,9 @@
           if (key === 'delete') {
             dialog.warning({
               title: t('common.tip'),
-              content: `${t('model.deletePlatformConfirmPrefix')}${record.name}${t('model.deletePlatformConfirmSuffix')}`,
+              content: `${t('model.deletePlatformConfirmPrefix')}${record.name}${t(
+                'model.deletePlatformConfirmSuffix'
+              )}`,
               positiveText: t('common.positiveText'),
               negativeText: t('common.negativeText'),
               onPositiveClick: () => {
@@ -243,7 +260,9 @@
         } else {
           await api.edit(editFormParams)
         }
-        window['$message'].success(editFormParams.id === '' ? t('common.createSuccess') : t('common.editSuccess'))
+        window['$message'].success(
+          editFormParams.id === '' ? t('common.createSuccess') : t('common.editSuccess')
+        )
         setTimeout(() => {
           showEditModal.value = false
           reloadTable()

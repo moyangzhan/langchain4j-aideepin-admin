@@ -65,9 +65,15 @@
         </div>
 
         <div class="flex justify-around w-full mt-1">
-          <div><a @click="showLogin = false">{{ t('lockscreen.goBack') }}</a></div>
-          <div><a @click="goLogin">{{ t('lockscreen.reLogin') }}</a></div>
-          <div><a @click="onLogin">{{ t('lockscreen.enterSystem') }}</a></div>
+          <div>
+            <a @click="showLogin = false">{{ t('lockscreen.goBack') }}</a>
+          </div>
+          <div>
+            <a @click="goLogin">{{ t('lockscreen.reLogin') }}</a>
+          </div>
+          <div>
+            <a @click="onLogin">{{ t('lockscreen.enterSystem') }}</a>
+          </div>
         </div>
       </div>
     </template>
@@ -169,6 +175,7 @@
 
       return {
         ...toRefs(state),
+        t,
         online,
         month,
         day,

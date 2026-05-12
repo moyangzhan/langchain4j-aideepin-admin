@@ -29,7 +29,10 @@
           class="py-4"
         >
           <n-form-item :label="t('common.title')" path="title">
-            <n-input :placeholder="t('mcp.titlePlaceholder')" v-model:value="editFormParams.title" />
+            <n-input
+              :placeholder="t('mcp.titlePlaceholder')"
+              v-model:value="editFormParams.title"
+            />
           </n-form-item>
           <n-form-item :label="t('mcp.transportType')" path="transportType">
             <n-radio-group v-model:value="editFormParams.transportType" name="rg1">
@@ -45,8 +48,15 @@
               </n-radio>
             </n-radio-group>
           </n-form-item>
-          <n-form-item v-if="editFormParams.transportType === 'sse'" :label="t('mcp.sseUrl')" path="sseUrl">
-            <n-input :placeholder="t('mcp.sseUrlPlaceholder')" v-model:value="editFormParams.sseUrl" />
+          <n-form-item
+            v-if="editFormParams.transportType === 'sse'"
+            :label="t('mcp.sseUrl')"
+            path="sseUrl"
+          >
+            <n-input
+              :placeholder="t('mcp.sseUrlPlaceholder')"
+              v-model:value="editFormParams.sseUrl"
+            />
           </n-form-item>
           <n-form-item
             v-if="editFormParams.transportType === 'sse'"
@@ -60,17 +70,26 @@
             :label="t('mcp.stdioCommand')"
             path="stdioCommand"
           >
-            <n-input :placeholder="t('mcp.stdioCommandPlaceholder')" v-model:value="editFormParams.stdioCommand" />
+            <n-input
+              :placeholder="t('mcp.stdioCommandPlaceholder')"
+              v-model:value="editFormParams.stdioCommand"
+            />
           </n-form-item>
           <n-form-item
             v-if="editFormParams.transportType === 'stdio'"
             :label="t('mcp.stdioArg')"
             path="stdioArg"
           >
-            <n-input :placeholder="t('mcp.stdioArgPlaceholder')" v-model:value="editFormParams.stdioArg" />
+            <n-input
+              :placeholder="t('mcp.stdioArgPlaceholder')"
+              v-model:value="editFormParams.stdioArg"
+            />
           </n-form-item>
           <n-form-item :label="t('mcp.website')" path="website">
-            <n-input :placeholder="t('mcp.websitePlaceholder')" v-model:value="editFormParams.website" />
+            <n-input
+              :placeholder="t('mcp.websitePlaceholder')"
+              v-model:value="editFormParams.website"
+            />
           </n-form-item>
           <n-form-item :label="t('mcp.presetParams')" path="presetParams">
             <n-table :single-line="false">
@@ -150,16 +169,15 @@
               <tfoot>
                 <tr>
                   <td colspan="4" class="flex">
-                    <n-button type="primary" dashed @click="addPresetParam"> {{ t('mcp.addParam') }} </n-button>
+                    <n-button type="primary" dashed @click="addPresetParam">
+                      {{ t('mcp.addParam') }}
+                    </n-button>
                   </td>
                 </tr>
               </tfoot>
             </n-table>
           </n-form-item>
-          <n-form-item
-            :label="t('mcp.paramConfigNote')"
-            path="customizedParamDefinitions"
-          >
+          <n-form-item :label="t('mcp.paramConfigNote')" path="customizedParamDefinitions">
             <n-table :single-line="false">
               <thead>
                 <tr>
@@ -259,7 +277,9 @@
       <template #action>
         <div class="flex justify-end space-x-2">
           <n-button @click="() => (showEditModal = false)">{{ t('common.cancel') }}</n-button>
-          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{ t('common.confirm') }}</n-button>
+          <n-button type="info" :loading="formBtnLoading" @click="confirmEditForm">{{
+            t('common.confirm')
+          }}</n-button>
         </div>
       </template>
     </n-modal>
@@ -272,9 +292,12 @@
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
   import { QuestionCircleOutlined, DeleteOutlined } from '@vicons/antd'
   import mcpApi from '@/api/mcp'
-  import { columns } from './columns'
+  import { getColumns } from './columns'
+  const columns = getColumns()
   import { McpInfo, McpSearchReq, McpCustomizedParamDefinition, PresetParam } from '/#/mcp'
-  import { mcpTransportType, mcpInstallType } from '@/utils/constants'
+  import { getMcpTransportType, getMcpInstallType } from '@/utils/constants'
+  const mcpTransportType = getMcpTransportType()
+  const mcpInstallType = getMcpInstallType()
   import type { FormRules } from 'naive-ui'
   import { useDialog } from 'naive-ui'
   import { t } from '@/locales'
@@ -410,7 +433,9 @@
           if (key === 'delete') {
             dialog.warning({
               title: t('common.tip'),
-              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t('common.deleteConfirmSuffix')}`,
+              content: `${t('common.deleteConfirmPrefix')} ${record.title} ${t(
+                'common.deleteConfirmSuffix'
+              )}`,
               positiveText: t('common.positiveText'),
               negativeText: t('common.negativeText'),
               onPositiveClick: () => {

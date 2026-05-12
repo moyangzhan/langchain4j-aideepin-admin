@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/workflow/component',
     component: Layout,
     meta: {
-      title: '流程编排',
+      title: 'route.workflow',
       icon: renderIcon(Flow),
       sort: 5,
     },
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'component',
         name: 'Components',
         meta: {
-          title: '基础组件',
+          title: 'route.workflowComponent',
         },
         component: () => import('@/views/workflow/wf-component/index.vue'),
       },
@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'list',
         name: 'Workflows',
         meta: {
-          title: '流程列表',
+          title: 'route.workflowList',
         },
         component: () => import('@/views/workflow/index.vue'),
       },

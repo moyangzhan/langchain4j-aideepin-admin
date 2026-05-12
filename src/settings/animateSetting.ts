@@ -1,8 +1,12 @@
-export const animates = [
-  { value: 'zoom-fade', label: '渐变' },
-  { value: 'zoom-out', label: '闪现' },
-  { value: 'fade-slide', label: '滑动' },
-  { value: 'fade', label: '消退' },
-  { value: 'fade-bottom', label: '底部消退' },
-  { value: 'fade-scale', label: '缩放消退' },
-]
+import { t } from '@/locales'
+
+export function getAnimates() {
+  return [
+    { value: 'zoom-fade', label: t('setting.animateZoomFade') },
+    { value: 'zoom-out', label: t('setting.animateZoomOut') },
+    { value: 'fade-slide', label: t('setting.animateFadeSlide') },
+    { value: 'fade', label: t('setting.animateFade') },
+    { value: 'fade-bottom', label: t('setting.animateFadeBottom') },
+    { value: 'fade-scale', label: t('setting.animateFadeScale') },
+  ]
+}
